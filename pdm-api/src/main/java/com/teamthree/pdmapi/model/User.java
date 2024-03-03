@@ -1,17 +1,19 @@
 package com.teamthree.pdmapi.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class User {
-    private final String userId;
-    private final String useLogin;
-    private final String userPassword;
-    private final String userFirstName;
-    private final String userLastName;
-    private final String userCreationDate;
-    private final String userEmail;
-    private String userLastAccessDate;
+    @JsonProperty("userId") private final String userId;
+    @JsonProperty("userLogin") private final String useLogin;
+    @JsonProperty("userPassword") private final String userPassword;
+    @JsonProperty("userFirstName") private final String userFirstName;
+    @JsonProperty("userLastName") private final String userLastName;
+    @JsonProperty("userCreationDate") private final String userCreationDate;
+    @JsonProperty("userEmail") private final String userEmail;
+    @JsonProperty("userLastAccessDate") private String userLastAccessDate;
     
-    public User(String userId, String useLogin, String userPassword, String userFirstName, String userLastName,
-            String userCreationDate, String userLastAccessDate, String userEmail) {
+    public User(@JsonProperty("userId") String userId, @JsonProperty("userLogin") String useLogin, @JsonProperty("userPassword") String userPassword, @JsonProperty("userFirstName") String userFirstName, @JsonProperty("userLastName") String userLastName,
+    @JsonProperty("userCreationDate") String userCreationDate, @JsonProperty("userEmail") String userEmail, @JsonProperty("userLastAccessDate") String userLastAccessDate) {
         this.userId = userId;
         this.useLogin = useLogin;
         this.userPassword = userPassword;
@@ -54,7 +56,7 @@ public class User {
         return userEmail;
     }
 
-    public void setUserLastAccessDate(String userLastAccessDate) {
+    public void setUserLastAccessDate(@JsonProperty("userLastAccessDate") String userLastAccessDate) {
         this.userLastAccessDate = userLastAccessDate;
     }
     
