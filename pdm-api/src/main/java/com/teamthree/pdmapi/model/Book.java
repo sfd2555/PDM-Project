@@ -13,7 +13,7 @@ public class Book {
 
 
     /**
-    * Create an account with the given user and pass
+    * Create a book with the given bookId and bookTitle
     * @param bookId 6 digit ID of the book
     * @param bookTitle title of the book
     * 
