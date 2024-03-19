@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Christopher Liu
  */
 public class Session {
-    @JsonProperty("userId") private final String userId;
+    @JsonProperty("accountId") private final String accountId;
     @JsonProperty("bookId") private final String bookId;
     @JsonProperty("sessionStartedAt") private final int sessionStartedAt;
     @JsonProperty("sessionEndedAt") private int sessionEndedAt;
@@ -16,18 +16,18 @@ public class Session {
 
     /**
      * Creates a reading session and populates it with information about the session
-     * @param userId            The ID of the user reading the book
+     * @param accountId         The ID of the account reading the book
      * @param bookId            The ID of the book being read
      * @param sessionStartedAt  The UNIX timestamp that the session began at
      * @param sessionEndedAt    The UNIX timestamp that the session ended at (if the session is not ongoing)
      * @param sessionProgress   The progress made in this session (number of pages read)
      */
-    public Session(@JsonProperty("userId") String userId,
+    public Session(@JsonProperty("accountId") String accountId,
                    @JsonProperty("bookId") String bookId,
                    @JsonProperty("sessionStartedAt") int sessionStartedAt,
                    @JsonProperty("sessionEndedAt") int sessionEndedAt,
                    @JsonProperty("sessionProgress") int sessionProgress) {
-        this.userId = userId;
+        this.accountId = accountId;
         this.bookId = bookId;
         this.sessionStartedAt = sessionStartedAt;
         this.sessionEndedAt = sessionEndedAt;
@@ -35,11 +35,11 @@ public class Session {
     }
 
     /**
-     * Gets the ID of the user reading the book
-     * @return The ID of the user reading the book
+     * Gets the ID of the account reading the book
+     * @return The ID of the account reading the book
      */
-    public String getUserId() {
-        return userId;
+    public String getAccountId() {
+        return accountId;
     }
 
     /**
