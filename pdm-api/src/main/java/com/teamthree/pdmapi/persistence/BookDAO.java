@@ -4,32 +4,36 @@ import com.teamthree.pdmapi.model.Book;
 import com.teamthree.pdmapi.model.Contributor;
 import com.teamthree.pdmapi.model.Format;
 import com.teamthree.pdmapi.model.Genre;
-import com.teamthree.pdmapi.model.Audience;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import com.teamthree.pdmapi.model.Audience;
 
 public interface BookDAO {
 
         public Book getBookId(String bookId);
 
-        public Book getBook(String title);
+        public Book getBook(String bookTitle);
 
         public boolean createBook(String bookId, String bookTitle);
 
-        public boolean setBookGenre(String bookId, Genre genre);
+        public boolean setBookGenre(String bookId, Genre genreId);
 
-        public Genre getBookGenre(String bookId);
+        public List<Genre> getBookGenres(String bookId);
 
-        public boolean setBookContributor(String bookId, Contributor contributor);
+        public boolean setBookContributor(String bookId, Contributor contributorId, String type);
 
-        public Genre getBookContributor(String bookId);
+        public Map<Contributor, String> getBookContributors(String bookId);
 
-        public boolean setBookFormat(String bookId, Format format);
+        public boolean setBookFormat(String bookId, Format formatId, int length_pages, Date release_date);
 
-        public Genre getBookFormat(String bookId);
+        public List<Format> getBookFormats(String bookId);
 
-        public boolean setBookAudience(String bookId, Audience audience);
+        public boolean setBookAudience(String bookId, Audience audienceId);
 
-        public Genre getBookAudience(String bookId);
+        public List<Audience> getBookAudiences(String bookId);
 
         public boolean rateBook(String accountId, String bookId, Float rating);
     
