@@ -1,13 +1,12 @@
 package com.teamthree.pdmapi.persistence;
 
-import java.security.Timestamp;
 import java.util.List;
 
 import com.teamthree.pdmapi.model.Session;
 
 public interface SessionDAO {
     
-    public Session getSession(String accountId, String bookId, Timestamp startTime);
+    public Session getSession(String accountId, String bookId, java.sql.Timestamp startTime);
 
     public List<Session> getSessions(String accountId, String bookId);
 
@@ -17,6 +16,6 @@ public interface SessionDAO {
 
     public Session endSession(String accountId, String bookId);
 
-    public boolean addSession(String accountId, String bookId, Timestamp startTime, Timestamp endTime, int progress);    
+    public boolean addSession(String accountId, String bookId, java.sql.Timestamp startTime, java.sql.Timestamp endTime, int progress);    
 
 }
