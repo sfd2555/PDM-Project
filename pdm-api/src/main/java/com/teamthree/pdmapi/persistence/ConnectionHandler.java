@@ -37,27 +37,35 @@ public class ConnectionHandler {
     }
 
     public Connection getConnection(boolean forceNew) {
+
+        //Check for a connection or if we are forcing a new connection
         if(forceNew || dbConn == null) {
         
             JSch jsch = new JSch();
             try {
+                //If there is already a session, we can skip creating a new one, or else we get a bind error every time we connect
                 if(session == null) { 
+
+                    //Set up an SSH connection
                     session = jsch.getSession(username, hostname, sshPort);
                     session.setPassword(password);
 
+                    //Sip Key Check
                     java.util.Properties config = new java.util.Properties();
                     config.put("StrictHostKeyChecking", "no");
             
                     session.setConfig(config);
-                
+                    //Create SSH connection
                     session.connect();
-
+                    //Create SSH tunnel
                     session.setPortForwardingL(LOCAL_PORT, LOCAL_HOST, remotePort);
                 }
+                
+                //Load postgresql drivers
                 Class.forName("org.postgresql.Driver"); 
+                //Create database connection routing through 127.0.0.1
                 dbConn = DriverManager.getConnection("jdbc:postgresql://" + LOCAL_HOST + ":" + String.valueOf(LOCAL_PORT) + "/" + database, username, password);
 
-                
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {

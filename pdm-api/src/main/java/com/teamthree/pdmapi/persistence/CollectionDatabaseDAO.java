@@ -20,7 +20,7 @@ public class CollectionDatabaseDAO implements CollectionDAO{
         String query  = "SELECT collection_id FROM collection ORDER BY collection_id DESC LIMIT 1;";
         int result = 0;
         try{
-            Statement stmt = connHandler.getConnection(true).createStatement();
+            Statement stmt = connHandler.getConnection(false).createStatement();
             ResultSet rs = stmt.executeQuery(query);
             if(!rs.next()) return "000000";
             result = Integer.parseInt(rs.getString("collection_id"));
@@ -42,7 +42,7 @@ public class CollectionDatabaseDAO implements CollectionDAO{
         String query = "SELECT * FROM Collection WHERE user_id = " + userId + ";";
         List<Collection> collections = new ArrayList<>();
         try{
-            Statement stmt = connHandler.getConnection(true).createStatement();
+            Statement stmt = connHandler.getConnection(false).createStatement();
             ResultSet rs = stmt.executeQuery(query);
             if(rs != null) {
                 while(rs.next()) {
@@ -62,7 +62,7 @@ public class CollectionDatabaseDAO implements CollectionDAO{
     public boolean addCollection(String userId, String collectionName) {
         String query = "INSERT INTO Collection VALUES('" + getNewPrimaryKey(6) + "', '" + userId + "', '" + collectionName + "');";
         try{
-            Statement stmt = connHandler.getConnection(true).createStatement();
+            Statement stmt = connHandler.getConnection(false).createStatement();
             stmt.executeUpdate(query);
         } catch(SQLException e) {
             e.printStackTrace();
@@ -74,7 +74,7 @@ public class CollectionDatabaseDAO implements CollectionDAO{
     public boolean addBook(String collectionId, String bookId) {
         String query = "INSERT INTO Contains VALUES('" + collectionId + ", '" + bookId + "');";
         try{
-            Statement stmt = connHandler.getConnection(true).createStatement();
+            Statement stmt = connHandler.getConnection(false).createStatement();
             stmt.executeUpdate(query);
         } catch(SQLException e) {
             e.printStackTrace();
@@ -86,7 +86,7 @@ public class CollectionDatabaseDAO implements CollectionDAO{
     public boolean removeBook(String collectionId, String bookId) {
         String query = "DELETE FROM Contains WHERE collection_id='" + collectionId + "' AND book_id='" + bookId + "';";
         try{
-            Statement stmt = connHandler.getConnection(true).createStatement();
+            Statement stmt = connHandler.getConnection(false).createStatement();
             stmt.executeUpdate(query);
         } catch(SQLException e) {
             e.printStackTrace();
@@ -98,7 +98,7 @@ public class CollectionDatabaseDAO implements CollectionDAO{
     public boolean deleteCollection(String collectionId) {
         String query = "DELETE FROM Collection WHERE collection_id='" + collectionId + "';";
         try{
-            Statement stmt = connHandler.getConnection(true).createStatement();
+            Statement stmt = connHandler.getConnection(false).createStatement();
             stmt.executeUpdate(query);
         } catch(SQLException e) {
             e.printStackTrace();
@@ -111,7 +111,7 @@ public class CollectionDatabaseDAO implements CollectionDAO{
         String query = "SELECT Contains.book_id, Book.book_title FROM contains INNER JOIN Book ON Contains.book_id = Book.book_id WHERE Contains.collection_id = '" + collectionId + "' AND Book.book_title LIKE '"+ str +"%';";
         List<Book> books = new ArrayList<>();
         try{
-            Statement stmt = connHandler.getConnection(true).createStatement();
+            Statement stmt = connHandler.getConnection(false).createStatement();
             ResultSet rs = stmt.executeQuery(query);
             if(rs != null) {
                 while(rs.next()) {
