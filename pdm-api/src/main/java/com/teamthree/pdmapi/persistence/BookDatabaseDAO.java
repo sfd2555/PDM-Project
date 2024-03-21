@@ -268,9 +268,9 @@ public class BookDatabaseDAO implements BookDAO{
             try {
                 Statement stmt = ch.getConnection(false).createStatement();
                 ResultSet rs = stmt.executeQuery(query);
-                Float total = 0f;
-                int amt = 0;
                 if(rs != null) {
+                    Float total = 0f;
+                    int amt = 0;
                     while (rs.next()) {
                         total += rs.getFloat("rating");
                         amt++;
@@ -290,6 +290,7 @@ public class BookDatabaseDAO implements BookDAO{
             try {
                 Statement stmt = ch.getConnection(false).createStatement();
                 ResultSet rs = stmt.executeQuery(query);
+                if(!rs.next()) return null;
                 rating = rs.getFloat("rating");
             } catch (SQLException e) {
                 e.printStackTrace();
