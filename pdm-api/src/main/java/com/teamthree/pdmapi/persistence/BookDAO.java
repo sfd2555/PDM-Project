@@ -37,7 +37,11 @@ public interface BookDAO {
         public List<Audience> getBookAudiences(String bookId);
 
         public boolean rateBook(String accountId, String bookId, Float rating);
+
+        public boolean updateRating(String accountId, String bookId, Float rating);
     
-        public Float getBookRating(String bookId);
+        public Float getBookRatingAvg(String bookId);
+
+        public Float getAccountBookRating(String bookId, String accountId);
         
 }

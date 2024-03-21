@@ -248,9 +248,21 @@ public class BookDatabaseDAO implements BookDAO{
             }
             return true;
         }
+
+        public boolean updateRating(String accountId, String bookId, Float rating) {
+            String query = "UPDATE rating SET rating = '" + rating + "' WHERE account_id = '" + accountId + "' AND book_id = '" + bookId + "';";
+            try{
+                Statement stmt = ch.getConnection(false).createStatement();
+                stmt.executeQuery(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+        }
     
         @Override
-        public Float getBookRating(String bookId) {
+        public Float getBookRatingAvg(String bookId) {
             String query = "SELECT * FROM rating WHERE book_id='" + bookId + "';";
             Float rating = null;
             try {
@@ -260,11 +272,25 @@ public class BookDatabaseDAO implements BookDAO{
                 int amt = 0;
                 if(rs != null) {
                     while (rs.next()) {
-                        total += Float.parseFloat(rs.getString("rating"));
+                        total += rs.getFloat("rating");
                         amt++;
                     }
                     rating = total/amt;
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+            return rating;
+        }
+
+        public Float getAccountBookRating(String bookId, String accountId) {
+            String query = "SELECT * FROM rating WHERE book_id='" + bookId + "' AND account_id = '" + accountId + "';";
+            Float rating = null;
+            try {
+                Statement stmt = ch.getConnection(false).createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                rating = rs.getFloat("rating");
             } catch (SQLException e) {
                 e.printStackTrace();
                 return null;
