@@ -5,9 +5,9 @@ import com.teamthree.pdmapi.model.Collection;
 
 public interface CollectionDAO {
 
-    Collection[] getCollections(String userId);
+    Collection[] getCollections(String accountId);
 
-    boolean addCollection(String userId, String collectionName);
+    boolean createCollection(String accountId, String collectionName);
 
     boolean addBook(String collectionId, String bookId);
 
