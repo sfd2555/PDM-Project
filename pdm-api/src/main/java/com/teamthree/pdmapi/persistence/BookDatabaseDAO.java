@@ -5,12 +5,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.teamthree.pdmapi.model.Audience;
 import com.teamthree.pdmapi.model.Book;
+import com.teamthree.pdmapi.model.BookContributor;
+import com.teamthree.pdmapi.model.BookFormat;
 import com.teamthree.pdmapi.model.Contributor;
 import com.teamthree.pdmapi.model.Format;
 import com.teamthree.pdmapi.model.Genre;
@@ -140,9 +140,9 @@ public class BookDatabaseDAO implements BookDAO{
         }
 
         @Override
-        public Map<Contributor, String> getBookContributors(String bookId) {
+        public List<BookContributor> getBookContributors(String bookId) {
             String query = "SELECT * FROM contributor INNER JOIN contributes ON contributor.contributor_id = contributes.contributor_id WHERE contributes.book_id='" + bookId + "';";
-            Map<Contributor, String> contributors = new HashMap<>();
+            List<BookContributor> contributors = new ArrayList<>();
             try {
                 Statement stmt = ch.getConnection(false).createStatement();
                 ResultSet rs = stmt.executeQuery(query);
@@ -152,7 +152,8 @@ public class BookDatabaseDAO implements BookDAO{
                         String contributorName = rs.getString("contributor_name");
                         String type = rs.getString("type");
                         Contributor contributor = new Contributor(contributorId, contributorName);
-                        contributors.put(contributor, type);
+                        BookContributor bookContributor = new BookContributor(bookId, contributor, type);
+                        contributors.add(bookContributor);
                     }
                 }
             } catch (SQLException e) {
@@ -176,9 +177,9 @@ public class BookDatabaseDAO implements BookDAO{
         }
 
         @Override
-        public List<Format> getBookFormats(String bookId) {
+        public List<BookFormat> getBookFormats(String bookId) {
             String query = "SELECT * FROM format INNER JOIN book_format ON format.format_id = book_format.format_id WHERE book_format.book_id='" + bookId + "';";
-            List<Format> formats = new ArrayList<>();
+            List<BookFormat> formats = new ArrayList<>();
             try {
                 Statement stmt = ch.getConnection(false).createStatement();
                 ResultSet rs = stmt.executeQuery(query);
@@ -186,8 +187,11 @@ public class BookDatabaseDAO implements BookDAO{
                     while(rs.next()) {
                         String formatId = rs.getString("format_id");
                         String formatType = rs.getString("format_type");
+                        int length_pages = Integer.parseInt(rs.getString("length_pages"));
+                        Date release_date = rs.getDate("release_date");
                         Format format = new Format(formatId, formatType);
-                        formats.add(format);
+                        BookFormat bookFormat = new BookFormat(bookId, format, length_pages, release_date);
+                        formats.add(bookFormat);
                     }
                 }
             } catch (SQLException e) {
@@ -234,11 +238,37 @@ public class BookDatabaseDAO implements BookDAO{
 
         @Override
         public boolean rateBook(String accountId, String bookId, Float rating) {
-            return false;
+            String query = "INSERT INTO rating VALUES('" + accountId + "', '" + bookId + "', '" + rating + "');";
+            try{
+                Statement stmt = ch.getConnection(false).createStatement();
+                stmt.executeQuery(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
         }
     
         @Override
         public Float getBookRating(String bookId) {
-            return null;
+            String query = "SELECT * FROM rating WHERE book_id='" + bookId + "';";
+            Float rating = null;
+            try {
+                Statement stmt = ch.getConnection(false).createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                Float total = 0f;
+                int amt = 0;
+                if(rs != null) {
+                    while (rs.next()) {
+                        total += Float.parseFloat(rs.getString("rating"));
+                        amt++;
+                    }
+                    rating = total/amt;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+            return rating;
         }
 }

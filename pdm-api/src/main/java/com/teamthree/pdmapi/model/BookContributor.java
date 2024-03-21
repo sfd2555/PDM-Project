@@ -9,7 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BookContributor {  
     @JsonProperty("bookId") private final String bookId;
-    @JsonProperty("bookTitle") private final String bookTitle;
+    @JsonProperty("contributor") private final Contributor contributor;
+    @JsonProperty("type") private final String type;
 
 
     /**
@@ -22,9 +23,10 @@ public class BookContributor {
     * is not provided in the JSON object, the Java field gets the default Java
     * value, i.e. 0 for int
     */
-    public Book(@JsonProperty("bookId") String bookId, @JsonProperty("bookTitle") String bookTitle){
+    public BookContributor(@JsonProperty("bookId") String bookId, @JsonProperty("contributor") Contributor contributor, @JsonProperty("type") String type){
         this.bookId = bookId;
-        this.bookTitle = bookTitle;
+        this.contributor = contributor;
+        this.type = type;
     }
 
     /**
@@ -35,11 +37,11 @@ public class BookContributor {
         return bookId;
     }
 
-    /**
-     * Retrieves the title of the book
-     * @return the title of the book
-     */
-    public String getBookTitle() {
-        return bookTitle;
+    public Contributor getContributor() {
+        return contributor;
+    }
+
+    public String getType() {
+        return type;
     }
 }
