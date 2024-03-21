@@ -9,18 +9,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Collection {
     @JsonProperty("collectionId") private final String collectionId;
-    @JsonProperty("userId") private final String userId;
+    @JsonProperty("accountId") private final String accountId;
     @JsonProperty("collectionName") private String collectionName;
 
     /**
-    * Create a collection with the given collectionId, userId, and collectionName
+    * Create a collection with the given collectionId, accountId, and collectionName
     * @param collectionId 6 digit ID of the collection
-    * @param userId 6 digit ID of the user the collection belongs to
+    * @param accountId 6 digit ID of the account the collection belongs to
     * @param collectionName name of the collection
     */
-    public Collection(@JsonProperty("collectionId") String collectionId, @JsonProperty("userId") String userId, @JsonProperty("collectionName") String collectionName) {
+    public Collection(@JsonProperty("collectionId") String collectionId, @JsonProperty("accountId") String accountId, @JsonProperty("collectionName") String collectionName) {
         this.collectionId = collectionId;
-        this.userId = userId;
+        this.accountId = accountId;
         this.collectionName = collectionName;
     }
 
@@ -33,11 +33,11 @@ public class Collection {
     }
 
     /**
-     * Retrieves the id of the user who owns the collection
-     * @return the id of the user who owns the collection
+     * Retrieves the id of the account who owns the collection
+     * @return the id of the account who owns the collection
      */
-    public String getUserId() {
-        return userId;
+    public String getAccountId() {
+        return accountId;
     }
 
     /**

@@ -14,7 +14,7 @@ public class Audience {
 
     /**
      * Create an audience with the given audienceId and audienceName
-     * @param audienceId 6-dgit ID of the audience
+     * @param audienceId 6-digit ID of the audience
      * @param audienceName name of the audience
      *
      * {@literal @}JsonProperty is used in serialization and deserialization
