@@ -1,5 +1,7 @@
 package com.teamthree.pdmapi.model;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -13,9 +15,9 @@ public class Account {
     @JsonProperty("accountPassword") private final String accountPassword;
     @JsonProperty("accountFirstName") private final String accountFirstName;
     @JsonProperty("accountLastName") private final String accountLastName;
-    @JsonProperty("accountCreationDate") private final String accountCreationDate;
+    @JsonProperty("accountCreationDate") private final Date accountCreationDate;
     @JsonProperty("accountEmail") private final String accountEmail;
-    @JsonProperty("accountLastAccessDate") private String accountLastAccessDate;
+    @JsonProperty("accountLastAccessDate") private Date accountLastAccessDate;
     /**
     * Create an account with the given email and pass
     * @param accountId 6 digit ID of the account
@@ -37,9 +39,9 @@ public class Account {
                    @JsonProperty("accountPassword") String accountPassword,
                    @JsonProperty("accountFirstName") String accountFirstName,
                    @JsonProperty("accountLastName") String accountLastName,
-                   @JsonProperty("accountCreationDate") String accountCreationDate,
+                   @JsonProperty("accountCreationDate") Date accountCreationDate,
                    @JsonProperty("accountEmail") String accountEmail,
-                   @JsonProperty("accountLastAccessDate") String accountLastAccessDate) {
+                   @JsonProperty("accountLastAccessDate") Date accountLastAccessDate) {
         this.accountId = accountId;
         this.accountLogin = accountLogin;
         this.accountPassword = accountPassword;
@@ -102,7 +104,7 @@ public class Account {
      * Retrieves the creation date of the account
      * @return the creation date of the account
      */
-    public String getAccountCreationDate() {
+    public Date getAccountCreationDate() {
         return accountCreationDate;
     }
 
@@ -110,7 +112,7 @@ public class Account {
      * Retrieves the date the account last logged in
      * @return the date the account last logged in
      */
-    public String getAccountLastAccessDate() {
+    public Date getAccountLastAccessDate() {
         return accountLastAccessDate;
     }
 
@@ -126,7 +128,7 @@ public class Account {
      * Updates the last access date of the account
      * @param accountLastAccessDate new last access date of the account
      */
-    public void setAccountLastAccessDate(@JsonProperty("accountLastAccessDate") String accountLastAccessDate) {
+    public void setAccountLastAccessDate(@JsonProperty("accountLastAccessDate") Date accountLastAccessDate) {
         this.accountLastAccessDate = accountLastAccessDate;
     }
     

@@ -38,8 +38,8 @@ public class CollectionDatabaseDAO implements CollectionDAO{
         return sb.toString();
     }
 
-    public Collection[] getCollections(String userId) {
-        String query = "SELECT * FROM Collection WHERE user_id = " + userId + ";";
+    public Collection[] getCollections(String accountId) {
+        String query = "SELECT * FROM Collection WHERE account_id = '" + accountId + "'';";
         List<Collection> collections = new ArrayList<>();
         try{
             Statement stmt = connHandler.getConnection(false).createStatement();
@@ -48,7 +48,7 @@ public class CollectionDatabaseDAO implements CollectionDAO{
                 while(rs.next()) {
                     String collectionId = rs.getString("collection_id");
                     String collectionName = rs.getString("collection_name");
-                    Collection newCollection = new Collection(collectionId, userId, collectionName);
+                    Collection newCollection = new Collection(collectionId, accountId, collectionName);
                     collections.add(newCollection);
                 }
             }
@@ -59,8 +59,8 @@ public class CollectionDatabaseDAO implements CollectionDAO{
         return (Collection[]) collections.toArray();
     }
 
-    public boolean addCollection(String userId, String collectionName) {
-        String query = "INSERT INTO Collection VALUES('" + getNewPrimaryKey(6) + "', '" + userId + "', '" + collectionName + "');";
+    public boolean createCollection(String accountId, String collectionName) {
+        String query = "INSERT INTO Collection VALUES('" + getNewPrimaryKey(6) + "', '" + accountId + "', '" + collectionName + "');";
         try{
             Statement stmt = connHandler.getConnection(false).createStatement();
             stmt.executeUpdate(query);
