@@ -12,10 +12,6 @@ public interface SessionDAO {
 
     public List<Session> getSessions(String accountId);
 
-    public Session startSession(String accountId, String bookId);
-
-    public Session endSession(String accountId, String bookId);
-
     public boolean addSession(String accountId, String bookId, java.sql.Timestamp startTime, java.sql.Timestamp endTime, int progress);    
 
 }

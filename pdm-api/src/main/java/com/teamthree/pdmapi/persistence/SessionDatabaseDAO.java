@@ -79,14 +79,6 @@ public class SessionDatabaseDAO  implements SessionDAO{
         return sessions;
     }
 
-    public Session startSession(String accountId, String bookId) {
-        return null;
-    }
-
-    public Session endSession(String accountId, String bookId) {
-        return null;
-    }
-
     public boolean addSession(String accountId, String bookId, java.sql.Timestamp startTime, java.sql.Timestamp endTime, int progress) {
         String query = "INSERT INTO session VALUES('" + accountId + "', '" + bookId + "', '" + startTime + "', '" + endTime + "', '" + progress + "');";
         try{
