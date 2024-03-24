@@ -35,6 +35,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch(SQLException e) {
                 e.printStackTrace();
                 return null;
+            } finally {
+                ch.closeConnection();
             }
             StringBuilder sb = new StringBuilder(String.valueOf(result));
             if(sb.length() >= charNum) return sb.toString();
@@ -57,6 +59,8 @@ public class BookDatabaseDAO implements BookDAO{
                 book = new Book(id, title);
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                ch.closeConnection();
             }
             return book;
         }
@@ -74,6 +78,8 @@ public class BookDatabaseDAO implements BookDAO{
                 book = new Book(id, title);
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                ch.closeConnection();
             }
             return book;
         }
@@ -87,6 +93,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
+            } finally {
+                ch.closeConnection();
             }
             return true;
         }
@@ -100,6 +108,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
+            } finally {
+                ch.closeConnection();
             }
             return true;
         }
@@ -122,6 +132,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch (SQLException e) {
                 e.printStackTrace();
                 return null;
+            } finally {
+                ch.closeConnection();
             }
             return genres;
         }
@@ -135,6 +147,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
+            } finally {
+                ch.closeConnection();
             }
             return true;
         }
@@ -159,6 +173,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch (SQLException e) {
                 e.printStackTrace();
                 return null;
+            } finally {
+                ch.closeConnection();
             }
             return contributors;
         }
@@ -172,6 +188,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
+            } finally {
+                ch.closeConnection();
             }
             return true;
         }
@@ -197,6 +215,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch (SQLException e) {
                 e.printStackTrace();
                 return null;
+            } finally {
+                ch.closeConnection();
             }
             return formats;
         }
@@ -210,6 +230,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
+            } finally {
+                ch.closeConnection();
             }
             return true;
         }
@@ -232,6 +254,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch (SQLException e) {
                 e.printStackTrace();
                 return null;
+            } finally {
+                ch.closeConnection();
             }
             return audiences;
         }
@@ -245,6 +269,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
+            } finally {
+                ch.closeConnection();
             }
             return true;
         }
@@ -257,6 +283,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
+            } finally {
+                ch.closeConnection();
             }
             return true;
         }
@@ -280,6 +308,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch (SQLException e) {
                 e.printStackTrace();
                 return null;
+            } finally {
+                ch.closeConnection();
             }
             return rating;
         }
@@ -295,6 +325,8 @@ public class BookDatabaseDAO implements BookDAO{
             } catch (SQLException e) {
                 e.printStackTrace();
                 return null;
+            } finally {
+                ch.closeConnection();
             }
             return rating;
         }
