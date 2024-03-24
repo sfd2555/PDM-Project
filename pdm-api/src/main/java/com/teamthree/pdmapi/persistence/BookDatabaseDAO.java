@@ -100,8 +100,8 @@ public class BookDatabaseDAO implements BookDAO{
         }
 
         @Override
-        public boolean setBookGenre(String bookId, Genre genreId) {
-            String query = "INSERT INTO book_genre VALUES('" + bookId + "', '" + genreId + "');";
+        public boolean setBookGenre(String bookId, Genre genre) {
+            String query = "INSERT INTO book_genre VALUES('" + bookId + "', '" + genre + "');";
             try{
                 Statement stmt = ch.getConnection(false).createStatement();
                 stmt.executeQuery(query);
@@ -139,8 +139,8 @@ public class BookDatabaseDAO implements BookDAO{
         }
 
         @Override
-        public boolean setBookContributor(String bookId, Contributor contributorId, String type) {
-            String query = "INSERT INTO contributes VALUES('" + contributorId + "', '" + bookId + "', '" + type + "');";
+        public boolean setBookContributor(String bookId, Contributor contributor, String type) {
+            String query = "INSERT INTO contributes VALUES('" + contributor + "', '" + bookId + "', '" + type + "');";
             try{
                 Statement stmt = ch.getConnection(false).createStatement();
                 stmt.executeQuery(query);
@@ -180,8 +180,8 @@ public class BookDatabaseDAO implements BookDAO{
         }
 
         @Override
-        public boolean setBookFormat(String bookId, Format formatId, int length_pages, Date release_date) {
-            String query = "INSERT INTO book_format VALUES('" + bookId + "', '" + formatId + "', '" + length_pages + "', '" + release_date + "');";
+        public boolean setBookFormat(String bookId, Format format, int length_pages, Date release_date) {
+            String query = "INSERT INTO book_format VALUES('" + bookId + "', '" + format + "', '" + length_pages + "', '" + release_date + "');";
             try{
                 Statement stmt = ch.getConnection(false).createStatement();
                 stmt.executeQuery(query);

@@ -20,19 +20,19 @@ public interface BookDAO {
 
         public boolean createBook(String bookId, String bookTitle);
 
-        public boolean setBookGenre(String bookId, Genre genreId);
+        public boolean setBookGenre(String bookId, Genre genre);
 
         public List<Genre> getBookGenres(String bookId);
 
-        public boolean setBookContributor(String bookId, Contributor contributorId, String type);
+        public boolean setBookContributor(String bookId, Contributor contributor, String type);
 
         public List<BookContributor> getBookContributors(String bookId);
 
-        public boolean setBookFormat(String bookId, Format formatId, int length_pages, Date release_date);
+        public boolean setBookFormat(String bookId, Format format, int length_pages, Date release_date);
 
         public List<BookFormat> getBookFormats(String bookId);
 
-        public boolean setBookAudience(String bookId, Audience audienceId);
+        public boolean setBookAudience(String bookId, Audience audience);
 
         public List<Audience> getBookAudiences(String bookId);
 
