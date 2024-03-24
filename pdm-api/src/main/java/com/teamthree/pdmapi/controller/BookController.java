@@ -32,17 +32,17 @@ public class BookController {
         bookDAO = new BookDatabaseDAO(ch);
     }
 
-    @GetMapping("/getBookId/{bookId}")
+    @GetMapping("/id/{bookId}")
     public ResponseEntity<Book> getBookId(@PathVariable("bookId") String bookId) {
-        LOG.info("GET /book/getBookId/" + bookId);
+        LOG.info("GET /book/id/" + bookId);
         Book result = bookDAO.getBookId(bookId);
         return new ResponseEntity<Book>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 
-    @GetMapping("/getBookTitle/{bookTitle}")
+    @GetMapping("/title/{bookTitle}")
     public ResponseEntity<Book> getBookTitle(@PathVariable("bookTitle") String bookTitle) {
-        LOG.info("GET /book/getBookTitle/" + bookTitle);
-        Book result = bookDAO.getBookId(bookTitle);
+        LOG.info("GET /book/title/" + bookTitle);
+        Book result = bookDAO.getBook(bookTitle);
         return new ResponseEntity<Book>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 
@@ -61,7 +61,7 @@ public class BookController {
     }
 
     @GetMapping("/bookGenre/{bookId}")
-    public ResponseEntity<List<Genre>> getBookGenres(@RequestParam("bookId") String bookId) {
+    public ResponseEntity<List<Genre>> getBookGenres(@PathVariable("bookId") String bookId) {
         LOG.info("GET /book/bookGenre/" + bookId);
         List<Genre> result = bookDAO.getBookGenres(bookId);
         return new ResponseEntity<List<Genre>>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);

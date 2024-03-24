@@ -68,6 +68,7 @@ public class BookDatabaseDAO implements BookDAO{
         @Override
         public Book getBook(String bookTitle) {
             String query = "SELECT * FROM book WHERE book_title='" + bookTitle + "';";
+            System.out.println(query);
             Book book = null;
             try {
                 Statement stmt = ch.getConnection(false).createStatement();
