@@ -115,6 +115,22 @@ public class AccountDatabaseDAO implements AccountDAO {
     }
 
     @Override
+    public boolean addFriend(String accountId, String friendId) {
+        String query = "INSERT INTO Friend VALUES('" + accountId + "', '" + friendId + "');";
+        String queryTwo = "INSERT INTO Friend VALUES('" + friendId + "', '" + accountId + "');";
+        try{
+            Statement stmt = ch.getConnection(false).createStatement();
+            stmt.executeUpdate(query);
+            stmt.executeUpdate(queryTwo);
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
     public boolean createUser(String username, String password, String firstName, String lastName, String email) {
         String query = "INSERT INTO Account VALUES('" + getNewPrimaryKey(6) + "', '" + username + "', '" + username + "', '" + password + "', '" + firstName + "', '" + lastName + "', current_date, current_date);";
         try{

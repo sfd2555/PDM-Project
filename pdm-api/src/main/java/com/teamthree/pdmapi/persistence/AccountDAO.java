@@ -10,6 +10,8 @@ public interface AccountDAO {
 
     Account[] getFriends(String accountID);
 
+    boolean addFriend(String accountId, String friendId);
+
     boolean createUser(String username, String password, String firstName, String lastName, String email);
     
 }
