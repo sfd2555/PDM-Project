@@ -8,14 +8,27 @@ import java.util.List;
 
 import com.teamthree.pdmapi.model.Session;
 
+/**
+ * A session Data Access Object that gets it's data through an SQL database
+ * 
+ * @author Caiden Williams
+ */
 public class SessionDatabaseDAO  implements SessionDAO{
 
     private final ConnectionHandler ch;
 
+    /**
+    * Creates a new Book Data Access Object that connects to a SQL database
+    * 
+    * @param ch connection handler to database
+    */
     public SessionDatabaseDAO(ConnectionHandler ch) {
         this.ch = ch;
     }
     
+    /**
+    * {@inheritDoc}
+    */
     public Session getSession(String accountId, String bookId, java.sql.Timestamp startTime) {
         String query = "SELECT * FROM session WHERE account_id = '" + accountId + "' AND book_id = '" + bookId + "' AND session_start = '" + startTime + "';";
         Session session = null;
@@ -36,6 +49,9 @@ public class SessionDatabaseDAO  implements SessionDAO{
         return session;
     }
 
+    /**
+    * {@inheritDoc}
+    */
     public List<Session> getSessions(String accountId, String bookId) {
         String query = "SELECT * FROM session WHERE account_id = '" + accountId + "' AND book_id = '" + bookId + "';";
         List<Session> sessions = new ArrayList<>();
@@ -60,6 +76,9 @@ public class SessionDatabaseDAO  implements SessionDAO{
         return sessions;
     }
 
+    /**
+    * {@inheritDoc}
+    */
     public List<Session> getSessions(String accountId) {
         String query = "SELECT * FROM session WHERE account_id = '" + accountId + "';";
         List<Session> sessions = new ArrayList<>();
@@ -85,6 +104,9 @@ public class SessionDatabaseDAO  implements SessionDAO{
         return sessions;
     }
 
+    /**
+    * {@inheritDoc}
+    */
     public boolean addSession(String accountId, String bookId, java.sql.Timestamp startTime, java.sql.Timestamp endTime, int progress) {
         String query = "INSERT INTO session VALUES('" + accountId + "', '" + bookId + "', '" + startTime + "', '" + endTime + "', '" + progress + "');";
         try{
@@ -98,5 +120,4 @@ public class SessionDatabaseDAO  implements SessionDAO{
         }
         return true;
     } 
-
 }

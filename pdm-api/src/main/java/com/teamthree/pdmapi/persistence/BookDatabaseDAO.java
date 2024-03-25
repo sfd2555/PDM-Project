@@ -15,10 +15,20 @@ import com.teamthree.pdmapi.model.Contributor;
 import com.teamthree.pdmapi.model.Format;
 import com.teamthree.pdmapi.model.Genre;
 
+/**
+ * A book Data Access Object that gets it's data through an SQL database
+ * 
+ * @author Caiden Williams
+ */
 public class BookDatabaseDAO implements BookDAO{
 
         private final ConnectionHandler ch;
 
+        /**
+        * Creates a new Book Data Access Object that connects to a SQL database
+        * 
+        * @param ch connection handler to database
+        */
         public BookDatabaseDAO(ConnectionHandler ch) {
             this.ch = ch;
         }
@@ -54,8 +64,11 @@ public class BookDatabaseDAO implements BookDAO{
                 sb.insert(0, "0");
             }
             return sb.toString();
-    }
+        }
         
+        /**
+         * {@inheritDoc}
+        */
         @Override
         public Book getBookId(String bookId) {
             String query = "SELECT * FROM book WHERE book_id='" + bookId + "';";
@@ -75,26 +88,37 @@ public class BookDatabaseDAO implements BookDAO{
             return book;
         }
 
+        /**
+         * {@inheritDoc}
+        */
         @Override
-        public Book getBook(String bookTitle) {
+        public List<Book> getBook(String bookTitle) {
             String query = "SELECT * FROM book WHERE book_title='" + bookTitle + "';";
             System.out.println(query);
-            Book book = null;
+            List<Book> books = new ArrayList<>();
             try {
                 Statement stmt = ch.getConnection(false).createStatement();
                 ResultSet rs = stmt.executeQuery(query);
-                if(!rs.next()) return book;
-                String id = rs.getString("book_id");
-                String title = rs.getString("book_title");
-                book = new Book(id, title);
+                if(rs != null) {
+                    while (rs.next()) {
+                        String id = rs.getString("book_id");
+                        String title = rs.getString("book_title");
+                        Book book = new Book(id, title);
+                        books.add(book);
+                    }
+                }
+                
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
                 ch.closeConnection();
             }
-            return book;
+            return books;
         }
 
+        /**
+         * {@inheritDoc}
+        */
         @Override
         public boolean createBook(String bookTitle) {
             String query = "INSERT INTO book VALUES('" + getNewPrimaryKey(6) + "', '" + bookTitle + "');";
@@ -110,6 +134,9 @@ public class BookDatabaseDAO implements BookDAO{
             return true;
         }
 
+        /**
+         * {@inheritDoc}
+        */
         @Override
         public boolean setBookGenre(String bookId, String genreId) {
             String query = "INSERT INTO book_genre VALUES('" + bookId + "', '" + genreId + "');";
@@ -125,6 +152,9 @@ public class BookDatabaseDAO implements BookDAO{
             return true;
         }
 
+        /**
+         * {@inheritDoc}
+        */
         @Override
         public List<Genre> getBookGenres(String bookId) {
             String query = "SELECT * FROM genre INNER JOIN book_genre ON genre.genre_id = book_genre.genre_id WHERE book_genre.book_id='" + bookId + "';";
@@ -149,6 +179,9 @@ public class BookDatabaseDAO implements BookDAO{
             return genres;
         }
 
+        /**
+         * {@inheritDoc}
+        */
         @Override
         public boolean setBookContributor(String bookId, String contributorId, String type) {
             String query = "INSERT INTO contributes VALUES('" + contributorId + "', '" + bookId + "', '" + type + "');";
@@ -164,6 +197,9 @@ public class BookDatabaseDAO implements BookDAO{
             return true;
         }
 
+        /**
+         * {@inheritDoc}
+        */
         @Override
         public List<BookContributor> getBookContributors(String bookId) {
             String query = "SELECT * FROM contributor INNER JOIN contributes ON contributor.contributor_id = contributes.contributor_id WHERE contributes.book_id='" + bookId + "';";
@@ -190,6 +226,9 @@ public class BookDatabaseDAO implements BookDAO{
             return contributors;
         }
 
+        /**
+         * {@inheritDoc}
+        */
         @Override
         public boolean setBookFormat(String bookId, String formatId, int length_pages, Date release_date) {
             String query = "INSERT INTO book_format VALUES('" + bookId + "', '" + formatId + "', '" + length_pages + "', '" + release_date + "');";
@@ -205,6 +244,9 @@ public class BookDatabaseDAO implements BookDAO{
             return true;
         }
 
+        /**
+         * {@inheritDoc}
+        */
         @Override
         public List<BookFormat> getBookFormats(String bookId) {
             String query = "SELECT * FROM format INNER JOIN book_format ON format.format_id = book_format.format_id WHERE book_format.book_id='" + bookId + "';";
@@ -232,6 +274,9 @@ public class BookDatabaseDAO implements BookDAO{
             return formats;
         }
 
+        /**
+         * {@inheritDoc}
+        */
         @Override
         public boolean setBookAudience(String bookId, String audienceId) {
             String query = "INSERT INTO book_audience VALUES('" + bookId + "', '" + audienceId + "');";
@@ -247,6 +292,9 @@ public class BookDatabaseDAO implements BookDAO{
             return true;
         }
 
+        /**
+         * {@inheritDoc}
+        */
         @Override
         public List<Audience> getBookAudiences(String bookId) {
             String query = "SELECT * FROM audience INNER JOIN book_audience ON audience.audience_id = book_audience.audience_id WHERE book_audience.book_id='" + bookId + "';";
@@ -271,6 +319,9 @@ public class BookDatabaseDAO implements BookDAO{
             return audiences;
         }
 
+        /**
+         * {@inheritDoc}
+        */
         @Override
         public boolean rateBook(String accountId, String bookId, Float rating) {
             if (getAccountBookRating(bookId, accountId) != null) {
@@ -289,6 +340,9 @@ public class BookDatabaseDAO implements BookDAO{
             return true;
         }
 
+        /**
+         * {@inheritDoc}
+        */
         private boolean updateRating(String accountId, String bookId, Float rating) {
             String query = "UPDATE rating SET rating = '" + rating + "' WHERE account_id = '" + accountId + "' AND book_id = '" + bookId + "';";
             try{
@@ -303,6 +357,9 @@ public class BookDatabaseDAO implements BookDAO{
             return true;
         }
     
+        /**
+         * {@inheritDoc}
+        */
         @Override
         public Float getBookRatingAvg(String bookId) {
             String query = "SELECT * FROM rating WHERE book_id='" + bookId + "';";
@@ -328,6 +385,10 @@ public class BookDatabaseDAO implements BookDAO{
             return rating;
         }
 
+        /**
+         * {@inheritDoc}
+        */
+        @Override
         public Float getAccountBookRating(String bookId, String accountId) {
             String query = "SELECT * FROM rating WHERE book_id='" + bookId + "' AND account_id = '" + accountId + "';";
             Float rating = null;
