@@ -22,7 +22,7 @@ import com.teamthree.pdmapi.persistence.SessionDatabaseDAO;
 @RequestMapping("session")
 public class SessionController {
 
-        private static final Logger LOG = Logger.getLogger(AccountController.class.getName());
+        private static final Logger LOG = Logger.getLogger(SessionController.class.getName());
         private SessionDAO sessionDAO;
 
         private SessionController(ConnectionHandler ch) {
