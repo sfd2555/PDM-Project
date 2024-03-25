@@ -9,18 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teamthree.pdmapi.model.Audience;
 import com.teamthree.pdmapi.model.Book;
 import com.teamthree.pdmapi.model.BookContributor;
 import com.teamthree.pdmapi.model.BookFormat;
-import com.teamthree.pdmapi.model.Contributor;
-import com.teamthree.pdmapi.model.Format;
 import com.teamthree.pdmapi.model.Genre;
 import com.teamthree.pdmapi.persistence.BookDAO;
 import com.teamthree.pdmapi.persistence.BookDatabaseDAO;
