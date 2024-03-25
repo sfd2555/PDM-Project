@@ -1,7 +1,6 @@
 package com.teamthree.pdmapi.controller;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Logger;
 
