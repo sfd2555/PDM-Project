@@ -22,7 +22,7 @@ public class SessionDatabaseDAO  implements SessionDAO{
         try{
             Statement stmt = ch.getConnection(false).createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            if(!rs.next()) {
+            if(rs.next()) {
                 java.sql.Timestamp sessionEnd = rs.getTimestamp("session_end");
                 int progress = rs.getInt("session_progress");
                 session = new Session(accountId, bookId, startTime, sessionEnd, progress);
@@ -42,7 +42,7 @@ public class SessionDatabaseDAO  implements SessionDAO{
         try{
             Statement stmt = ch.getConnection(false).createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            if(!rs.next()) {
+            if(rs != null) {
                 while(rs.next()) {
                     java.sql.Timestamp sessionStart = rs.getTimestamp("session_start");
                     java.sql.Timestamp sessionEnd = rs.getTimestamp("session_end");
@@ -66,7 +66,7 @@ public class SessionDatabaseDAO  implements SessionDAO{
         try{
             Statement stmt = ch.getConnection(false).createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            if(!rs.next()) {
+            if(rs != null) {
                 while(rs.next()) {
                     String bookId = rs.getString("book_id");
                     java.sql.Timestamp sessionStart = rs.getTimestamp("session_start");
