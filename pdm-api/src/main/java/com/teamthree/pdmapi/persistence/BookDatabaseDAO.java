@@ -344,4 +344,112 @@ public class BookDatabaseDAO implements BookDAO{
             }
             return rating;
         }
+
+        /**
+         * {@inheritDoc}
+        */
+        @Override
+        public List<Book> searchGenre(String genreId) {
+            String query = "SELECT * FROM book INNER JOIN book_genre ON book.book_id = book_genre.book_id WHERE book_genre.genre_id='" + genreId + "';";
+            List<Book> books = new ArrayList<>();
+            try {
+                Statement stmt = ch.getConnection(false).createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                if(rs != null) {
+                    while(rs.next()) {
+                        String bookId = rs.getString("book_id");
+                        String bookTitle = rs.getString("book_title");
+                        Book book = new Book(bookId, bookTitle);
+                        books.add(book);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                ch.closeConnection();
+            }
+            return books;
+        }
+
+        /**
+         * {@inheritDoc}
+        */
+        @Override
+        public List<Book> searchContributor(String contributorId) {
+            String query = "SELECT * FROM book INNER JOIN book_contributor ON book.book_id = book_contributor.book_id WHERE book_contributor.contributor_id='" + contributorId + "';";
+            List<Book> books = new ArrayList<>();
+            try {
+                Statement stmt = ch.getConnection(false).createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                if(rs != null) {
+                    while(rs.next()) {
+                        String bookId = rs.getString("book_id");
+                        String bookTitle = rs.getString("book_title");
+                        Book book = new Book(bookId, bookTitle);
+                        books.add(book);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                ch.closeConnection();
+            }
+            return books;
+        }
+
+        /**
+         * {@inheritDoc}
+        */
+        @Override
+        public List<Book> searchFormat(String formatId) {
+            String query = "SELECT * FROM book INNER JOIN book_format ON book.book_id = book_format.book_id WHERE book_format.format_id='" + formatId + "';";
+            List<Book> books = new ArrayList<>();
+            try {
+                Statement stmt = ch.getConnection(false).createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                if(rs != null) {
+                    while(rs.next()) {
+                        String bookId = rs.getString("book_id");
+                        String bookTitle = rs.getString("book_title");
+                        Book book = new Book(bookId, bookTitle);
+                        books.add(book);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                ch.closeConnection();
+            }
+            return books;
+        }
+
+        /**
+         * {@inheritDoc}
+        */
+        @Override
+        public List<Book> searchAudience(String audienceId) {
+            String query = "SELECT * FROM book INNER JOIN book_audience ON book.book_id = book_audience.book_id WHERE book_audience.audience_id='" + audienceId + "';";
+            List<Book> books = new ArrayList<>();
+            try {
+                Statement stmt = ch.getConnection(false).createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                if(rs != null) {
+                    while(rs.next()) {
+                        String bookId = rs.getString("book_id");
+                        String bookTitle = rs.getString("book_title");
+                        Book book = new Book(bookId, bookTitle);
+                        books.add(book);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                ch.closeConnection();
+            }
+            return books;
+        }
 }
