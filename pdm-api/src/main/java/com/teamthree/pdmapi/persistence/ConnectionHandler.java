@@ -5,19 +5,28 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
+
+
+/**
+ * This class handles connecting to the database, and closing the connection as needed
+ * 
+ * @author Sean Droll
+ */
+@Component
 public class ConnectionHandler {
     
     //CHANGE THIS VALUE IF YOU GET A BIND ERROR
-    private static int LOCAL_PORT = 8080;
+    private static int LOCAL_PORT = 8081;
     private static String LOCAL_HOST = "127.0.0.1";
     
-    private Connection dbConn = null;
-    private Session session = null;
+    private static Connection dbConn = null;
+    private static Session session = null;
 
     private final String username;
     private final String password;
@@ -26,6 +35,15 @@ public class ConnectionHandler {
     private final int sshPort;
     private final int remotePort;
 
+    /**
+     * Creates a new connection handler
+     * @param hostname The hostname of the ssh tunnel destination
+     * @param database name of the database to connect to
+     * @param sshPort port of the shh tunnel destination
+     * @param remotePort port of the sql connection port
+     * @param username username for sql connection and ssh tunnel
+     * @param password password for sql connection and ssh tunnel
+     */
     public ConnectionHandler(@Value("${database.hostname}") String hostname, @Value("${database.database}") String database, @Value("${database.sshPort}") int sshPort, @Value("${database.remotePort}") int remotePort,
     @Value("${database.username}") String username, @Value("${database.password}") String password)  {
         this.hostname = hostname;
@@ -36,6 +54,11 @@ public class ConnectionHandler {
         this.password = password;
     }
 
+    /**
+     * Creates a connection between host and database
+     * @param forceNew forces a new connection
+     * @return a connection to the database
+     */
     public Connection getConnection(boolean forceNew) {
 
         //Check for a connection or if we are forcing a new connection
@@ -77,9 +100,15 @@ public class ConnectionHandler {
         return dbConn;
     }
 
+    /**
+     * Closes the sql connection and ssh tunnel
+     */
     public void closeConnection() {
         try {
-            dbConn.close();
+            if(dbConn != null) {
+                dbConn.close();
+                dbConn = null;
+            }
             session.disconnect();
             session = null;
         } catch (SQLException e) {

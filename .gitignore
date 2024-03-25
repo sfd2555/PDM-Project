@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### properties file ###
-.properties
+pdm-api\src\main\resources\application.propertiesapplication.properties
