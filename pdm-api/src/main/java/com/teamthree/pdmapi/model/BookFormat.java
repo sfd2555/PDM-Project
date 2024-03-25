@@ -5,7 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents a Book on the website and all it's metadata
+ * Represents a BookFormat on the website and all it's metadata
  * 
  * @author Caiden Williams
  */
@@ -17,9 +17,11 @@ public class BookFormat {
 
 
     /**
-    * Create a book with the given bookId and bookTitle
+    * Create a 'bookFormat' with the given bookId, format entity, number of pages, and the release date
     * @param bookId 6 digit ID of the book
-    * @param bookTitle title of the book
+    * @param format the format entity
+    * @param length_pages the number of pages in the book
+    * @param release_date the release date of the format
     * 
     * {@literal @}JsonProperty is used in serialization and deserialization
     * of the JSON object to the Java object in mapping the fields.  If a field
@@ -41,14 +43,26 @@ public class BookFormat {
         return bookId;
     }
 
+    /**
+     * Retrieves the format entity
+     * @return the format entity
+     */
     public Format getFormat() {
         return format;
     }
 
+    /**
+     * Retrieves the length of the book
+     * @return the length of the book
+     */
     public int getLength() {
         return length_pages;
     }
 
+    /**
+     * Retrieves the release date of the format
+     * @return the release date of the format
+     */
     public Date getReleaseDate() {
         return release_date;
     }
