@@ -27,7 +27,7 @@ import com.teamthree.pdmapi.persistence.ConnectionHandler;
 @RequestMapping("book")
 public class BookController {
 
-    private static final Logger LOG = Logger.getLogger(AccountController.class.getName());
+    private static final Logger LOG = Logger.getLogger(BookController.class.getName());
     private BookDAO bookDAO;
 
     private BookController(ConnectionHandler ch) {
