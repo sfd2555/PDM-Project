@@ -4,7 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.teamthree.pdmapi.model.Book;
 import com.teamthree.pdmapi.model.Collection;
@@ -12,7 +14,7 @@ import com.teamthree.pdmapi.model.Collection;
 /**
  * A collection Data Access Object that gets it's data through an SQL database
  * 
- * @author Sean Droll
+ * @author Sean Droll, Beining Zhou
  */
 public class CollectionDatabaseDAO implements CollectionDAO{
     private final ConnectionHandler connHandler;
@@ -20,7 +22,7 @@ public class CollectionDatabaseDAO implements CollectionDAO{
     /**
      * Creates a new collection Data Access Object that connects to a SQL database
      * 
-     * @param ch connection handler to database
+     * @param connHandler connection handler to database
      */
     public CollectionDatabaseDAO(ConnectionHandler connHandler) {
         this.connHandler = connHandler;
@@ -85,7 +87,11 @@ public class CollectionDatabaseDAO implements CollectionDAO{
      * Creates a new database and adds it to the database
      */
     public boolean createCollection(String accountId, String collectionName) {
-        String query = "INSERT INTO Collection VALUES('" + getNewPrimaryKey(6) + "', '" + accountId + "', '" + collectionName + "');";
+        String newPrimaryKey = getNewPrimaryKey(6);
+        if(newPrimaryKey == null) {
+            return false;
+        }
+        String query = "INSERT INTO Collection VALUES('" + newPrimaryKey + "', '" + accountId + "', '" + collectionName + "');";
         try{
             Statement stmt = connHandler.getConnection(false).createStatement();
             stmt.executeUpdate(query);
@@ -174,5 +180,60 @@ public class CollectionDatabaseDAO implements CollectionDAO{
         }
         return (Book[]) books.toArray();
     }
-    
+
+    /**
+     * Updates a collection's name in the database
+     */
+    @Override
+    public boolean updateCollectionName(String collectionId, String newName) {
+        String query = "UPDATE Collection SET collectionName = '" + newName + "'  WHERE collectionId = '" + collectionId;
+        try{
+            Statement stmt = connHandler.getConnection(false).createStatement();
+            stmt.executeUpdate(query);
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            connHandler.closeConnection();
+        }
+        return true;
+    }
+
+    /**
+     * Displays details of collections in the database
+     * Includes collection’s name,number of books and total length of the books in the collection
+     * Displat collections by name in ascending order
+     */
+    @Override
+    public List<Map<String, Object>> getCollectionsWithDetails(String accountId) {
+        String query = "SELECT c.collection_name, COUNT(distinct bc.book_id) AS num_books, SUM(bf.length_pages) AS total_pages " +
+                "FROM Collection c " +
+                "LEFT JOIN Contains bc ON c.collection_id = bc.collection_id " +
+                "LEFT JOIN Book b ON bc.book_id = b.bookId " +
+                "LEFT JOIN BookFormat bf ON b.bookId = bf.bookId " +
+                "WHERE c.account_id = '" + accountId + "''" +
+                "GROUP BY c.collection_id " +
+                "ORDER BY c.collection_name ASC;";
+
+        List<Map<String, Object>> collectionDetails = new ArrayList<>();
+        try{
+            Statement stmt = connHandler.getConnection(false).createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs != null) {
+                while(rs.next()) {
+                    Map<String, Object> details = new HashMap<>();
+                    details.put("collectionName", rs.getString("collection_name"));
+                    details.put("numBooks", rs.getInt("num_books"));
+                    details.put("totalPages", rs.getInt("total_pages"));
+                    collectionDetails.add(details);
+                }
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            connHandler.closeConnection();
+        }
+        return collectionDetails;
+    }
 }
