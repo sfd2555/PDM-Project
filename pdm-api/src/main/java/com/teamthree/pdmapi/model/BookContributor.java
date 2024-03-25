@@ -3,7 +3,7 @@ package com.teamthree.pdmapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents a Book on the website and all it's metadata
+ * Represents a BookContributor on the website and all it's metadata
  * 
  * @author Caiden Williams
  */
@@ -14,9 +14,10 @@ public class BookContributor {
 
 
     /**
-    * Create a book with the given bookId and bookTitle
+    * Create a 'bookContributor' with the given bookId, contributor entity, and the type of contribute they had
     * @param bookId 6 digit ID of the book
-    * @param bookTitle title of the book
+    * @param contributor the entity for the contributor
+    * @param contributor the type of contributation they contributor had
     * 
     * {@literal @}JsonProperty is used in serialization and deserialization
     * of the JSON object to the Java object in mapping the fields.  If a field
@@ -37,10 +38,18 @@ public class BookContributor {
         return bookId;
     }
 
+    /**
+     * Retrieves the Contributor
+     * @return the Contributor
+     */
     public Contributor getContributor() {
         return contributor;
     }
 
+    /**
+     * Retrieves the type
+     * @return the type
+     */
     public String getType() {
         return type;
     }
