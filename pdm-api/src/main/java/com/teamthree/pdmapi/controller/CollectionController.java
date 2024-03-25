@@ -46,28 +46,28 @@ public class CollectionController {
      * @return ResponseEntity of true upon success
      *         ResponseEntity of false upon failure
      */
-    @PostMapping("")
+    @DeleteMapping("/{collectionId}")
     @ResponseBody
-    public ResponseEntity<Boolean> deleteCollection(@RequestParam("collectionId") String collectionId) {
-        LOG.info("DELETE /collection " + collectionId);
+    public ResponseEntity<Boolean> deleteCollection(@PathVariable("collectionId") String collectionId) {
+        LOG.info("DELETE /collection/" + collectionId);
         boolean result = collectionDAO.deleteCollection(collectionId);
         return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 
-    /**
-     * Gets all collections of a user
-     * @param accountId id of an account
-     * @return ResponseEntity containing a list of collection(s) upon success
-     *         ResponseEntity with code NOT_FOUND if the account does not exist
-     */
-    @PostMapping("")
-    @ResponseBody
-    public ResponseEntity<Collection[]> getCollections(@RequestParam("accountId") String accountId) {
-        LOG.info("GET /collection " + accountId);
-        Collection[] collections = collectionDAO.getCollections(accountId);
-        if(collections == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(collections, HttpStatus.OK);
-    }
+//    /**
+//     * Gets all collections of a user
+//     * @param accountId id of an account
+//     * @return ResponseEntity containing a list of collection(s) upon success
+//     *         ResponseEntity with code NOT_FOUND if the account does not exist
+//     */
+//    @PostMapping("")
+//    @ResponseBody
+//    public ResponseEntity<Collection[]> getCollections(@RequestParam("accountId") String accountId) {
+//        LOG.info("GET /collection " + accountId);
+//        Collection[] collections = collectionDAO.getCollections(accountId);
+//        if(collections == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        return new ResponseEntity<>(collections, HttpStatus.OK);
+//    }
 
     /**
      * Adds a book to a collection
@@ -76,12 +76,12 @@ public class CollectionController {
      * @return ResponseEntity of true upon success
      *         ResponseEntity of false upon failure
      */
-    @PostMapping("")
+    @PostMapping("/{collectionId}/books")
     @ResponseBody
     public ResponseEntity<Boolean> addBookToCollection(
-            @RequestParam("collectionId") String collectionId,
+            @PathVariable("collectionId") String collectionId,
             @RequestParam("bookId") String bookId) {
-        LOG.info("POST /collection " + collectionId + " " + bookId);
+        LOG.info("POST /collection/" + collectionId + "/books " + bookId);
         boolean result = collectionDAO.addBookToCollection(collectionId, bookId);
         return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
@@ -93,12 +93,12 @@ public class CollectionController {
      * @return ResponseEntity of true upon success
      *         ResponseEntity of false upon failure
      */
-    @PostMapping("")
+    @DeleteMapping("/{collectionId}/books/{bookId}")
     @ResponseBody
     public ResponseEntity<Boolean> removeBook(
-            @RequestParam("collectionId") String collectionId,
-            @RequestParam("bookId") String bookId) {
-        LOG.info("DELETE /collection " + collectionId + " " + bookId);
+            @PathVariable("collectionId") String collectionId,
+            @PathVariable("bookId") String bookId) {
+        LOG.info("DELETE /collection/ " + collectionId + "/books/" + bookId);
         boolean result = collectionDAO.removeBook(collectionId, bookId);
         return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
@@ -110,12 +110,12 @@ public class CollectionController {
      * @return ResponseEntity of true upon success
      *         ResponseEntity of false upon failure
      */
-    @PostMapping("/updateCollectionName")
+    @PutMapping("/{collectionId}")
     @ResponseBody
     public ResponseEntity<Boolean> updateCollectionName(
-            @RequestParam("collectionId") String collectionId,
+            @PathVariable("collectionId") String collectionId,
             @RequestParam("newName") String newName) {
-        LOG.info("POST /updateCollectionName " + collectionId + " " + newName);
+        LOG.info("PUT /collection/ " + collectionId + " " + newName);
         boolean result = collectionDAO.updateCollectionName(collectionId, newName);
         return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
     }
@@ -126,12 +126,12 @@ public class CollectionController {
      * @return ResponseEntity containing the collection details.
      *         ResponseEntity with code NOT_FOUND if the account does not exist
      */
-    @GetMapping("/collections/details")
+    @GetMapping("/details/{accountId}")
     public ResponseEntity<List<Map<String, Object>>> getCollectionsDetails(
-            @RequestParam("accountId") String accountId) {
+            @PathVariable("accountId") String accountId) {
+        LOG.info("GET /collection/details/" + accountId);
         List<Map<String, Object>> details = collectionDAO.getCollectionsWithDetails(accountId);
         if(details == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(details, HttpStatus.OK);
     }
-
 }
