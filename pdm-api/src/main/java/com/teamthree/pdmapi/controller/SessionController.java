@@ -22,7 +22,7 @@ import com.teamthree.pdmapi.persistence.SessionDatabaseDAO;
 @RequestMapping("session")
 public class SessionController {
 
-        private static final Logger LOG = Logger.getLogger(SessionController.class.getName());
+        private static final Logger LOG = Logger.getLogger(AccountController.class.getName());
         private SessionDAO sessionDAO;
 
         private SessionController(ConnectionHandler ch) {
@@ -44,7 +44,7 @@ public class SessionController {
         }
 
         @GetMapping("/{accountId}")
-        public ResponseEntity<List<Session>> getSessiont(@PathVariable("accountId") String accountId) {
+        public ResponseEntity<List<Session>> getSessions(@PathVariable("accountId") String accountId) {
             LOG.info("GET session/" + accountId);
             List<Session> result = sessionDAO.getSessions(accountId);
             return new ResponseEntity<List<Session>>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
