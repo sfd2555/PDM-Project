@@ -54,6 +54,13 @@ public interface BookDAO {
         public List<Genre> getBookGenres(String bookId);
 
         /**
+         * Searches for all books with the given genre
+         * @param genreId the genre id
+         * @return the list of books
+         */
+        public List<Book> searchGenre(String genreId);
+
+        /**
         * Sets a contributor for the book and how they contributed
         * @param bookId the id of the book
         * @param contributorId the id of the contributor
@@ -68,6 +75,13 @@ public interface BookDAO {
         * @return the list of contributors
         */
         public List<BookContributor> getBookContributors(String bookId);
+
+        /**
+         * Searches for all books with the given contributor
+         * @param contributorId the contributor id
+         * @return the list of books
+         */
+        public List<Book> searchContributor(String contributorId);
 
         /**
         * Sets a format for the book, how long it is, and when it was released
@@ -87,6 +101,13 @@ public interface BookDAO {
         public List<BookFormat> getBookFormats(String bookId);
 
         /**
+         * Searches for all books with the given format
+         * @param formatId the format id
+         * @return the list of books
+         */
+        public List<Book> searchFormat(String formatId);
+
+        /**
         * Sets a audience for the book
         * @param bookId the id of the book
         * @param audienceId the id of the audience
@@ -100,6 +121,13 @@ public interface BookDAO {
         * @return the list of audiences
         */
         public List<Audience> getBookAudiences(String bookId);
+
+        /**
+         * Searches for all books with the given audience
+         * @param audienceId the audience id
+         * @return the list of books
+         */
+        public List<Book> searchAudience(String audienceId);
 
         /**
         * Rates a book from the given accountId

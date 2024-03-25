@@ -220,4 +220,52 @@ public class BookController {
         Float result = bookDAO.getAccountBookRating(bookId, accountId);
         return new ResponseEntity<Float>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
+
+    /**
+     * Searchs for all books with the given genre
+     * @param genreId the genre id
+     * @return a list of books
+     */
+    @GetMapping("/genre/{genreId}")
+    public ResponseEntity<List<Book>> searchGenre(@PathVariable("genreId") String genreId) {
+        LOG.info("GET /book/genre/" + genreId);
+        List<Book> result = bookDAO.searchGenre(genreId);
+        return new ResponseEntity<List<Book>>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
+    }
+
+    /**
+     * Searches for all books with the given contributor
+     * @param contributorId the contributor id
+     * @return a list of books
+     */
+    @GetMapping("/contributor/{contributorId}")
+    public ResponseEntity<List<Book>> searchContributor(@PathVariable("contributorId") String contributorId) {
+        LOG.info("GET /book/contributor/" + contributorId);
+        List<Book> result = bookDAO.searchContributor(contributorId);
+        return new ResponseEntity<List<Book>>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
+    }
+
+    /**
+     * Searches for all books with the given format
+     * @param formatId the format id
+     * @return a list of books
+     */
+    @GetMapping("/format/{formatId}")
+    public ResponseEntity<List<Book>> searchFormat(@PathVariable("formatId") String formatId) {
+        LOG.info("GET /book/format/" + formatId);
+        List<Book> result = bookDAO.searchFormat(formatId);
+        return new ResponseEntity<List<Book>>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
+    }
+
+    /**
+     * Searcjes for all books with the given audience
+     * @param audienceId the audience id
+     * @return a list of books
+     */
+    @GetMapping("/audience/{audienceId}")
+    public ResponseEntity<List<Book>> searchAudience(@PathVariable("audienceId") String audienceId) {
+        LOG.info("GET /book/audience/" + audienceId);
+        List<Book> result = bookDAO.searchAudience(audienceId);
+        return new ResponseEntity<List<Book>>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
+    }
 }
