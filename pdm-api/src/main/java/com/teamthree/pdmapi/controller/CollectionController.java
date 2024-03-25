@@ -1,5 +1,6 @@
 package com.teamthree.pdmapi.controller;
 
+import com.teamthree.pdmapi.model.Collection;
 import com.teamthree.pdmapi.persistence.CollectionDAO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
