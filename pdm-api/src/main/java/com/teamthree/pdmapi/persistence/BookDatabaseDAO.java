@@ -23,13 +23,22 @@ public class BookDatabaseDAO implements BookDAO{
             this.ch = ch;
         }
 
+        /**
+        * Creates a new, unique, primary key for an object in the database
+        * @param charNum how many characters to make the key
+        * @return a new primary key
+        */
         private String getNewPrimaryKey(int charNum) {
-            String query  = "SELECT book_id FROM book ORDER BY account_id DESC LIMIT 1;";
+            // Create a new query
+            String query  = "SELECT book_id FROM book ORDER BY book_id DESC LIMIT 1;";
             int result = 0;
             try{
-                Statement stmt = ch.getConnection(false).createStatement();
+                // Execute Query
+               Statement stmt = ch.getConnection(false).createStatement();
                 ResultSet rs = stmt.executeQuery(query);
+               // Make sure something is returned, if not we can be assured nothing is in the database and return 0
                 if(!rs.next()) return "000000";
+                // Convert the results to an integer and increment it by 1
                 result = Integer.parseInt(rs.getString("book_id"));
                 result += 1;
             } catch(SQLException e) {
@@ -38,13 +47,14 @@ public class BookDatabaseDAO implements BookDAO{
             } finally {
                 ch.closeConnection();
             }
+            // Add leading zeros to string
             StringBuilder sb = new StringBuilder(String.valueOf(result));
             if(sb.length() >= charNum) return sb.toString();
             while(sb.length() < charNum) {
                 sb.insert(0, "0");
             }
             return sb.toString();
-        }
+    }
         
         @Override
         public Book getBookId(String bookId) {
@@ -86,11 +96,11 @@ public class BookDatabaseDAO implements BookDAO{
         }
 
         @Override
-        public boolean createBook(String bookId, String bookTitle) {
-            String query = "INSERT INTO book VALUES('" + getNewPrimaryKey(6) + "', '" + bookId + "', '" + bookTitle + ");";
+        public boolean createBook(String bookTitle) {
+            String query = "INSERT INTO book VALUES('" + getNewPrimaryKey(6) + "', '" + bookTitle + "');";
             try{
                 Statement stmt = ch.getConnection(false).createStatement();
-                stmt.executeQuery(query);
+                stmt.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
@@ -101,11 +111,11 @@ public class BookDatabaseDAO implements BookDAO{
         }
 
         @Override
-        public boolean setBookGenre(String bookId, Genre genre) {
-            String query = "INSERT INTO book_genre VALUES('" + bookId + "', '" + genre + "');";
+        public boolean setBookGenre(String bookId, String genreId) {
+            String query = "INSERT INTO book_genre VALUES('" + bookId + "', '" + genreId + "');";
             try{
                 Statement stmt = ch.getConnection(false).createStatement();
-                stmt.executeQuery(query);
+                stmt.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
@@ -140,11 +150,11 @@ public class BookDatabaseDAO implements BookDAO{
         }
 
         @Override
-        public boolean setBookContributor(String bookId, Contributor contributor, String type) {
-            String query = "INSERT INTO contributes VALUES('" + contributor + "', '" + bookId + "', '" + type + "');";
+        public boolean setBookContributor(String bookId, String contributorId, String type) {
+            String query = "INSERT INTO contributes VALUES('" + contributorId + "', '" + bookId + "', '" + type + "');";
             try{
                 Statement stmt = ch.getConnection(false).createStatement();
-                stmt.executeQuery(query);
+                stmt.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
@@ -181,11 +191,11 @@ public class BookDatabaseDAO implements BookDAO{
         }
 
         @Override
-        public boolean setBookFormat(String bookId, Format format, int length_pages, Date release_date) {
-            String query = "INSERT INTO book_format VALUES('" + bookId + "', '" + format + "', '" + length_pages + "', '" + release_date + "');";
+        public boolean setBookFormat(String bookId, String formatId, int length_pages, Date release_date) {
+            String query = "INSERT INTO book_format VALUES('" + bookId + "', '" + formatId + "', '" + length_pages + "', '" + release_date + "');";
             try{
                 Statement stmt = ch.getConnection(false).createStatement();
-                stmt.executeQuery(query);
+                stmt.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
@@ -223,11 +233,11 @@ public class BookDatabaseDAO implements BookDAO{
         }
 
         @Override
-        public boolean setBookAudience(String bookId, Audience audienceId) {
-            String query = "INSERT INTO book_format VALUES('" + bookId + "', '" + audienceId + "');";
+        public boolean setBookAudience(String bookId, String audienceId) {
+            String query = "INSERT INTO book_audience VALUES('" + bookId + "', '" + audienceId + "');";
             try{
                 Statement stmt = ch.getConnection(false).createStatement();
-                stmt.executeQuery(query);
+                stmt.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
@@ -263,10 +273,13 @@ public class BookDatabaseDAO implements BookDAO{
 
         @Override
         public boolean rateBook(String accountId, String bookId, Float rating) {
+            if (getAccountBookRating(bookId, accountId) != null) {
+                return updateRating(accountId, bookId, rating);
+            }
             String query = "INSERT INTO rating VALUES('" + accountId + "', '" + bookId + "', '" + rating + "');";
             try{
                 Statement stmt = ch.getConnection(false).createStatement();
-                stmt.executeQuery(query);
+                stmt.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
@@ -276,11 +289,11 @@ public class BookDatabaseDAO implements BookDAO{
             return true;
         }
 
-        public boolean updateRating(String accountId, String bookId, Float rating) {
+        private boolean updateRating(String accountId, String bookId, Float rating) {
             String query = "UPDATE rating SET rating = '" + rating + "' WHERE account_id = '" + accountId + "' AND book_id = '" + bookId + "';";
             try{
                 Statement stmt = ch.getConnection(false).createStatement();
-                stmt.executeQuery(query);
+                stmt.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
