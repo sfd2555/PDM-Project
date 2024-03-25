@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Session {
     @JsonProperty("accountId") private final String accountId;
     @JsonProperty("bookId") private final String bookId;
-    @JsonProperty("sessionStartedAt") private final int sessionStartedAt;
-    @JsonProperty("sessionEndedAt") private int sessionEndedAt;
+    @JsonProperty("sessionStartedAt") private final java.sql.Timestamp sessionStartedAt;
+    @JsonProperty("sessionEndedAt") private java.sql.Timestamp sessionEndedAt;
     @JsonProperty("sessionProgress") private int sessionProgress;
 
     /**
@@ -24,8 +24,8 @@ public class Session {
      */
     public Session(@JsonProperty("accountId") String accountId,
                    @JsonProperty("bookId") String bookId,
-                   @JsonProperty("sessionStartedAt") int sessionStartedAt,
-                   @JsonProperty("sessionEndedAt") int sessionEndedAt,
+                   @JsonProperty("sessionStartedAt") java.sql.Timestamp sessionStartedAt,
+                   @JsonProperty("sessionEndedAt") java.sql.Timestamp sessionEndedAt,
                    @JsonProperty("sessionProgress") int sessionProgress) {
         this.accountId = accountId;
         this.bookId = bookId;
@@ -54,7 +54,7 @@ public class Session {
      * Gets the time the reading session started at
      * @return The time the reading session started at
      */
-    public int getSessionStartedAt() {
+    public java.sql.Timestamp getSessionStartedAt() {
         return sessionStartedAt;
     }
 
@@ -62,7 +62,7 @@ public class Session {
      * Gets the time the reading session ended at
      * @return The time the reading session ended at
      */
-    public int getSessionEndedAt() {
+    public java.sql.Timestamp getSessionEndedAt() {
         return sessionEndedAt;
     }
 
@@ -78,7 +78,7 @@ public class Session {
      * Sets the time that the reading session ended at
      * @param sessionEndedAt The time the reading session ended at
      */
-    public void setSessionEndedAt(int sessionEndedAt) {
+    public void setSessionEndedAt(java.sql.Timestamp sessionEndedAt) {
         this.sessionEndedAt = sessionEndedAt;
     }
 
