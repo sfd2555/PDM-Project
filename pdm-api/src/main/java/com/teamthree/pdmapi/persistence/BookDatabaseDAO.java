@@ -93,7 +93,7 @@ public class BookDatabaseDAO implements BookDAO{
         */
         @Override
         public List<Book> getBook(String bookTitle) {
-            String query = "SELECT * FROM book WHERE book_title='" + bookTitle + "';";
+            String query = "SELECT * FROM book WHERE book_title LIKE '%" + bookTitle + "%';";
             System.out.println(query);
             List<Book> books = new ArrayList<>();
             try {
