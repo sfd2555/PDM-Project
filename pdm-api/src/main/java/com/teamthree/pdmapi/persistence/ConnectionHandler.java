@@ -3,6 +3,8 @@ package com.teamthree.pdmapi.persistence;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -35,6 +37,8 @@ public class ConnectionHandler {
     private final int sshPort;
     private final int remotePort;
 
+    private final Lock lock = new ReentrantLock();
+
     /**
      * Creates a new connection handler
      * @param hostname The hostname of the ssh tunnel destination
@@ -60,6 +64,7 @@ public class ConnectionHandler {
      * @return a connection to the database
      */
     public Connection getConnection(boolean forceNew) {
+        lock.lock();
 
         //Check for a connection or if we are forcing a new connection
         if(forceNew || dbConn == null) {
@@ -114,6 +119,7 @@ public class ConnectionHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        lock.unlock();
     }
 
 }

@@ -13,6 +13,7 @@ import com.teamthree.pdmapi.model.Session;
  * 
  * @author Caiden Williams
  */
+
 public class SessionDatabaseDAO  implements SessionDAO{
 
     private final ConnectionHandler ch;
@@ -25,62 +26,12 @@ public class SessionDatabaseDAO  implements SessionDAO{
     public SessionDatabaseDAO(ConnectionHandler ch) {
         this.ch = ch;
     }
-    
-    /**
-    * {@inheritDoc}
-    */
-    public Session getSession(String accountId, String bookId, java.sql.Timestamp startTime) {
-        String query = "SELECT * FROM session WHERE account_id = '" + accountId + "' AND book_id = '" + bookId + "' AND session_start = '" + startTime + "';";
-        Session session = null;
-        try{
-            Statement stmt = ch.getConnection(false).createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            if(rs.next()) {
-                java.sql.Timestamp sessionEnd = rs.getTimestamp("session_end");
-                int progress = rs.getInt("session_progress");
-                session = new Session(accountId, bookId, startTime, sessionEnd, progress);
-            }
-        } catch(SQLException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            ch.closeConnection();
-        }
-        return session;
-    }
-
-    /**
-    * {@inheritDoc}
-    */
-    public List<Session> getSessions(String accountId, String bookId) {
-        String query = "SELECT * FROM session WHERE account_id = '" + accountId + "' AND book_id = '" + bookId + "';";
-        List<Session> sessions = new ArrayList<>();
-        try{
-            Statement stmt = ch.getConnection(false).createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            if(rs != null) {
-                while(rs.next()) {
-                    java.sql.Timestamp sessionStart = rs.getTimestamp("session_start");
-                    java.sql.Timestamp sessionEnd = rs.getTimestamp("session_end");
-                    int progress = rs.getInt("session_progress");
-                    Session session = new Session(accountId, bookId, sessionStart, sessionEnd, progress);
-                    sessions.add(session);
-                }
-            }
-        } catch(SQLException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            ch.closeConnection();
-        }
-        return sessions;
-    }
 
     /**
     * {@inheritDoc}
     */
     public List<Session> getSessions(String accountId) {
-        String query = "SELECT * FROM session WHERE account_id = '" + accountId + "';";
+        String query = "SELECT s.account_id, b.book_id, b.book_title, s.session_start, s.session_end, s.session_progress FROM Session s INNER JOIN  Book as b ON s.book_id = b.book_id WHERE s.account_id ='" + accountId + "';";
         List<Session> sessions = new ArrayList<>();
         try{
             Statement stmt = ch.getConnection(false).createStatement();
@@ -88,10 +39,11 @@ public class SessionDatabaseDAO  implements SessionDAO{
             if(rs != null) {
                 while(rs.next()) {
                     String bookId = rs.getString("book_id");
+                    String bookTitle = rs.getString("book_title");
                     java.sql.Timestamp sessionStart = rs.getTimestamp("session_start");
                     java.sql.Timestamp sessionEnd = rs.getTimestamp("session_end");
                     int progress = rs.getInt("session_progress");
-                    Session session = new Session(accountId, bookId, sessionStart, sessionEnd, progress);
+                    Session session = new Session(accountId, bookId, bookTitle, sessionStart, sessionEnd, progress);
                     sessions.add(session);
                 }
             }

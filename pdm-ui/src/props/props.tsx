@@ -1,49 +1,68 @@
-export type Account = {
-    id: String
-    login: String
-    password: String
-    firstName: String
-    lastName: String
-    creationDate: Date
-    lastActionDate: Date
-    email: String;
+export interface Account {
+    accountId: string;
+    accountLogin: string;
+    accountPassword: string;
+    accountFirstName: string;
+    accountLastName: string;
+    accountCreationDate: Date;
+    accountLastAccessDate: Date;
+    accountEmail: string;
 }
 
-export type Audience = {
-    id: String
-    name: String
+export interface Audience {
+    audienceId: string;
+    audienceName: string;
 }
 
-export type Book = {
-    id: String
-    title: String
+export interface Book {
+    bookId: string;
+    bookTitle: string;
 }
 
-export type Collection = {
-    id: String
-    accountId: String
-    name: String
+export interface Contains {
+    collectionId: string;
+    bookId: string;
+    bookTitle: string;
+    formatType: string;
+    bookLength: number;
+    contributors: Contributor[];
 }
 
-export type Contributor = {
-    id: String
-    name: String
+export interface Collection {
+    collectionId: string;
+    accountId: string;
+    collectionName: string;
 }
 
-export type Format = {
-    id: String
-    type: String
+export interface CollectionMetadata {
+    collectionId: string;
+    accountId: string;
+    collectionName: string;
+    collectionEntries: number;
+    collectionVolume: number;
 }
 
-export type Genre = {
-    id: String
-    name: String
+export interface Contributor {
+    contributorId: string;
+    contributorName: string;
+    contributorType: string;
 }
 
-export type Session = {
-    accountId: String
-    bookId: String
-    sessionStart: String
-    sessionEnd: String
-    sessionProgress: String
+export interface Format {
+    formatId: string;
+    formatType: string;
+}
+
+export interface Genre {
+    genreId: string;
+    genreName: string;
+}
+
+export interface Session {
+    accountId: string;
+    bookId: string;
+    bookTitle: string
+    sessionStart: Date;
+    sessionEnd: Date;
+    sessionProgress: string;
 }

@@ -9,16 +9,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Contributor {
     @JsonProperty("contributorId") private final String contributorId;
-    @JsonProperty("contributorName") private String contributorName;
+    @JsonProperty("contributorName") private final String contributorName;
+    @JsonProperty("contributorType") private final String contributorType;
 
     /**
     * Create a contributor with the given id and name
     * @param contributorId 6 digit ID of the contributor
     * @param contributorName name of the contributor
     */
-    public Contributor(@JsonProperty("contributorId") String contributorId, @JsonProperty("contributorName") String contributorName) {
+    public Contributor(@JsonProperty("contributorId") String contributorId, @JsonProperty("contributorName") String contributorName, @JsonProperty("contributorType") String contributorType) {
         this.contributorId = contributorId;
         this.contributorName = contributorName;
+        this.contributorType = contributorType;
     }
 
     /**
@@ -37,11 +39,7 @@ public class Contributor {
         return contributorName;
     }
 
-    /**
-     * Updates the contributor name
-     * @param contributorName the new contributor name
-     */
-    public void setContributorName(@JsonProperty("contributorName") String contributorName) {
-        this.contributorName = contributorName;
+    public String getContributorType() {
+        return contributorType;
     }
 }

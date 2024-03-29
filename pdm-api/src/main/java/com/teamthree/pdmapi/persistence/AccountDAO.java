@@ -39,7 +39,7 @@ public interface AccountDAO {
      * @param friendId other account id
      * @return true if both accounts exits
      */
-    boolean addFriend(String accountId, String friendId);
+    boolean addFriend(String accountId, String friendEmail);
 
     /**
      * Creates a new account for the website

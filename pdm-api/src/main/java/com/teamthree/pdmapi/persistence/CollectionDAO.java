@@ -1,10 +1,8 @@
 package com.teamthree.pdmapi.persistence;
 
-import com.teamthree.pdmapi.model.Book;
 import com.teamthree.pdmapi.model.Collection;
-
-import java.util.List;
-import java.util.Map;
+import com.teamthree.pdmapi.model.CollectionMetadata;
+import com.teamthree.pdmapi.model.BookCollectionMetadata;
 
 /**
  * Allows access to a collection's data
@@ -20,6 +18,8 @@ public interface CollectionDAO {
      */
     Collection[] getCollections(String accountId);
 
+    Collection getCollection(String collectionId);
+
     /**
      * Creates a new collection assigned to a user
      * @param accountId id of user to assign new collection to
@@ -34,7 +34,7 @@ public interface CollectionDAO {
      * @param bookId id of book to add to collection
      * @return true upon success
      */
-    boolean addBookToCollection(String collectionId, String bookId);
+    boolean addBookToCollection(String collectionId, String bookId, String formatId);
 
     /**
      * Removes a book from a collection
@@ -58,7 +58,7 @@ public interface CollectionDAO {
      * @param str string to search
      * @return list of books matching search parameters
      */
-    Book[] searchBook(String collectionId, String str);
+    BookCollectionMetadata[] searchBook(String collectionId, String str);
 
     /**
      * Updates the name of an existing collection.
@@ -73,5 +73,5 @@ public interface CollectionDAO {
      * @param accountId The ID of the user whose collections are being retrieved.
      * @return A list of maps, each containing details about a collection.
      */
-    List<Map<String, Object>> getCollectionsWithDetails(String accountId);
+    CollectionMetadata[] getCollectionMetadata(String accountId);
 }

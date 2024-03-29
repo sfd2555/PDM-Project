@@ -93,10 +93,10 @@ public class AccountController {
      * @return ResponseEntity containing the account upon success
      *         ResponseEntity with code NOT_FOUND if the account does not exist
      */
-    @PostMapping("/friend") 
-    public ResponseEntity<Boolean> addFriend(@RequestParam("account1_id") String accountOneId, @RequestParam("account2_id") String accountTwoId) {
-        LOG.info("POST /account/friend?account1_id=" + accountOneId + "&account2_id" + accountTwoId);
-        Boolean result = accountDAO.addFriend(accountOneId, accountTwoId);
+    @PostMapping("/friend/{id}") 
+    public ResponseEntity<Boolean> addFriend(@PathVariable String id, @RequestParam("friendEmail") String friendEmail) {
+        LOG.info("POST /account/friend/" + id + "?friendId=" + friendEmail);
+        Boolean result = accountDAO.addFriend(id, friendEmail);
         return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
@@ -108,7 +108,7 @@ public class AccountController {
      */
     @GetMapping("/friend/{id}")
     public ResponseEntity<Account[]> getFriends(@PathVariable String id) {
-        LOG.info("GET /account/" + id);
+        LOG.info("GET /account/friend/" + id);
         Account[] friends = accountDAO.getFriends(id);
         if(friends == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(friends, HttpStatus.OK);

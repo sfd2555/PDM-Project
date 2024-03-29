@@ -9,8 +9,6 @@ import java.util.List;
 
 import com.teamthree.pdmapi.model.Audience;
 import com.teamthree.pdmapi.model.Book;
-import com.teamthree.pdmapi.model.BookContributor;
-import com.teamthree.pdmapi.model.BookFormat;
 import com.teamthree.pdmapi.model.Contributor;
 import com.teamthree.pdmapi.model.Format;
 import com.teamthree.pdmapi.model.Genre;
@@ -18,7 +16,7 @@ import com.teamthree.pdmapi.model.Genre;
 /**
  * A book Data Access Object that gets it's data through an SQL database
  * 
- * @author Caiden Williams
+ * @author Caiden Williams, Sean Droll
  */
 public class BookDatabaseDAO implements BookDAO{
 
@@ -70,7 +68,7 @@ public class BookDatabaseDAO implements BookDAO{
          * {@inheritDoc}
         */
         @Override
-        public Book getBookId(String bookId) {
+        public Book getBook(String bookId) {
             String query = "SELECT * FROM book WHERE book_id='" + bookId + "';";
             Book book = null;
             try {
@@ -92,9 +90,8 @@ public class BookDatabaseDAO implements BookDAO{
          * {@inheritDoc}
         */
         @Override
-        public List<Book> getBook(String bookTitle) {
-            String query = "SELECT * FROM book WHERE book_title='" + bookTitle + "';";
-            System.out.println(query);
+        public Book[] searchBook(String bookTitle) {
+            String query = "SELECT * FROM book WHERE book_title LIKE '" + bookTitle + "%';";
             List<Book> books = new ArrayList<>();
             try {
                 Statement stmt = ch.getConnection(false).createStatement();
@@ -113,7 +110,7 @@ public class BookDatabaseDAO implements BookDAO{
             } finally {
                 ch.closeConnection();
             }
-            return books;
+            return books.toArray(new Book[0]);
         }
 
         /**
@@ -156,7 +153,7 @@ public class BookDatabaseDAO implements BookDAO{
          * {@inheritDoc}
         */
         @Override
-        public List<Genre> getBookGenres(String bookId) {
+        public Genre[] getBookGenres(String bookId) {
             String query = "SELECT * FROM genre INNER JOIN book_genre ON genre.genre_id = book_genre.genre_id WHERE book_genre.book_id='" + bookId + "';";
             List<Genre> genres = new ArrayList<>();
             try {
@@ -176,7 +173,7 @@ public class BookDatabaseDAO implements BookDAO{
             } finally {
                 ch.closeConnection();
             }
-            return genres;
+            return genres.toArray(new Genre[0]);
         }
 
         /**
@@ -201,9 +198,9 @@ public class BookDatabaseDAO implements BookDAO{
          * {@inheritDoc}
         */
         @Override
-        public List<BookContributor> getBookContributors(String bookId) {
-            String query = "SELECT * FROM contributor INNER JOIN contributes ON contributor.contributor_id = contributes.contributor_id WHERE contributes.book_id='" + bookId + "';";
-            List<BookContributor> contributors = new ArrayList<>();
+        public Contributor[] getBookContributors(String bookId) {
+            String query = "SELECT cts.contributor_id, ctb.contributor_name, cts.type FROM contributes as cts INNER JOIN contributor ctb ON cts.contributor_id = ctb.contributor_id WHERE cts.book_id='" + bookId + "';";
+            List<Contributor> contributors = new ArrayList<>();
             try {
                 Statement stmt = ch.getConnection(false).createStatement();
                 ResultSet rs = stmt.executeQuery(query);
@@ -211,10 +208,9 @@ public class BookDatabaseDAO implements BookDAO{
                     while(rs.next()) {
                         String contributorId = rs.getString("contributor_id");
                         String contributorName = rs.getString("contributor_name");
-                        String type = rs.getString("type");
-                        Contributor contributor = new Contributor(contributorId, contributorName);
-                        BookContributor bookContributor = new BookContributor(bookId, contributor, type);
-                        contributors.add(bookContributor);
+                        String contributorType = rs.getString("type");
+                        Contributor contributor = new Contributor(contributorId, contributorName, contributorType);
+                        contributors.add(contributor);
                     }
                 }
             } catch (SQLException e) {
@@ -223,7 +219,7 @@ public class BookDatabaseDAO implements BookDAO{
             } finally {
                 ch.closeConnection();
             }
-            return contributors;
+            return contributors.toArray(new Contributor[0]);
         }
 
         /**
@@ -248,9 +244,9 @@ public class BookDatabaseDAO implements BookDAO{
          * {@inheritDoc}
         */
         @Override
-        public List<BookFormat> getBookFormats(String bookId) {
+        public Format[] getBookFormats(String bookId) {
             String query = "SELECT * FROM format INNER JOIN book_format ON format.format_id = book_format.format_id WHERE book_format.book_id='" + bookId + "';";
-            List<BookFormat> formats = new ArrayList<>();
+            List<Format> formats = new ArrayList<>();
             try {
                 Statement stmt = ch.getConnection(false).createStatement();
                 ResultSet rs = stmt.executeQuery(query);
@@ -258,11 +254,8 @@ public class BookDatabaseDAO implements BookDAO{
                     while(rs.next()) {
                         String formatId = rs.getString("format_id");
                         String formatType = rs.getString("format_type");
-                        int length_pages = Integer.parseInt(rs.getString("length_pages"));
-                        Date release_date = rs.getDate("release_date");
                         Format format = new Format(formatId, formatType);
-                        BookFormat bookFormat = new BookFormat(bookId, format, length_pages, release_date);
-                        formats.add(bookFormat);
+                        formats.add(format);
                     }
                 }
             } catch (SQLException e) {
@@ -271,7 +264,7 @@ public class BookDatabaseDAO implements BookDAO{
             } finally {
                 ch.closeConnection();
             }
-            return formats;
+            return formats.toArray(new Format[0]);
         }
 
         /**
@@ -296,7 +289,7 @@ public class BookDatabaseDAO implements BookDAO{
          * {@inheritDoc}
         */
         @Override
-        public List<Audience> getBookAudiences(String bookId) {
+        public Audience[] getBookAudiences(String bookId) {
             String query = "SELECT * FROM audience INNER JOIN book_audience ON audience.audience_id = book_audience.audience_id WHERE book_audience.book_id='" + bookId + "';";
             List<Audience> audiences = new ArrayList<>();
             try {
@@ -316,7 +309,7 @@ public class BookDatabaseDAO implements BookDAO{
             } finally {
                 ch.closeConnection();
             }
-            return audiences;
+            return audiences.toArray(new Audience[0]);
         }
 
         /**
@@ -410,7 +403,7 @@ public class BookDatabaseDAO implements BookDAO{
          * {@inheritDoc}
         */
         @Override
-        public List<Book> searchGenre(String genreId) {
+        public Book[] searchGenre(String genreId) {
             String query = "SELECT * FROM book INNER JOIN book_genre ON book.book_id = book_genre.book_id WHERE book_genre.genre_id='" + genreId + "';";
             List<Book> books = new ArrayList<>();
             try {
@@ -430,14 +423,14 @@ public class BookDatabaseDAO implements BookDAO{
             } finally {
                 ch.closeConnection();
             }
-            return books;
+            return books.toArray(new Book[0]);
         }
 
         /**
          * {@inheritDoc}
         */
         @Override
-        public List<Book> searchContributor(String contributorId) {
+        public Book[] searchContributor(String contributorId) {
             String query = "SELECT * FROM book INNER JOIN book_contributor ON book.book_id = book_contributor.book_id WHERE book_contributor.contributor_id='" + contributorId + "';";
             List<Book> books = new ArrayList<>();
             try {
@@ -457,14 +450,14 @@ public class BookDatabaseDAO implements BookDAO{
             } finally {
                 ch.closeConnection();
             }
-            return books;
+            return books.toArray(new Book[0]);
         }
 
         /**
          * {@inheritDoc}
         */
         @Override
-        public List<Book> searchFormat(String formatId) {
+        public Book[] searchFormat(String formatId) {
             String query = "SELECT * FROM book INNER JOIN book_format ON book.book_id = book_format.book_id WHERE book_format.format_id='" + formatId + "';";
             List<Book> books = new ArrayList<>();
             try {
@@ -484,14 +477,14 @@ public class BookDatabaseDAO implements BookDAO{
             } finally {
                 ch.closeConnection();
             }
-            return books;
+            return books.toArray(new Book[0]);
         }
 
         /**
          * {@inheritDoc}
         */
         @Override
-        public List<Book> searchAudience(String audienceId) {
+        public Book[] searchAudience(String audienceId) {
             String query = "SELECT * FROM book INNER JOIN book_audience ON book.book_id = book_audience.book_id WHERE book_audience.audience_id='" + audienceId + "';";
             List<Book> books = new ArrayList<>();
             try {
@@ -511,6 +504,6 @@ public class BookDatabaseDAO implements BookDAO{
             } finally {
                 ch.closeConnection();
             }
-            return books;
+            return books.toArray(new Book[0]);
         }
 }

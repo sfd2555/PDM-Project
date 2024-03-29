@@ -10,23 +10,6 @@ import com.teamthree.pdmapi.model.Session;
  * @author Caiden Williams
  */
 public interface SessionDAO {
-    
-    /**
-    * Retrieves a session via an accountId, bookId, and startTime
-    * @param accountId the Id of the account
-    * @param bookId the Id of the book
-    * @param startTime the start time of the session
-    * @return a session that matches the parameters (if there is one)
-    */
-    public Session getSession(String accountId, String bookId, java.sql.Timestamp startTime);
-
-    /**
-    * Retrieves a list of sessions via an accountId, bookId
-    * @param accountId the Id of the account
-    * @param bookId the Id of the book
-    * @return a list of sessions that matches the parameters (if there is one)
-    */
-    public List<Session> getSessions(String accountId, String bookId);
 
     /**
     * Retrieves a list of sessions via an accountId
