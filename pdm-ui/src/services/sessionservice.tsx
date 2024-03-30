@@ -7,11 +7,11 @@ export async function getUserSessions(userId: string): Promise<Session[]> {
     return data;
 }
 
-export async function addSession(userId: string, bookId: string, startTime: Date, endTime: Date, progress: number): Promise<boolean> {
+export async function addSession(userId: string, bookId: string, startTime: Date, endTime: Date, progress: string): Promise<boolean> {
     const requestOptions = {
         method: 'POST',
     }
-    const response = await fetch("http://localhost:8080/session?accountId=" + userId + "&bookId=" + bookId + "&startTime=" + startTime.getTime().toString() + "&endTime=" + endTime.getTime().toString() + "&progress=" + progress.toString(), requestOptions);
+    const response = await fetch("http://localhost:8080/session?accountId=" + userId + "&bookId=" + bookId + "&startTime=" + startTime.toISOString() + "&endTime=" + endTime.toISOString() + "&progress=" + progress, requestOptions);
     const data = await response.json();
     return data;
 }

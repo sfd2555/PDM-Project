@@ -26,13 +26,13 @@ function App() {
             <Route path='/user' element={ <UserPageCollections />}/>
             <Route path='/user/collections' element={ <UserPageCollections />}/>
             <Route path='/user/friends' element={ <UserPageFriends />}/>
-            <Route path='/user/activity' element={ <UserPageSessions />}/>
+            <Route path='/user/sessions' element={ <UserPageSessions />}/>
             <Route path='/user/collections/:collectionId/add' element={<BookAddPage />} />
             <Route path='/user/collections/:accountId/:collectionId' element={ <UserCollectionContentsPage />} />
             <Route path='/account/:accountId' element={ <AccountPageCollections />} />
             <Route path='/account/:accountId/collections' element={ <AccountPageCollections />} />
             <Route path='/account/:accountId/friends' element={ <AccountPageFriends />} />
-            <Route path='/account/:accountId/activity' element={ <AccountPageSessions />} />
+            <Route path='/account/:accountId/sessions' element={ <AccountPageSessions />} />
             <Route path='books/:bookId' element={ <BookPage /> } />
             <Route path='/null' element={<Null />}/>
           </Routes>

@@ -1,9 +1,13 @@
 package com.teamthree.pdmapi.controller;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.springframework.format.datetime.standard.InstantFormatter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,12 +62,12 @@ public class SessionController {
          * @param endTime the end time of the session (YYYY-MM-DD_HH:MM:SS.MMMMMM)
          * @param progress the progress from the session (in pages)
          * @return whether or not the create was successful
+         * @throws ParseException 
          */
         @PostMapping("")
-        public ResponseEntity<Boolean> addSession(@RequestParam("accountId") String accountId, @RequestParam("bookId") String bookId, @RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime, @RequestParam("progress") int progress) {
+        public ResponseEntity<Boolean> addSession(@RequestParam("accountId") String accountId, @RequestParam("bookId") String bookId, @RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime, @RequestParam("progress") int progress) throws ParseException {
             LOG.info("POST session?accountId=" + accountId + "&bookId=" + bookId + "&startTime=" + startTime + "&endTime=" + endTime + "&progress=" + progress);
-            boolean result = sessionDAO.addSession(accountId, bookId, Timestamp.valueOf(startTime.replace("_", " ")), Timestamp.valueOf(endTime.replace("_", " ")), progress);
+            boolean result = sessionDAO.addSession(accountId, bookId, new Timestamp(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(startTime).getTime()) , new Timestamp(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(startTime).getTime()), progress);
             return new ResponseEntity<Boolean>(result, result ? HttpStatus.OK : HttpStatus.CONFLICT);
         }
-
 }

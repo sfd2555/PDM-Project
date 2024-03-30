@@ -41,6 +41,8 @@ public interface AccountDAO {
      */
     boolean addFriend(String accountId, String friendEmail);
 
+    boolean removeFriend(String accountId, String friendId);
+
     /**
      * Creates a new account for the website
      * 
@@ -52,5 +54,7 @@ public interface AccountDAO {
      * @return true if the new account is created with no problems
      */
     boolean createAccount(String username, String password, String firstName, String lastName, String email);
+
+    
     
 }

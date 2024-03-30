@@ -124,12 +124,12 @@ public class CollectionController {
      * @return ResponseEntity of true upon success
      *         ResponseEntity of false upon failure
      */
-    @DeleteMapping("/{collectionId}/{bookId}")
+    @DeleteMapping("/removeBook")
     @ResponseBody
     public ResponseEntity<Boolean> removeBook(
-            @PathVariable("collectionId") String collectionId,
-            @PathVariable("bookId") String bookId) {
-        LOG.info("DELETE /collection/" + collectionId + "/" + bookId);
+            @RequestParam("collectionId") String collectionId,
+            @RequestParam("bookId") String bookId) {
+        LOG.info("DELETE /collection/removeBook?collectionId=" + collectionId + "&bookId=" + bookId);
         boolean result = collectionDAO.removeBook(collectionId, bookId);
         return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
@@ -141,12 +141,12 @@ public class CollectionController {
      * @return ResponseEntity of true upon success
      *         ResponseEntity of false upon failure
      */
-    @PutMapping("/{collectionId}")
+    @PutMapping("/updateName")
     @ResponseBody
     public ResponseEntity<Boolean> updateCollectionName(
-            @PathVariable("collectionId") String collectionId,
+            @RequestParam("collectionId") String collectionId,
             @RequestParam("newName") String newName) {
-        LOG.info("PUT /collection/ " + collectionId + "/" + newName);
+        LOG.info("PUT /collection/updateName?collectionId=" + collectionId + "&newName=" + newName);
         boolean result = collectionDAO.updateCollectionName(collectionId, newName);
         return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
     }

@@ -184,7 +184,7 @@ public class CollectionDatabaseDAO implements CollectionDAO{
         if(str == null) {
             str = "";
         }
-        String query = "SELECT c.collection_id, c.book_id, b.book_title, f.format_type, bf.length_pages FROM Contains as c INNER JOIN Book as b ON c.book_id = b.book_id INNER JOIN Format as f ON c.format_id = f.format_id INNER JOIN book_format bf ON c.format_id = bf.format_id AND b.book_id = bf.book_id WHERE b.book_title LIKE '" + str + "%';";
+        String query = "SELECT c.collection_id, c.book_id, b.book_title, f.format_type, bf.length_pages FROM Contains as c INNER JOIN Book as b ON c.book_id = b.book_id INNER JOIN Format as f ON c.format_id = f.format_id INNER JOIN book_format bf ON c.format_id = bf.format_id WHERE c.collection_id='" + collectionId + "' AND b.book_title LIKE '%" + str + "%'";
         List<BookCollectionMetadata> books = new ArrayList<>();
         try{
             Statement stmt = connHandler.getConnection(false).createStatement();
@@ -195,7 +195,6 @@ public class CollectionDatabaseDAO implements CollectionDAO{
                     String bookTitle = rs.getString("book_title");
                     String formatType = rs.getString("format_type");
                     int length = rs.getInt("length_pages");
-                    connHandler.closeConnection();
                     Contributor[] contributors = getBookContributors(bookId);
                     System.out.println(contributors.length);
                     BookCollectionMetadata newContains = new BookCollectionMetadata(collectionId, bookId, formatType, bookTitle, length, contributors);
@@ -216,7 +215,7 @@ public class CollectionDatabaseDAO implements CollectionDAO{
      */
     @Override
     public boolean updateCollectionName(String collectionId, String newName) {
-        String query = "UPDATE Collection SET collectionName = '" + newName + "'  WHERE collectionId = '" + collectionId;
+        String query = "UPDATE collection SET collection_name='" + newName + "' WHERE collection_id='" + collectionId + "';";
         try{
             Statement stmt = connHandler.getConnection(false).createStatement();
             stmt.executeUpdate(query);

@@ -114,5 +114,12 @@ public class AccountController {
         return new ResponseEntity<>(friends, HttpStatus.OK);
     }
 
+    @PostMapping("/removeFriend")
+    public ResponseEntity<Boolean> removeFriends(@RequestParam("account_id") String account_id, @RequestParam("friend_id") String friend_id) {
+        LOG.info("POST /account/removeFriend?account_id=" + account_id + "&friend_id=" + friend_id);
+        Boolean result = accountDAO.removeFriend(account_id, friend_id);
+        return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
 
 }

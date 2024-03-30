@@ -213,5 +213,26 @@ public class AccountDatabaseDAO implements AccountDAO {
         }
         return account;
     }
+
+
+    @Override
+    public boolean removeFriend(String accountId, String friendId) {
+        String query1 = "SELECT * FROM friends WHERE account1_id='" + accountId + "'AND account2_id='" + friendId + "';";
+        String query = "";
+        try{
+            Statement stmt = ch.getConnection(false).createStatement();
+            if(stmt.executeQuery(query1).next())
+                query = "DELETE FROM friends WHERE account1_id='" + accountId + "' AND account2_id='" + friendId+ "';";
+            else 
+                query = "DELETE FROM friends WHERE account1_id='" + friendId + "' AND account2_id='" + accountId+ "';";
+            stmt.executeUpdate(query);
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            ch.closeConnection();
+        }
+        return true;
+    }
     
 }

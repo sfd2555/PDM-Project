@@ -34,9 +34,9 @@ export const UserHeader = () => {
                 <a href="/userpage/friends"
                 onClick={(e)=> {
                     e.preventDefault()
-                    navigator('/user/activity')
+                    navigator('/user/sessions')
                 }}
-                >Activity</a>
+                >Sessions</a>
             </nav>
         </div>
     )
