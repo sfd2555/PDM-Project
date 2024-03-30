@@ -5,6 +5,7 @@ import { Contributors } from "./contributors";
 import { useNavigate } from "react-router-dom";
 import { BookDeleteForm } from "./bookdeleteform";
 import { BookRateForm } from "./bookrateform";
+import { CollectionNameForm } from "./collectionnameform";
 
 
 
@@ -64,6 +65,7 @@ export const CollectionContents = ({collectionId, collectionName, accountId} : {
                         )
                     })
                 }
+                <CollectionNameForm collectionId={collectionId}/>
             </div>    
     )
 

@@ -141,12 +141,12 @@ public class CollectionController {
      * @return ResponseEntity of true upon success
      *         ResponseEntity of false upon failure
      */
-    @PutMapping("/{collectionId}")
+    @PutMapping("/updateName")
     @ResponseBody
     public ResponseEntity<Boolean> updateCollectionName(
-            @PathVariable("collectionId") String collectionId,
+            @RequestParam("collectionId") String collectionId,
             @RequestParam("newName") String newName) {
-        LOG.info("PUT /collection/ " + collectionId + "/" + newName);
+        LOG.info("PUT /collection/updateName?collectionId=" + collectionId + "&newName=" + newName);
         boolean result = collectionDAO.updateCollectionName(collectionId, newName);
         return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
     }

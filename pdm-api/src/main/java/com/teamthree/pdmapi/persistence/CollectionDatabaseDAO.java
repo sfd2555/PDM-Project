@@ -215,7 +215,7 @@ public class CollectionDatabaseDAO implements CollectionDAO{
      */
     @Override
     public boolean updateCollectionName(String collectionId, String newName) {
-        String query = "UPDATE Collection SET collectionName = '" + newName + "'  WHERE collectionId = '" + collectionId;
+        String query = "UPDATE collection SET collection_name='" + newName + "' WHERE collection_id='" + collectionId + "';";
         try{
             Statement stmt = connHandler.getConnection(false).createStatement();
             stmt.executeUpdate(query);
