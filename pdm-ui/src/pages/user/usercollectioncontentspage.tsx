@@ -27,13 +27,7 @@ export const UserCollectionContentsPage = () => {
     return (
         <div>
             <UserHeader />
-            <h3>{collectionName}</h3>
-            <a onClick={(e)=>{
-                e.preventDefault()
-                navigator('/user/collections/' + collectionId +'/add')
-            }
-
-            }>Add to Collection</a>
+            <h1>{collectionName}</h1>
             <CollectionContents collectionId={collectionId!} collectionName={collectionName} accountId={accountId!}/>
         </div>
 
