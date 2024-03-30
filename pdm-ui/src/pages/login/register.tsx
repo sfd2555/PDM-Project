@@ -14,15 +14,7 @@ export const Register = () => {
 
     const HandleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        const prm = register(first, last, username, password, email);
-        let navigator = useNavigate();
-        prm.then((result) => {
-            if(result === true) {
-                navigator('/login');
-            } else {
-                error = "Something went wrong!";
-            }
-        });
+        register(first, last, username, password, email);
     }
 
     return (
@@ -39,7 +31,6 @@ export const Register = () => {
             <label>Email:</label>
             <input type="text" value = {email} onChange={(e) => setEmail(e.target.value)}></input>
             <input type="submit" id="submit"/>
-            <p>{error}</p>
             <a href="/login">Login</a>
         </form>
     )
