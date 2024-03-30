@@ -16,13 +16,26 @@ export const BookAddPage = () => {
     let initialValue: Book[] = [];
     let [contents, setContents] = useState(initialValue);
     let [searchString, setSearchString] = useState("")
-    let [sortParameter, setSearchParameter] = useState("title")
+    let [sortParameter, setSortParameter] = useState("title")
     let [sortOrder, setSortOrder]: any = useState("ascending"); // Default to ascending
+    let [searchParameter, setSearchParameter] = useState("title")
 
 
     const handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        searchRefinedBookTitle(searchString).then(async (results) => {
+        let searchFunction;
+        switch(searchParameter) {
+            case "title":
+                searchFunction = searchRefinedBookTitle;
+                break;
+            case "genre":
+                searchFunction = searchRefinedGenreName;
+                break;
+            default:
+                searchFunction = searchRefinedBookTitle;
+        }
+
+        searchFunction(searchString).then(async (results) => {
             console.log(results)
             if(results.length >= 0) {
 
@@ -63,9 +76,7 @@ export const BookAddPage = () => {
             <UserHeader />
             <form onSubmit={handleSubmit}>
                 <h3>Search Books</h3>
-                <select onChange={(e) => {
-                    // This is where you would handle the change
-                }}>
+                <select onChange={(e) => setSearchParameter(e.target.value)}>
                     <option value="title">Title</option>
                     <option value="author">Author</option>
                     <option value="release-date">Release Date</option>
@@ -78,7 +89,7 @@ export const BookAddPage = () => {
                 }}></input>
                 Sort By: <select onChange={(e) => {
                 // Update the sortParameter state with the selected option's value
-                setSearchParameter(e.target.value);
+                setSortParameter(e.target.value);
             }}>
                 <option value="title">Book Name</option>
                 <option value="publisher">Publisher</option>
