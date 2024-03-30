@@ -51,6 +51,8 @@ export interface Contributor {
 export interface Format {
     formatId: string;
     formatType: string;
+    bookLength: number;
+    releaseDate: string;
 }
 
 export interface Genre {
@@ -65,4 +67,12 @@ export interface Session {
     sessionStart: Date;
     sessionEnd: Date;
     sessionProgress: string;
+}
+
+export interface RefinedBook {
+    bookId: string;
+    bookTitle: string;
+    formats: Format[];
+    contributors: Contributor[];
+    genres: Genre[];
 }

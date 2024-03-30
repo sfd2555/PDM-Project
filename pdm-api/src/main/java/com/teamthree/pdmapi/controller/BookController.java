@@ -3,6 +3,7 @@ package com.teamthree.pdmapi.controller;
 import java.sql.Date;
 import java.util.logging.Logger;
 
+import com.teamthree.pdmapi.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.teamthree.pdmapi.model.Audience;
-import com.teamthree.pdmapi.model.Book;
-import com.teamthree.pdmapi.model.Contributor;
-import com.teamthree.pdmapi.model.Format;
-import com.teamthree.pdmapi.model.Genre;
 import com.teamthree.pdmapi.persistence.BookDAO;
 import com.teamthree.pdmapi.persistence.BookDatabaseDAO;
 import com.teamthree.pdmapi.persistence.ConnectionHandler;
@@ -52,6 +48,23 @@ public class BookController {
         LOG.info("GET /book/" + bookId);
         Book result = bookDAO.getBook(bookId);
         return new ResponseEntity<Book>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
+    }
+
+    /**
+     * Gets a book with refined information from the given Id
+     * @param bookId the id of the book
+     * @return the refined book with the matching Id (if there is one)
+     */
+    @GetMapping("/refined/{bookId}")
+    public ResponseEntity<RefinedBook> getRefinedBook(@PathVariable("bookId") String bookId) {
+        LOG.info("GET /book/refined/" + bookId);
+        Book temp_result = bookDAO.getBook(bookId);
+        Format[] formats = bookDAO.getBookFormats(bookId);
+        Contributor[] contributors = bookDAO.getBookContributors(bookId);
+        Genre[] genres = bookDAO.getBookGenres(bookId);
+
+        RefinedBook result = new RefinedBook(temp_result.getBookId(), temp_result.getBookTitle(), formats, contributors, genres);
+        return new ResponseEntity<RefinedBook>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 
     /**

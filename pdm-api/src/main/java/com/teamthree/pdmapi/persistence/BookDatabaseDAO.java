@@ -254,7 +254,9 @@ public class BookDatabaseDAO implements BookDAO{
                     while(rs.next()) {
                         String formatId = rs.getString("format_id");
                         String formatType = rs.getString("format_type");
-                        Format format = new Format(formatId, formatType);
+                        int bookLength = rs.getInt("length_pages");
+                        String releaseDate = rs.getString("release_date");
+                        Format format = new Format(formatId, formatType, bookLength, releaseDate);
                         formats.add(format);
                     }
                 }
