@@ -9,7 +9,8 @@ export const BookSearch = ({book, collectionId} : {book: RefinedBook, collection
     let initialValue: Format[] = []
     let [selectedFormat, setSelectedFormat] = useState("")
 
-    const handleSubmit = () => {
+    const handleSubmit = (event: { preventDefault: () => void; }) => {
+        event.preventDefault()
         console.log(selectedFormat);
         addToCollection(collectionId, book.bookId, selectedFormat)
     }
@@ -17,16 +18,22 @@ export const BookSearch = ({book, collectionId} : {book: RefinedBook, collection
     return(
         <div>
             <h3>{book.bookTitle}</h3>
+            <label>Genres:</label>
+            {book.genres.map((genre) =>{
+                return (
+                    <li>{genre.genreName}</li>
+                )
+            })}
+            <br></br>
             <form onSubmit={handleSubmit}>
-                <select value={selectedFormat} onChange={(e) => {
-                    e.preventDefault();
-                    setSelectedFormat(e.target.value);
-                }}>{book.formats.map((format) => {
+            <select onChange={(e) => setSelectedFormat(e.target.value)}>
+                {book.formats.map((format) => {
                     return (
-                        <option key={format.formatId} value={format.formatId}>{format.formatType}</option>
+                        <option value={format.formatId}>{format.formatType}</option>
                     )
-                })}</select>
-                <input type="submit"/>
+                })}
+                </select>
+            <input type="submit"></input>
             </form>
         </div>
     )
