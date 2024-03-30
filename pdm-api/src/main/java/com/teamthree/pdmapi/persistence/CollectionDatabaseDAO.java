@@ -6,10 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.teamthree.pdmapi.model.Collection;
-import com.teamthree.pdmapi.model.CollectionMetadata;
-import com.teamthree.pdmapi.model.Contributor;
-import com.teamthree.pdmapi.model.BookCollectionMetadata;
+import com.teamthree.pdmapi.model.*;
 
 /**
  * A collection Data Access Object that gets it's data through an SQL database
@@ -201,9 +198,10 @@ public class CollectionDatabaseDAO implements CollectionDAO{
                     String bookTitle = rs.getString("book_title");
                     String formatType = rs.getString("format_type");
                     int length = rs.getInt("length_pages");
+                    Genre[] genres = getBookGenres(bookId);
                     Contributor[] contributors = getBookContributors(bookId);
                     System.out.println(contributors.length);
-                    BookCollectionMetadata newContains = new BookCollectionMetadata(collectionId, bookId, formatType, bookTitle, length, contributors);
+                    BookCollectionMetadata newContains = new BookCollectionMetadata(collectionId, bookId, formatType, bookTitle, length, genres, contributors);
                     books.add(newContains);
                 }
             }
@@ -290,5 +288,29 @@ public class CollectionDatabaseDAO implements CollectionDAO{
                 return null;
             }
             return contributors.toArray(new Contributor[0]);
+    }
+
+    private Genre[] getBookGenres(String bookId) {
+        String query = "SELECT g.genre_id, g.genre_name " +
+                "FROM book_genre AS bg " +
+                "INNER JOIN genre AS g ON bg.genre_id = g.genre_id " +
+                "WHERE bg.book_id='" + bookId + "';";
+        List<Genre> genres = new ArrayList<>();
+        try {
+            Statement stmt = connHandler.getConnection(false).createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String genreId = rs.getString("genre_id");
+                String genreName = rs.getString("genre_name");
+                Genre genre = new Genre(genreId, genreName);
+                genres.add(genre);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            connHandler.closeConnection();
+        }
+        return genres.toArray(new Genre[0]);
     }
 }

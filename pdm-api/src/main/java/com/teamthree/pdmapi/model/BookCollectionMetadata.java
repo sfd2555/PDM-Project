@@ -8,6 +8,7 @@ public class BookCollectionMetadata {
     @JsonProperty("bookTitle") private final String bookTitle;
     @JsonProperty("formatType") private final String formatType;
     @JsonProperty("bookLength") private final int bookLength;
+    @JsonProperty("genres") private final Genre[] genres;
     @JsonProperty("contributors") private final Contributor[] contributors;
 
     /**
@@ -18,12 +19,13 @@ public class BookCollectionMetadata {
     * is not provided in the JSON object, the Java field gets the default Java
     * value, i.e. 0 for int
     */
-    public BookCollectionMetadata(@JsonProperty("collectionId") String collectionId, @JsonProperty("bookId") String bookId, @JsonProperty("formatType") String formatType, @JsonProperty("bookTitle") String bookTitle, @JsonProperty("bookLength") int bookLength, @JsonProperty("contributors") Contributor[] contributors){
+    public BookCollectionMetadata(@JsonProperty("collectionId") String collectionId, @JsonProperty("bookId") String bookId, @JsonProperty("formatType") String formatType, @JsonProperty("bookTitle") String bookTitle, @JsonProperty("bookLength") int bookLength, @JsonProperty("genres") Genre[] genres, @JsonProperty("contributors") Contributor[] contributors){
         this.collectionId = collectionId;
         this.bookId = bookId;
         this.bookTitle = bookTitle;
         this.formatType = formatType;
         this.bookLength = bookLength;
+        this.genres = genres;
         this.contributors = contributors;
     }
 

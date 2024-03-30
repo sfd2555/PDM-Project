@@ -8,8 +8,7 @@ export const BookDeleteForm = ({collectionId, bookId} : {collectionId: string, b
     }
     return (
         <form onSubmit={handleSubmit}>
-            <label>Remove:</label>
-            <input type="submit"></input>
+            <input value="Remove book" type="submit"></input>
         </form>
     )
 }

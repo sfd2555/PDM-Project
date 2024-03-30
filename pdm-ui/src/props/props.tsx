@@ -25,6 +25,7 @@ export interface Contains {
     bookTitle: string;
     formatType: string;
     bookLength: number;
+    genres: Genre[];
     contributors: Contributor[];
 }
 

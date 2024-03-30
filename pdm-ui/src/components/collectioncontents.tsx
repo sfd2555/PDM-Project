@@ -14,6 +14,9 @@ export const CollectionContents = ({collectionId, collectionName, accountId} : {
     let [contents, setContents] = useState(initialValue);
     let [searchString, setSearchString] = useState("")
     let [retrieved, setRetrieved] = useState(false);
+    let [sortParameter, setSortParameter] = useState("title")
+    let [sortOrder, setSortOrder]: any = useState("ascending"); // Default to ascending
+    let [searchParameter, setSearchParameter] = useState("title")
     let navigator = useNavigate()
     
 
@@ -22,7 +25,7 @@ export const CollectionContents = ({collectionId, collectionName, accountId} : {
         searchCollectionContents(collectionId, searchString).then((results) => {
             console.log(results);
             if(results.length >= 0) {
-                setContents(results);
+                setContents(results.sort((b1, b2) => b1.bookTitle < b2.bookTitle ? -1 : 1));
             }
         });
         setRetrieved(true);
@@ -66,9 +69,10 @@ export const CollectionContents = ({collectionId, collectionName, accountId} : {
                                 e.preventDefault()
                                 navigator('/books/' + book.bookId)
                             }}>{book.bookTitle}</a></h3>
-                            <p>Pages: {book.bookLength}</p>
-                            <p>Format: {book.formatType}</p>
-                            <Contributors contributors={book.contributors}/>
+                            Pages: {book.bookLength}<br/>
+                            Format: {book.formatType}<br/>
+                            Genre(s): {book.genres.map(g => g.genreName).join(", ")}<br/>
+                            Contributors: {book.contributors.map(g => `${g.contributorName} (${g.contributorType})`).join(", ")}<br/>
                             <BookDeleteForm collectionId={collectionId} bookId={book.bookId}/>
                             <BookRateForm accountId={accountId} bookId={book.bookId}/>
                         </div>
