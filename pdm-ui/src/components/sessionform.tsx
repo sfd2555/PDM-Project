@@ -2,7 +2,7 @@ import { useState } from "react"
 import { addSession } from "../services/sessionservice"
 import { Account } from "../props/props"
 import { GetUserContext } from "./accountcontext"
-import { searchBookTitle } from "../services/bookservice"
+import { getBook, searchBookTitle } from "../services/bookservice"
 
 export const SessionForm = () => {
     let accountId: Account | undefined = GetUserContext()
@@ -15,21 +15,39 @@ export const SessionForm = () => {
 
     const handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault()
+        if(bookId == "") {
         searchBookTitle(bookTitle).then((results) => {
             console.log(results);
             setbookId(results[0].bookId)
-        });
+        }); 
+        }
         addSession(accountId?.accountId!, bookId, startTime, endTime, (endPage-startPage).toString())
+    }
+
+    const randomBook = (event: { preventDefault: () => void; }) => {
+        event.preventDefault()
+        let randombookid: number = Math.round(Math.random()*50)
+        let string = "0000ZZ"
+        if (randombookid<10) {
+            setbookId(string.replace("ZZ", "0".concat(randombookid.toString())))
+        } else {
+            setbookId(string.replace("ZZ", randombookid.toString()))
+        }
+        getBook(bookId).then((result) => {
+            console.log(result);
+            setbookTitle(result.bookTitle)
+        }); 
     }
 
     return (
         <form onSubmit={handleSubmit}>
             <h3>Create Session</h3>
-            <label>Book Title: </label>
+            <label>Book Title: {bookTitle}</label>
             <input type="text" onChange={(e) => {
                 e.preventDefault();
                 setbookTitle(e.target.value);
             }}></input>
+            <button onClick={randomBook}>Random Book</button>
             <label>Start: </label>
             <input type="datetime-local" onChange={(e) => {
                 e.preventDefault();
