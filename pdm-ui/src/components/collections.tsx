@@ -27,12 +27,12 @@ export const Collections = ({userId} : {userId : string}) => {
                     collections.map((collection) => {
                         return(
                             <div key={collection.collectionId}>
-                                <h3><a href='/user/collections/'
+                                <h2><a href='/user/collections/'
                                     onClick={(e)=> {
                                     e.preventDefault();
                                     navigator('/user/collections/'+ userId +'/' + collection.collectionId );
                                 }}
-                                >{collection.collectionName}</a></h3>
+                                >{collection.collectionName}</a></h2>
                                 <p>Entries: {collection.collectionEntries}</p>
                                 <p>Total pages: {collection.collectionVolume}</p>
                             </div>
