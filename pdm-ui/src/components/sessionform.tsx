@@ -9,7 +9,8 @@ export const SessionForm = () => {
     let [bookTitle, setbookTitle] = useState("")
     let [startTime, setStartTime] = useState(new Date())
     let [endTime, setEndTime] = useState(new Date())
-    let [progress, setProgress] = useState("")
+    let [startPage, setstartPage] = useState(0)
+    let [endPage, setendPage] = useState(0)
     let [bookId, setbookId] = useState("")
 
     const handleSubmit = (event: { preventDefault: () => void; }) => {
@@ -18,7 +19,7 @@ export const SessionForm = () => {
             console.log(results);
             setbookId(results[0].bookId)
         });
-        addSession(accountId?.accountId!, bookId, startTime, endTime, progress)
+        addSession(accountId?.accountId!, bookId, startTime, endTime, (endPage-startPage).toString())
     }
 
     return (
@@ -39,9 +40,13 @@ export const SessionForm = () => {
                 e.preventDefault();
                 setEndTime(new Date(e.target.value));
             }}></input>
-            <label>Pages Read:</label>
+            <label>Starting Page:</label>
             <input type="number" onChange={(e) => {
-                setProgress(e.target.value.toString());
+                setstartPage(+e.target.value);
+            }}></input>
+            <label>Ending Page:</label>
+            <input type="number" onChange={(e) => {
+                setendPage(+e.target.value);
             }}></input>
             <input type="submit"></input>
         </form>
