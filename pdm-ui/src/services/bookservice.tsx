@@ -1,7 +1,13 @@
-import { Audience, Book, Contributor, Format, Genre } from "../props/props";
+import {Audience, Book, Contributor, Format, Genre, RefinedBook} from "../props/props";
 
 export async function getBook(bookId: string): Promise<Book> {
     const respose = await fetch('http://localhost:8080/book/' + bookId);
+    const data = await respose.json();
+    return data;
+}
+
+export async function getRefinedBook(bookId: string): Promise<RefinedBook> {
+    const respose = await fetch('http://localhost:8080/book/refined/' + bookId);
     const data = await respose.json();
     return data;
 }
