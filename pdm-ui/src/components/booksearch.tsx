@@ -23,7 +23,7 @@ export const BookSearch = ({book, collectionId} : {book: Book, collectionId:stri
 
     const handleSubmit = () => {
         console.log(selectedFormat);
-        addToCollection(collectionId, book.bookId, selectedFormat).then()
+        addToCollection(collectionId, book.bookId, selectedFormat)
     }
 
     return(
@@ -32,7 +32,7 @@ export const BookSearch = ({book, collectionId} : {book: Book, collectionId:stri
             <form onSubmit={handleSubmit}>
                 <select value={selectedFormat} onChange={(e) => {
                     e.preventDefault();
-                    setSelectedFormat(e.target.value);
+                    setSelectedFormat(selectedFormat);
                 }}>{formats.map((format) => {
                         return (
                             <option value={format.formatId}>{format.formatType}</option>

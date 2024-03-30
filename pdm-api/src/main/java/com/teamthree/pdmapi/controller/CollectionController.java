@@ -124,12 +124,12 @@ public class CollectionController {
      * @return ResponseEntity of true upon success
      *         ResponseEntity of false upon failure
      */
-    @DeleteMapping("/{collectionId}/{bookId}")
+    @DeleteMapping("/removeBook")
     @ResponseBody
     public ResponseEntity<Boolean> removeBook(
-            @PathVariable("collectionId") String collectionId,
-            @PathVariable("bookId") String bookId) {
-        LOG.info("DELETE /collection/" + collectionId + "/" + bookId);
+            @RequestParam("collectionId") String collectionId,
+            @RequestParam("bookId") String bookId) {
+        LOG.info("DELETE /collection/removeBook?collectionId=" + collectionId + "&bookId=" + bookId);
         boolean result = collectionDAO.removeBook(collectionId, bookId);
         return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.CONFLICT);
     }

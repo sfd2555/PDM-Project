@@ -51,7 +51,7 @@ export async function removeBookFromCollection(collectionId: string, bookId: str
     const requestOptions = {
         method: 'DELETE',
     }
-    const response = await fetch('http://localhost:8080/collection/' + collectionId + "/" + bookId, requestOptions);
+    const response = await fetch('http://localhost:8080/collection/removeBook?collectionId=' + collectionId + "&bookId=" + bookId, requestOptions);
     const data = await response.json();
     return data;
 

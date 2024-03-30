@@ -30,6 +30,15 @@ export async function addFriend(userId: string, friendEmail: string): Promise<bo
     return data;
 }
 
+export async function removeFriend(userId: string, friendId: string): Promise<boolean> {
+    const requestOptions = {
+        method: 'POST',
+    }
+    const response = await fetch('http://localhost:8080/account/removeFriend?account_id=' + userId + "&friend_id=" + friendId, requestOptions)
+    const data = await response.json();
+    return data;
+}
+
 export async function getFriends(userId: string): Promise<Account[]> {
     const response = await fetch('http://localhost:8080/account/friend/' + userId);
     const data = await response.json();
