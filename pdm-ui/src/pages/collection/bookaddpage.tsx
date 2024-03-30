@@ -53,7 +53,7 @@ export const BookAddPage = () => {
                         case "released-year":
                             const y1 = parseInt(b1.formats[0].releaseDate.split('-')[0], 10);
                             const y2 = parseInt(b2.formats[0].releaseDate.split('-')[0], 10);
-                            n = y1 - y1;
+                            n = y1 - y2;
                             break;
                         default:
                             n = 0;
