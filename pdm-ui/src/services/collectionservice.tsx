@@ -66,3 +66,13 @@ export async function updateCollectionName(collectionId: string, newName: string
     return data;
 
 }
+
+export async function removeCollection(collectionId: string): Promise<boolean> {
+    const requestOptions = {
+        method: 'DELETE',
+    }
+    const response = await fetch('http://localhost:8080/collection/' + collectionId, requestOptions);
+    const data = await response.json();
+    return data;
+
+}
