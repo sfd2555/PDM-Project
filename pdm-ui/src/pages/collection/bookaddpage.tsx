@@ -13,7 +13,7 @@ import { UserHeader } from "../../components/userheader";
 
 export const BookAddPage = () => {
     let { collectionId } = useParams()
-    let initialValue: RefinedBook[] = [];
+    let initialValue: Book[] = [];
     let [contents, setContents] = useState(initialValue);
     let [searchString, setSearchString] = useState("")
     let [sortParameter, setSearchParameter] = useState("title")

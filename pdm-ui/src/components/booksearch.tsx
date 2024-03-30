@@ -5,7 +5,7 @@ import { SingleValue, ActionMeta, InputActionMeta } from "react-select"
 import { addToCollection } from "../services/collectionservice"
 import Select from "react-select"
 
-export const BookSearch = ({book, collectionId} : {book: RefinedBook, collectionId:string}) => {
+export const BookSearch = ({book, collectionId} : {book: Book, collectionId:string}) => {
     let initialValue: Format[] = []
     let [formats, setFormat] = useState(initialValue);
     let [selectedFormat, setSelectedFormat] = useState("")
