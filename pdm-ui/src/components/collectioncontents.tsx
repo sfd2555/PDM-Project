@@ -39,40 +39,39 @@ export const CollectionContents = ({collectionId, collectionName, accountId} : {
     }
     
     return (
-            <div>
-                <CollectionNameForm collectionId={collectionId}/>
-                <h3><a href="/" onClick={(e)=>{
+        <div>
+            <CollectionNameForm collectionId={collectionId}/>
+            <input type="submit" value="Delete Collection"></input>
+            <h3><a href="/" onClick={(e) => {
                 e.preventDefault()
-                navigator('/user/collections/' + collectionId +'/add')
-                }}>Add to Collection</a></h3>
-                <br></br>
-                <label>Search: </label>
-                <form onSubmit={handleSubmit}>
-                    <input type="text" value = {searchString} onChange={(e) => setSearchString(e.target.value)}></input>
-                    <input type="submit"></input>
-                </form>
-                
-                {
-                    contents.map((book) => {
-                        return(
-                            <div key={book.bookId}>
-                                <h3><a id="title" href="/" onClick={(e)=>{
-                                    e.preventDefault()
-                                    navigator('/books/' + book.bookId)
-                                }}>{book.bookTitle}</a></h3>
-                                <p>Pages: {book.bookLength}</p>
-                                <p>Format: {book.formatType}</p>
-                                <Contributors contributors={book.contributors}/>
-                                <BookDeleteForm collectionId={collectionId} bookId={book.bookId}/>
-                                <BookRateForm accountId={accountId} bookId={book.bookId}/>
-                            </div>
-                        )
-                    })
-                }
-                
-            </div>    
-    )
+                navigator('/user/collections/' + collectionId + '/add')
+            }}>Add to Collection</a></h3>
+            <br></br>
+            <label>Search: </label>
+            <form onSubmit={handleSubmit}>
+                <input type="text" value={searchString} onChange={(e) => setSearchString(e.target.value)}></input>
+                <input type="submit"></input>
+            </form>
+            {
+                contents.map((book) => {
+                    return (
+                        <div key={book.bookId}>
+                            <h3><a id="title" href="/" onClick={(e) => {
+                                e.preventDefault()
+                                navigator('/books/' + book.bookId)
+                            }}>{book.bookTitle}</a></h3>
+                            <p>Pages: {book.bookLength}</p>
+                            <p>Format: {book.formatType}</p>
+                            <Contributors contributors={book.contributors}/>
+                            <BookDeleteForm collectionId={collectionId} bookId={book.bookId}/>
+                            <BookRateForm accountId={accountId} bookId={book.bookId}/>
+                        </div>
+                    )
+                })
+            }
 
+        </div>
+    )
 
 
 }
