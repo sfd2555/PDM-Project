@@ -429,7 +429,31 @@ public class BookDatabaseDAO implements BookDAO {
             return books.toArray(new Book[0]);
         }
 
-        /**
+    @Override
+    public Book[] searchGenreName(String genreName) {
+        String query = "SELECT book.* FROM book INNER JOIN book_genre ON book.book_id = book_genre.book_id INNER JOIN genre ON book_genre.genre_id = genre.genre_id WHERE genre.genre_name = '" + genreName + "';";
+        List<Book> books = new ArrayList<>();
+        try {
+            Statement stmt = ch.getConnection(false).createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs != null) {
+                while(rs.next()) {
+                    String bookId = rs.getString("book_id");
+                    String bookTitle = rs.getString("book_title");
+                    Book book = new Book(bookId, bookTitle);
+                    books.add(book);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            ch.closeConnection();
+        }
+        return books.toArray(new Book[0]);
+    }
+
+    /**
          * {@inheritDoc}
         */
         @Override

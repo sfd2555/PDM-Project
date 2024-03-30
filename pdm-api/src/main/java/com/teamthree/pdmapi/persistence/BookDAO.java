@@ -54,6 +54,13 @@ public interface BookDAO {
          */
         public Book[] searchGenre(String genreId);
 
+        /**
+         * Searches for all books with the given genre name
+         * @param genreName the genre id
+         * @return the list of books
+         */
+        public Book[] searchGenreName(String genreName);
+
 
         /**
         * Sets a contributor for the book and how they contributed

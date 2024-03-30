@@ -90,16 +90,7 @@ public class BookController {
     public ResponseEntity<RefinedBook[]> searchRefinedBookTitle(@RequestParam("bookTitle") String bookTitle) {
         LOG.info("GET /book/refined/search/title?bookTitle=" + bookTitle);
         Book[] temp_result = bookDAO.searchBook(bookTitle);
-        RefinedBook[] result = new RefinedBook[temp_result.length];
-        for (int i = 0; i < temp_result.length; i++) {
-            System.out.println(i);
-            Book book = temp_result[i];
-            Format[] formats = bookDAO.getBookFormats(book.getBookId());
-            Contributor[] contributors = bookDAO.getBookContributors(book.getBookId());
-            Genre[] genres = bookDAO.getBookGenres(book.getBookId());
-            result[i] = new RefinedBook(book.getBookId(), book.getBookTitle(), formats, contributors, genres);
-        }
-
+        RefinedBook[] result = refineBookList(temp_result);
         return new ResponseEntity<RefinedBook[]>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 
@@ -271,6 +262,20 @@ public class BookController {
     }
 
     /**
+     * Searchs for all refined books with the given genre name
+     * @param genreName the genre name
+     * @return a list of books
+     */
+    @ResponseBody
+    @GetMapping("/refined/genre/name/")
+    public ResponseEntity<RefinedBook[]> searchRefinedGenreName(@RequestParam("genreName") String genreName) {
+        LOG.info("GET /book/refined/genre/name/?genreName=" + genreName);
+        Book[] temp_result = bookDAO.searchGenreName(genreName);
+        RefinedBook[] result = refineBookList(temp_result);
+        return new ResponseEntity<RefinedBook[]>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
+    }
+
+    /**
      * Searches for all books with the given contributor
      * @param contributorId the contributor id
      * @return a list of books
@@ -304,5 +309,18 @@ public class BookController {
         LOG.info("GET /book/audience/" + audienceId);
         Book[] result = bookDAO.searchAudience(audienceId);
         return new ResponseEntity<Book[]>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
+    }
+
+    private RefinedBook[] refineBookList(Book[] books) {
+        RefinedBook[] result = new RefinedBook[books.length];
+        for (int i = 0; i < books.length; i++) {
+            System.out.println(i);
+            Book book = books[i];
+            Format[] formats = bookDAO.getBookFormats(book.getBookId());
+            Contributor[] contributors = bookDAO.getBookContributors(book.getBookId());
+            Genre[] genres = bookDAO.getBookGenres(book.getBookId());
+            result[i] = new RefinedBook(book.getBookId(), book.getBookTitle(), formats, contributors, genres);
+        }
+        return result;
     }
 }

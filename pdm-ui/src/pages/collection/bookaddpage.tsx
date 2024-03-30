@@ -6,7 +6,7 @@ import {
     getBookFormats,
     getBookGenres,
     getRefinedBook,
-    searchBookTitle, searchRefinedBookTitle
+    searchBookTitle, searchRefinedBookTitle, searchRefinedGenreName
 } from "../../services/bookservice";
 import { BookSearch } from "../../components/booksearch";
 import { UserHeader } from "../../components/userheader";
