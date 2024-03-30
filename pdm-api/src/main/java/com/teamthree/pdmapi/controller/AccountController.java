@@ -47,7 +47,7 @@ public class AccountController {
     @PostMapping("/register")
     @ResponseBody
     public ResponseEntity<Boolean> createAccount(@RequestParam("user") String user, @RequestParam("pass") String pass, @RequestParam("first") String first, @RequestParam("last") String last, @RequestParam("email") String email) {
-        LOG.info("POST /account/register?user = " + user + "&pass=" + pass + "&first=" + first + "&last=" + last + "&email=" + email);
+        LOG.info("POST /account/register?user=" + user + "&pass=" + pass + "&first=" + first + "&last=" + last + "&email=" + email);
         boolean result = accountDAO.createAccount(user, pass, first, last, email);
         return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.CONFLICT);
         
