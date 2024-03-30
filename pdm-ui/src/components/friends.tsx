@@ -3,6 +3,7 @@ import { Account } from '../props/props';
 import { getFriends } from '../services/accountservice';
 import { useNavigate } from 'react-router-dom';
 import { removeFriend } from "../services/accountservice"
+import { FriendDeleteForm } from './frienddeleteform';
 
 export const Friends = ({userId} : {userId : string}) => {
     let initialValue: Account[] = [];
@@ -38,9 +39,7 @@ export const Friends = ({userId} : {userId : string}) => {
                                 <p>{friend.accountLogin}</p>
                                 <p>Last Online: {friend.accountLastAccessDate.toString()}</p>
                                 <p>Account Created: {friend.accountCreationDate.toString()}</p>
-                                <form onSubmit={handleSubmit}>
-                                <input type="submit"></input>
-                                </form>
+                                <FriendDeleteForm friend_id={friend.accountId}/>
                             </div>
                         )
                     })
