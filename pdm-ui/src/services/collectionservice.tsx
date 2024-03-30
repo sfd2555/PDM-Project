@@ -13,7 +13,7 @@ export async function addToCollection(collectionId: string, bookId: string, form
     const requestOptions = {
         method: 'POST',
     }
-    const response = await fetch('http://localhost:8080/collection/addBook?collectionId=' + collectionId + "&bookId=" + bookId + "&formatId=" + formatId, requestOptions);
+    const response = await fetch('http://localhost:8080/collection/addBook?collectionId=' + collectionId + '&bookId=' + bookId + '&formatId=' + formatId, requestOptions);
     const data = await response.json();
     return data;
 }
@@ -62,6 +62,16 @@ export async function updateCollectionName(collectionId: string, newName: string
         method: 'PUT',
     }
     const response = await fetch('http://localhost:8080/collection/updateName?collectionId=' + collectionId + '&newName=' + newName, requestOptions);
+    const data = await response.json();
+    return data;
+
+}
+
+export async function removeCollection(collectionId: string): Promise<boolean> {
+    const requestOptions = {
+        method: 'DELETE',
+    }
+    const response = await fetch('http://localhost:8080/collection/' + collectionId, requestOptions);
     const data = await response.json();
     return data;
 

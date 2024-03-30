@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Contains } from "../props/props";
-import { searchCollectionContents } from "../services/collectionservice";
+import { removeCollection, searchCollectionContents } from "../services/collectionservice";
 import { Contributors } from "./contributors";
 import { useNavigate } from "react-router-dom";
 import { BookDeleteForm } from "./bookdeleteform";
@@ -37,11 +37,17 @@ export const CollectionContents = ({collectionId, collectionName, accountId} : {
             }
         });
     }
+
+    const deleteSession = (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+        removeCollection(collectionId)
+    }
     
     return (
         <div>
             <CollectionNameForm collectionId={collectionId}/>
-            <input type="submit" value="Delete Collection"></input>
+            <br></br>
+            <input type="submit" value="Delete Collection" onClick={deleteSession}></input>
             <h3><a href="/" onClick={(e) => {
                 e.preventDefault()
                 navigator('/user/collections/' + collectionId + '/add')

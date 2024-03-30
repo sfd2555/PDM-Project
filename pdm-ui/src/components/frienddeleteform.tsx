@@ -11,6 +11,7 @@ export const FriendDeleteForm = ({friend_id} : {friend_id: string}) => {
     }
     return (
         <form onSubmit={handleSubmit}>
+            <label>Unfollow:</label>
             <input type="submit"></input>
         </form>
     )

@@ -8,7 +8,8 @@ import Select from "react-select"
 export const BookSearch = ({book, collectionId} : {book: RefinedBook, collectionId:string}) => {
     let [selectedFormat, setSelectedFormat] = useState(book.formats[0].formatId)
 
-    const handleSubmit = () => {
+    const handleSubmit = (event: { preventDefault: () => void; }) => {
+        event.preventDefault()
         console.log(selectedFormat);
         addToCollection(collectionId, book.bookId, selectedFormat)
     }
@@ -24,7 +25,7 @@ export const BookSearch = ({book, collectionId} : {book: RefinedBook, collection
             Contributors: {book.contributors.map(g => `${g.contributorName} (${g.contributorType})`).join(", ")}
             <form onSubmit={(e) => {
                 e.preventDefault(); // Prevent default form submission
-                handleSubmit();
+                handleSubmit(e);
             }}>
                 <select value={selectedFormat} onChange={(e) => {
                     setSelectedFormat(e.target.value);
