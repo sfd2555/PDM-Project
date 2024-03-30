@@ -24,15 +24,14 @@ export const Sessions = ({userId, username} : {userId : string, username : strin
     return (
 
             <div>
+                <SessionForm/>
                 {
                     sessions.map((session) => {
-
                         return(
                             <div>
                                 <h3>{session.bookTitle}</h3>
-                                <p>Start: {session.sessionStart.toString()} - End: {session.sessionEnd.toString()}</p>
+                                <p>Start: {new Date(session.sessionStart).toUTCString()} - End: {new Date(session.sessionEnd).toUTCString()}</p>
                                 <p>Pages Read: {session.sessionProgress}</p>
-                                <SessionForm accountId={userId} bookId={session.bookId} />
                             </div>
                         )
                     })
