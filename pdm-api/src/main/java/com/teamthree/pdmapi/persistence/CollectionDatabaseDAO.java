@@ -184,7 +184,13 @@ public class CollectionDatabaseDAO implements CollectionDAO{
         if(str == null) {
             str = "";
         }
-        String query = "SELECT c.collection_id, c.book_id, b.book_title, f.format_type, bf.length_pages FROM Contains as c INNER JOIN Book as b ON c.book_id = b.book_id INNER JOIN Format as f ON c.format_id = f.format_id INNER JOIN book_format bf ON c.format_id = bf.format_id WHERE c.collection_id='" + collectionId + "' AND b.book_title LIKE '%" + str + "%'";
+        String query = "SELECT c.collection_id, c.book_id, b.book_title, f.format_type, bf.length_pages " +
+                "FROM Contains AS c " +
+                "INNER JOIN Book AS b ON c.book_id = b.book_id " +
+                "INNER JOIN Format AS f ON c.format_id = f.format_id " +
+                "INNER JOIN book_format AS bf ON c.book_id = bf.book_id AND c.format_id = bf.format_id " +
+                "WHERE c.collection_id = '" + collectionId + "' " +
+                "AND b.book_title LIKE '%" + str + "%';";
         List<BookCollectionMetadata> books = new ArrayList<>();
         try{
             Statement stmt = connHandler.getConnection(false).createStatement();
@@ -235,13 +241,13 @@ public class CollectionDatabaseDAO implements CollectionDAO{
      */
     @Override
     public CollectionMetadata[] getCollectionMetadata(String accountId) {
-        String query = "SELECT co.collection_id, co.account_id, co.collection_name, count(ca.book_id) as entries, coalesce(sum(bf.length_pages), 0) as volume\r\n" + //
-                        "FROM collection AS co\r\n" + //
-                        "LEFT JOIN contains as ca ON co.collection_id = ca.collection_id\r\n" + //
-                        "LEFT JOIN book_format as bf ON ca.format_id = bf.format_id\r\n" + //
-                        "WHERE co.account_id = '" + accountId + "'\r\n" +
-                        "GROUP BY co.collection_id\r\n" +
-                        "ORDER BY co.collection_name;";
+        String query = "SELECT co.collection_id, co.account_id, co.collection_name, COUNT(DISTINCT ca.book_id) AS entries, COALESCE(SUM(bf.length_pages), 0) AS volume " +
+                "FROM collection AS co " +
+                "LEFT JOIN contains AS ca ON co.collection_id = ca.collection_id " +
+                "LEFT JOIN book_format AS bf ON ca.book_id = bf.book_id AND ca.format_id = bf.format_id " +
+                "WHERE co.account_id = '" + accountId + "' " +
+                "GROUP BY co.collection_id " +
+                "ORDER BY co.collection_name;";
         List<CollectionMetadata> collections = new ArrayList<>();
         try{
             Statement stmt = connHandler.getConnection(false).createStatement();

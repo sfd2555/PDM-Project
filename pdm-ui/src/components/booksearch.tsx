@@ -6,7 +6,7 @@ import { addToCollection } from "../services/collectionservice"
 import Select from "react-select"
 
 export const BookSearch = ({book, collectionId} : {book: RefinedBook, collectionId:string}) => {
-    let [selectedFormat, setSelectedFormat] = useState("")
+    let [selectedFormat, setSelectedFormat] = useState(book.formats[0].formatId)
 
     const handleSubmit = () => {
         console.log(selectedFormat);
@@ -22,16 +22,20 @@ export const BookSearch = ({book, collectionId} : {book: RefinedBook, collection
             Publishing Date: {book.formats[0]?.releaseDate}
             <br/>
             Contributors: {book.contributors.map(g => `${g.contributorName} (${g.contributorType})`).join(", ")}
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e) => {
+                e.preventDefault(); // Prevent default form submission
+                handleSubmit();
+            }}>
                 <select value={selectedFormat} onChange={(e) => {
-                    e.preventDefault();
                     setSelectedFormat(e.target.value);
-                }}>{book.formats.map((format) => {
-                    return (
-                        <option key={format.formatId} value={format.formatId}>{format.formatType}</option>
-                    )
-                })}</select>
-                <input type="submit"/>
+                }}>
+                    {book.formats.map((format) => (
+                        <option key={format.formatId} value={format.formatId}>
+                            {format.formatType}
+                        </option>
+                    ))}
+                </select>
+                <input type="submit" value="Submit Query"/>
             </form>
         </div>
     )
