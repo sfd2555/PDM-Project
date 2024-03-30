@@ -1,8 +1,10 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { addSession } from "../services/sessionservice"
-import { Account } from "../props/props"
+import { Account, CollectionMetadata } from "../props/props"
 import { GetUserContext } from "./accountcontext"
 import { getBook, searchBookTitle } from "../services/bookservice"
+import { getCollection, getUserCollectionsMetadata, searchCollectionContents } from '../services/collectionservice';
+
 
 export const SessionForm = () => {
     let accountId: Account | undefined = GetUserContext()
@@ -12,6 +14,21 @@ export const SessionForm = () => {
     let [startPage, setstartPage] = useState(0)
     let [endPage, setendPage] = useState(0)
     let [bookId, setbookId] = useState("")
+    let initialValue: CollectionMetadata[] = [];
+    let [collections, setcollections] = useState(initialValue)
+    let [retrieved, setRetrieved] = useState(false);
+    let [selectedcollection, setselectedcollection] = useState("")
+
+
+    useEffect(() => {
+        if(accountId?.accountId === "" || accountId?.accountId === undefined || retrieved) return;
+        getUserCollectionsMetadata(accountId?.accountId).then((results) => {
+            if(results.length >= 0) {
+                setcollections(results);
+            }
+        });
+        setRetrieved(true)
+    }, [collections]);
 
     const handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault()
@@ -26,13 +43,17 @@ export const SessionForm = () => {
 
     const randomBook = (event: { preventDefault: () => void; }) => {
         event.preventDefault()
-        let randombookid: number = Math.round(Math.random()*50)
-        let string = "0000ZZ"
-        if (randombookid<10) {
-            setbookId(string.replace("ZZ", "0".concat(randombookid.toString())))
-        } else {
-            setbookId(string.replace("ZZ", randombookid.toString()))
+        if(selectedcollection == "" ) {
+            setselectedcollection(collections[0].collectionId)
         }
+        searchCollectionContents(selectedcollection, "").then((results) => {
+            console.log(results)
+            let ids: string[] = []
+            for(let i=0; i<results.length-1; i++) {
+                ids.push(results[i].bookId)
+            }
+            setbookId(ids[Math.round(Math.random()*(ids.length-1))])
+        })
         getBook(bookId).then((result) => {
             console.log(result);
             setbookTitle(result.bookTitle)
@@ -48,6 +69,14 @@ export const SessionForm = () => {
                 setbookTitle(e.target.value);
             }}></input>
             <button onClick={randomBook}>Random Book</button>
+            <select onChange={(e) => setselectedcollection(e.target.value)}>
+                {collections.map((collection) => {
+                        return (
+                            <option value={collection.collectionId}>{collection.collectionName}</option>
+                        )
+                    })
+                }
+            </select>
             <label>Start: </label>
             <input type="datetime-local" onChange={(e) => {
                 e.preventDefault();
