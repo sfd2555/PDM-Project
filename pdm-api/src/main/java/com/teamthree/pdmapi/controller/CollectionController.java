@@ -107,12 +107,12 @@ public class CollectionController {
      * @return ResponseEntity of true upon success
      *         ResponseEntity of false upon failure
      */
-    @PostMapping("/{collectionId}")
+    @PostMapping("/addBook")
     @ResponseBody
     public ResponseEntity<Boolean> addBookToCollection(
-            @PathVariable("collectionId") String collectionId,
+            @RequestParam("collectionId") String collectionId,
             @RequestParam("bookId") String bookId, @RequestParam("formatId") String formatId) {
-        LOG.info("POST /collection/" + collectionId + "?bookId=" + bookId + "&formatId=" + formatId);
+        LOG.info("POST /collection/addBook?collectionId=" + collectionId + "&bookId=" + bookId + "&formatId=" + formatId);
         boolean result = collectionDAO.addBookToCollection(collectionId, bookId, formatId);
         return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.CONFLICT);
     }

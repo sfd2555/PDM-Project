@@ -15,6 +15,7 @@ export const CollectionForm = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
+                <h3>Create New Collection:</h3>
                 <label>Collection Name:</label>
                 <input type="text" value = {collectionName} onChange={(e) => setCollectionName(e.target.value)}></input>
                 <input type="submit"></input>

@@ -14,7 +14,7 @@ export const CollectionNameForm = ({collectionId} : {collectionId: string}) => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <label>New Name:</label>
+                <h3>New Name:</h3>
                 <input type="text" value = {collectionName} onChange={(e) => setCollectionName(e.target.value)}></input>
                 <input type="submit"></input>
             </form>

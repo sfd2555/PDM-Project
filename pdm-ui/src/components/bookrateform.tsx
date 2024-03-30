@@ -11,7 +11,7 @@ export const BookRateForm = ({accountId, bookId} : {accountId: string, bookId: s
 
     return (
         <form onSubmit={handleSubmit}>
-            <h3>Rate Book</h3>
+            <h4>Rate Book</h4>
             <input type="number" max="5" min="0" value={rating} onChange={(e) => {
                 e.preventDefault()
                 setRating(parseInt(e.target.value));

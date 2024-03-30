@@ -13,7 +13,7 @@ import { UserHeader } from "../../components/userheader";
 
 export const BookAddPage = () => {
     let { collectionId } = useParams()
-    let initialValue: Book[] = [];
+    let initialValue: RefinedBook[] = [];
     let [contents, setContents] = useState(initialValue);
     let [searchString, setSearchString] = useState("")
     let [sortParameter, setSearchParameter] = useState("title")
@@ -62,7 +62,7 @@ export const BookAddPage = () => {
         <div>
             <UserHeader />
             <form onSubmit={handleSubmit}>
-                <label>Search Books</label>
+                <h3>Search Books</h3>
                 <select onChange={(e) => {
                     // This is where you would handle the change
                 }}>

@@ -13,7 +13,7 @@ export async function addToCollection(collectionId: string, bookId: string, form
     const requestOptions = {
         method: 'POST',
     }
-    const response = await fetch('http://localhost:8080/collection/' + collectionId + "?bookId=" + bookId + "&formatId=" + formatId, requestOptions);
+    const response = await fetch('http://localhost:8080/collection/addBook?collectionId=' + collectionId + "&bookId=" + bookId + "&formatId=" + formatId, requestOptions);
     const data = await response.json();
     return data;
 }
