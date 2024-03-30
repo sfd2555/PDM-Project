@@ -6,7 +6,7 @@ import {
     getBookFormats,
     getBookGenres,
     getRefinedBook,
-    searchBookTitle
+    searchBookTitle, searchRefinedBookTitle
 } from "../../services/bookservice";
 import { BookSearch } from "../../components/booksearch";
 import { UserHeader } from "../../components/userheader";
@@ -22,17 +22,11 @@ export const BookAddPage = () => {
 
     const handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        searchBookTitle(searchString).then(async (results) => {
-            let refined_results: RefinedBook[] = [];
-            for (let b of results) {
-                await getRefinedBook(b.bookId).then(rb => {
-                    refined_results.push(rb)
-                })
-            }
-            console.log(refined_results)
-            if(refined_results.length >= 0) {
+        searchRefinedBookTitle(searchString).then(async (results) => {
+            console.log(results)
+            if(results.length >= 0) {
 
-                setContents(refined_results.sort((b1, b2) => {
+                setContents(results.sort((b1, b2) => {
                     let n: number = 0;
                     switch(sortParameter) {
                         case "title":

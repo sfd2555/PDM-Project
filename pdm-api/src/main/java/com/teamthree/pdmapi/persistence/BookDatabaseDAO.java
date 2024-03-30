@@ -18,7 +18,7 @@ import com.teamthree.pdmapi.model.Genre;
  * 
  * @author Caiden Williams, Sean Droll
  */
-public class BookDatabaseDAO implements BookDAO{
+public class BookDatabaseDAO implements BookDAO {
 
         private final ConnectionHandler ch;
 
@@ -113,7 +113,8 @@ public class BookDatabaseDAO implements BookDAO{
             return books.toArray(new Book[0]);
         }
 
-        /**
+
+    /**
          * {@inheritDoc}
         */
         @Override

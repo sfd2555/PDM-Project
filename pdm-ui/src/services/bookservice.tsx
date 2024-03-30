@@ -43,6 +43,12 @@ export async function searchBookTitle(bookTitle: string): Promise<Book[]> {
     return data;
 }
 
+export async function searchRefinedBookTitle(bookTitle: string): Promise<RefinedBook[]> {
+    const respose = await fetch('http://localhost:8080/book/refined/search/title?bookTitle=' + bookTitle);
+    const data = await respose.json();
+    return data;
+}
+
 
 export async function rateBook(accountId: string, bookId: string, rating: number): Promise<boolean> {
     const requestOptions = {

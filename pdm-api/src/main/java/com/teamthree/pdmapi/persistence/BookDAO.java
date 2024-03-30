@@ -1,13 +1,8 @@
 package com.teamthree.pdmapi.persistence;
 
-import com.teamthree.pdmapi.model.Book;
-import com.teamthree.pdmapi.model.Contributor;
-import com.teamthree.pdmapi.model.Format;
-import com.teamthree.pdmapi.model.Genre;
+import com.teamthree.pdmapi.model.*;
 
 import java.util.Date;
-
-import com.teamthree.pdmapi.model.Audience;
 
 /**
  * Allows access to a books data

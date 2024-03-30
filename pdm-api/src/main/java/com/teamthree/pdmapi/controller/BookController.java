@@ -81,6 +81,29 @@ public class BookController {
     }
 
     /**
+     * Gets a list of refined books with the given title
+     * @param bookTitle the title of the book
+     * @return the list books with the given title
+     */
+    @GetMapping("/refined/search/title")
+    @ResponseBody
+    public ResponseEntity<RefinedBook[]> searchRefinedBookTitle(@RequestParam("bookTitle") String bookTitle) {
+        LOG.info("GET /book/refined/search/title?bookTitle=" + bookTitle);
+        Book[] temp_result = bookDAO.searchBook(bookTitle);
+        RefinedBook[] result = new RefinedBook[temp_result.length];
+        for (int i = 0; i < temp_result.length; i++) {
+            System.out.println(i);
+            Book book = temp_result[i];
+            Format[] formats = bookDAO.getBookFormats(book.getBookId());
+            Contributor[] contributors = bookDAO.getBookContributors(book.getBookId());
+            Genre[] genres = bookDAO.getBookGenres(book.getBookId());
+            result[i] = new RefinedBook(book.getBookId(), book.getBookTitle(), formats, contributors, genres);
+        }
+
+        return new ResponseEntity<RefinedBook[]>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
+    }
+
+    /**
      * Creates a book from the given title
      * @param bookTitle the book title
      * @return whether or not the book was successfully created
