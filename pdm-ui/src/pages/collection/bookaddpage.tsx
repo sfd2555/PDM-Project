@@ -88,17 +88,17 @@ export const BookAddPage = () => {
                     setSearchString(e.target.value);
                 }}></input>
                 Sort By: <select onChange={(e) => {
-                // Update the sortParameter state with the selected option's value
-                setSortParameter(e.target.value);
-            }}>
-                <option value="title">Book Name</option>
-                <option value="publisher">Publisher</option>
-                <option value="genre">Genre</option>
-                <option value="released-year">Released Year</option>
-            </select><select onChange={(e) => setSortOrder(e.target.value)}>
-                <option value="ascending">Ascending</option>
-                <option value="descending">Descending</option>
-            </select>
+                    // Update the sortParameter state with the selected option's value
+                    setSortParameter(e.target.value);
+                }}>
+                    <option value="title">Book Name</option>
+                    <option value="publisher">Publisher</option>
+                    <option value="genre">Genre</option>
+                    <option value="released-year">Released Year</option>
+                </select><select onChange={(e) => setSortOrder(e.target.value)}>
+                    <option value="ascending">Ascending</option>
+                    <option value="descending">Descending</option>
+                </select>
 
                 <input type="submit"></input>
             </form>

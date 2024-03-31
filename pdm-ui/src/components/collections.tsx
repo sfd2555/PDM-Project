@@ -14,7 +14,7 @@ export const Collections = ({userId} : {userId : string}) => {
         if(userId === "" || userId === undefined || retrieved) return;
         getUserCollectionsMetadata(userId).then((results) => {
             if(results.length >= 0) {
-                setCollections(results);
+                setCollections(results.sort((c1, c2) => c1.collectionName < c2.collectionName ? -1 : 1));
             }
         });
         setRetrieved(true);
