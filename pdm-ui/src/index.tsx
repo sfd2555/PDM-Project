@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { AuthenticatorContext } from './components/accountcontext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+      <AuthenticatorContext.Provider value={undefined}>
+        <App />
+      </AuthenticatorContext.Provider>
   </React.StrictMode>
 );
 

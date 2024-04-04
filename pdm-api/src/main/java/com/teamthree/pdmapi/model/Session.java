@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Session {
     @JsonProperty("accountId") private final String accountId;
     @JsonProperty("bookId") private final String bookId;
+    @JsonProperty("bookTitle") private final String bookTitle;
     @JsonProperty("sessionStartedAt") private final java.sql.Timestamp sessionStartedAt;
     @JsonProperty("sessionEndedAt") private java.sql.Timestamp sessionEndedAt;
     @JsonProperty("sessionProgress") private int sessionProgress;
@@ -24,11 +25,13 @@ public class Session {
      */
     public Session(@JsonProperty("accountId") String accountId,
                    @JsonProperty("bookId") String bookId,
-                   @JsonProperty("sessionStartedAt") java.sql.Timestamp sessionStartedAt,
-                   @JsonProperty("sessionEndedAt") java.sql.Timestamp sessionEndedAt,
+                   @JsonProperty("bookTitle") String bookTitle,
+                   @JsonProperty("sessionStart") java.sql.Timestamp sessionStartedAt,
+                   @JsonProperty("sessionEnd") java.sql.Timestamp sessionEndedAt,
                    @JsonProperty("sessionProgress") int sessionProgress) {
         this.accountId = accountId;
         this.bookId = bookId;
+        this.bookTitle = bookTitle;
         this.sessionStartedAt = sessionStartedAt;
         this.sessionEndedAt = sessionEndedAt;
         this.sessionProgress = sessionProgress;
@@ -50,11 +53,20 @@ public class Session {
         return bookId;
     }
 
+    
+    /**
+     * Gets the Title of the book being read
+     * @return The Title of the book being read
+     */
+    public String getBookTitle() {
+        return bookTitle;
+    }
+
     /**
      * Gets the time the reading session started at
      * @return The time the reading session started at
      */
-    public java.sql.Timestamp getSessionStartedAt() {
+    public java.sql.Timestamp getSessionStart() {
         return sessionStartedAt;
     }
 
@@ -62,7 +74,7 @@ public class Session {
      * Gets the time the reading session ended at
      * @return The time the reading session ended at
      */
-    public java.sql.Timestamp getSessionEndedAt() {
+    public java.sql.Timestamp getSessionEnd() {
         return sessionEndedAt;
     }
 
@@ -78,7 +90,7 @@ public class Session {
      * Sets the time that the reading session ended at
      * @param sessionEndedAt The time the reading session ended at
      */
-    public void setSessionEndedAt(java.sql.Timestamp sessionEndedAt) {
+    public void setSessionEnd(java.sql.Timestamp sessionEndedAt) {
         this.sessionEndedAt = sessionEndedAt;
     }
 

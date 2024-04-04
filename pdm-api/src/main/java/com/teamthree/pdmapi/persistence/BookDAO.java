@@ -1,14 +1,8 @@
 package com.teamthree.pdmapi.persistence;
 
-import com.teamthree.pdmapi.model.Book;
-import com.teamthree.pdmapi.model.BookContributor;
-import com.teamthree.pdmapi.model.BookFormat;
-import com.teamthree.pdmapi.model.Genre;
+import com.teamthree.pdmapi.model.*;
 
 import java.util.Date;
-import java.util.List;
-
-import com.teamthree.pdmapi.model.Audience;
 
 /**
  * Allows access to a books data
@@ -22,14 +16,14 @@ public interface BookDAO {
         * @param bookId the Id of the book
         * @return a book that matches the Id (if there is one)
         */
-        public Book getBookId(String bookId);
+        public Book getBook(String bookId);
 
         /**
         * Retrieves all books with the given title
         * @param bookTitle the title of the book
         * @return a list of books that matches the title
         */
-        public List<Book> getBook(String bookTitle);
+        public Book[] searchBook(String bookTitle);
 
         /**
         * Creates a book with a given title
@@ -51,14 +45,22 @@ public interface BookDAO {
         * @param bookId the id of the book
         * @return the list of genres
         */
-        public List<Genre> getBookGenres(String bookId);
+        public Genre[] getBookGenres(String bookId);
 
         /**
          * Searches for all books with the given genre
          * @param genreId the genre id
          * @return the list of books
          */
-        public List<Book> searchGenre(String genreId);
+        public Book[] searchGenre(String genreId);
+
+        /**
+         * Searches for all books with the given genre name
+         * @param genreName the genre id
+         * @return the list of books
+         */
+        public Book[] searchGenreName(String genreName);
+
 
         /**
         * Sets a contributor for the book and how they contributed
@@ -74,14 +76,14 @@ public interface BookDAO {
         * @param bookId the id of the book
         * @return the list of contributors
         */
-        public List<BookContributor> getBookContributors(String bookId);
+        public Contributor[] getBookContributors(String bookId);
 
         /**
          * Searches for all books with the given contributor
          * @param contributorId the contributor id
          * @return the list of books
          */
-        public List<Book> searchContributor(String contributorId);
+        public Book[] searchContributor(String contributorId);
 
         /**
         * Sets a format for the book, how long it is, and when it was released
@@ -98,14 +100,14 @@ public interface BookDAO {
         * @param bookId the id of the book
         * @return the list of formats
         */
-        public List<BookFormat> getBookFormats(String bookId);
+        public Format[] getBookFormats(String bookId);
 
         /**
          * Searches for all books with the given format
          * @param formatId the format id
          * @return the list of books
          */
-        public List<Book> searchFormat(String formatId);
+        public Book[] searchFormat(String formatId);
 
         /**
         * Sets a audience for the book
@@ -120,14 +122,14 @@ public interface BookDAO {
         * @param bookId the id of the book
         * @return the list of audiences
         */
-        public List<Audience> getBookAudiences(String bookId);
+        public Audience[] getBookAudiences(String bookId);
 
         /**
          * Searches for all books with the given audience
          * @param audienceId the audience id
          * @return the list of books
          */
-        public List<Book> searchAudience(String audienceId);
+        public Book[] searchAudience(String audienceId);
 
         /**
         * Rates a book from the given accountId

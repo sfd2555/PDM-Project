@@ -155,8 +155,10 @@ public class AccountDatabaseDAO implements AccountDAO {
      * add a friend pair to database
      */
     @Override
-    public boolean addFriend(String accountId, String friendId) {
-        String query = "INSERT INTO Friends VALUES('" + accountId + "', '" + friendId + "');";
+    public boolean addFriend(String accountId, String friendEmail) {
+        Account account = getAccountEmail(friendEmail);
+        if(account == null) return false;
+        String query = "INSERT INTO Friends VALUES('" + accountId + "', '" + account.getAccountId() + "');";
         try{
             Statement stmt = ch.getConnection(false).createStatement();
             stmt.executeUpdate(query);
@@ -178,6 +180,51 @@ public class AccountDatabaseDAO implements AccountDAO {
         String query = "INSERT INTO Account VALUES('" + getNewPrimaryKey(6) + "', '" + username + "', '" + password + "', '" + firstName + "', '" + lastName + "', current_date, current_date, '"+ email + "');";
         try{
             Statement stmt = ch.getConnection(false).createStatement();
+            stmt.executeUpdate(query);
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            ch.closeConnection();
+        }
+        return true;
+    }
+
+    private Account getAccountEmail(String email) {
+        String query = "SELECT * FROM account WHERE account_email='" + email + "';";
+        Statement stmt;
+        Account account = null;
+        try {
+            stmt = ch.getConnection(false).createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(!rs.next()) return null;
+            String accountId = rs.getString("account_id");
+            String accountLogin = rs.getString("account_login");
+            String accountPassword = rs.getString("account_password");
+            String firstName = rs.getString("account_first_name");
+            String lastName = rs.getString("account_last_name");
+            Date accountCreationDate = rs.getDate("account_creation_date");
+            Date accountLastAccessDate = rs.getDate("account_last_access_date");
+            account = new Account(accountId, accountLogin, accountPassword, firstName, lastName, accountCreationDate, email, accountLastAccessDate);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ch.closeConnection();
+        }
+        return account;
+    }
+
+
+    @Override
+    public boolean removeFriend(String accountId, String friendId) {
+        String query1 = "SELECT * FROM friends WHERE account1_id='" + accountId + "'AND account2_id='" + friendId + "';";
+        String query = "";
+        try{
+            Statement stmt = ch.getConnection(false).createStatement();
+            if(stmt.executeQuery(query1).next())
+                query = "DELETE FROM friends WHERE account1_id='" + accountId + "' AND account2_id='" + friendId+ "';";
+            else 
+                query = "DELETE FROM friends WHERE account1_id='" + friendId + "' AND account2_id='" + accountId+ "';";
             stmt.executeUpdate(query);
         } catch(SQLException e) {
             e.printStackTrace();
