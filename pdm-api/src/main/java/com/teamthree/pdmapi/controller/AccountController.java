@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teamthree.pdmapi.model.Account;
+import com.teamthree.pdmapi.model.Book;
 import com.teamthree.pdmapi.persistence.AccountDAO;
 import com.teamthree.pdmapi.persistence.AccountDatabaseDAO;
 import com.teamthree.pdmapi.persistence.ConnectionHandler;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -121,5 +123,11 @@ public class AccountController {
         return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/foryou/{accountId}")
+    public ResponseEntity<List<Book>> getForYou(@PathVariable("accountId") String accountId) {
+        LOG.info("GET /account/foryou/" + accountId);
+        List<Book> result = accountDAO.getForYou(accountId);
+        return new ResponseEntity<>(result, result != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
 
 }
