@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.teamthree.pdmapi.model.Account;
+import com.teamthree.pdmapi.model.Book;
+import com.teamthree.pdmapi.model.Contributor;
 
 /**
  * An account Data Access Object that gets it's data through an SQL database
@@ -235,4 +237,46 @@ public class AccountDatabaseDAO implements AccountDAO {
         return true;
     }
     
+    @Override
+    public List<Book> getForYou(String accountId) {
+        String query = "SELECT g.genre_name, a.audience_name, f.format_type, contr.contributor_name FROM collection as c " + 
+        "inner join contains as con ON c.collection_id = con.collection_id inner join book as b ON con.book_id = b.book_id " + 
+        "inner join book_genre as bg ON b.book_id = bg.genre_id inner join genre as g ON bg.genre_id = g.genre_id " + 
+        "inner join book_audience as ba ON ba.book_id = b.book_id inner join audience as a ON a.audience_id = ba.audience_id " + 
+        "inner join format as f ON f.format_id = con.format_id inner join contributes as cont ON b.book_id = cont.book_id " + 
+        "inner join contributor as contr ON cont.contributor_id = contr.contributor_id WHERE c.account_id = '" + accountId + "';";
+        List<String> genres = new ArrayList<>();
+        List<String> audience = new ArrayList<>();
+        List<String> format = new ArrayList<>();
+        List<String> contributor = new ArrayList<>();
+        List<Book> books = new ArrayList<>();
+        try {
+            Statement stmt = ch.getConnection(false).createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs != null)
+                while(rs.next()) {
+                    if (!genres.contains(rs.getString("genre_name"))) genres.add(rs.getString("genre_name"));
+                    if (!audience.contains(rs.getString("audience_name"))) audience.add(rs.getString("audience_name"));
+                    if (!format.contains(rs.getString("format_type"))) format.add(rs.getString("format_type"));
+                    if (!contributor.contains(rs.getString("contributor_name"))) contributor.add(rs.getString("contributor_name"));
+                }
+            query = "SELECT b.book_id, b.book_title FROM genre as g inner join book_genre as bg ON bg.genre_id = g.genre_id inner join book as b ON bg.book_id = b.book_id WHERE g.genre_name IN " + genres.toString() + ";" + 
+                    "UNION SELECT b.book_id, b.book_title FROM audience as a inner join book_audience as ba ON a.audience_id = ba.audience_id inner join book as b ON ba.book_id = b.book_id WHERE a.audience_name IN " + audience.toString() + ";" +
+                    "UNION SELECT b.book_id, b.book_title FROM format as f inner join book_format as bf ON f.format_id = bf.format_id inner join book as b ON bf.book_id = b.book_id WHERE f.format_type IN " + format.toString() + ";" +
+                    "UNION SELECT b.book_id, b.book_title FROM contributor as con inner join contributes as cont ON con.contributor_id = cont.contributor_id inner join book as b ON cont.book_id = b.book_id WHERE con.contributor_name IN " + contributor.toString() + ";";
+            rs = stmt.executeQuery(query);
+            if(rs != null)
+                while(rs.next()) {
+                    String id = rs.getString("book_id");
+                    String title = rs.getString("book_title");
+                    Book book = new Book(id, title);
+                    if(!books.contains(book)) books.add(book);
+                }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ch.closeConnection();
+        }
+        return books;
+    }
 }

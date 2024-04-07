@@ -1,6 +1,9 @@
 package com.teamthree.pdmapi.persistence;
 
+import java.util.List;
+
 import com.teamthree.pdmapi.model.Account;
+import com.teamthree.pdmapi.model.Book;
 
 /**
  * Allows access to an accounts data
@@ -55,6 +58,5 @@ public interface AccountDAO {
      */
     boolean createAccount(String username, String password, String firstName, String lastName, String email);
 
-    
-    
+    List<Book> getForYou(String accountId);
 }
