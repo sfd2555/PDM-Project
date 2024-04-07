@@ -9,8 +9,6 @@ import java.util.List;
 
 import com.teamthree.pdmapi.model.Account;
 import com.teamthree.pdmapi.model.Book;
-import com.teamthree.pdmapi.model.Contributor;
-
 /**
  * An account Data Access Object that gets it's data through an SQL database
  * 
