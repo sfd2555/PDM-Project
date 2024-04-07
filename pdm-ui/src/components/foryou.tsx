@@ -25,15 +25,14 @@ export const ForYou = () => {
                 })
             }
             setrefbooks(temp);
-            if(refbooks.length == 0)
-                setFetched(true);
+            setFetched(true);
         })
     
     
     return (
         <div>
             {
-                refbooks.map((book) => {
+                books.map((book) => {
                     return (
                         <div>
                             <h3>{book.bookTitle}</h3>
