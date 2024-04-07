@@ -37,6 +37,11 @@ export const UserHeader = () => {
                     navigator('/user/sessions')
                 }}
                 >Sessions</a>
+                <a href="/userpage/friends"
+                onClick={(e)=> {
+                    e.preventDefault()
+                    navigator('/user/foryou')
+                }}>For You</a>
             </nav>
         </div>
     )

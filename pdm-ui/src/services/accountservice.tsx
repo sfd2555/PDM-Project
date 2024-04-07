@@ -1,4 +1,4 @@
-import { Account } from "../props/props";
+import { Account, Book } from "../props/props";
 
 export async function register(first: string, last: string, username: string, password: string, email: string): Promise<boolean> {
     const requestOptions = {
@@ -41,6 +41,12 @@ export async function removeFriend(userId: string, friendId: string): Promise<bo
 
 export async function getFriends(userId: string): Promise<Account[]> {
     const response = await fetch('http://localhost:8080/account/friend/' + userId);
+    const data = await response.json();
+    return data;
+}
+
+export async function getForYou(userId: string): Promise<Book[]> {
+    const response = await fetch('http://localhost:8080/account/foryou/' + userId);
     const data = await response.json();
     return data;
 }
