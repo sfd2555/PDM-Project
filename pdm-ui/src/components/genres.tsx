@@ -4,21 +4,10 @@ import { getBookGenres } from "../services/bookservice";
 
 
 
-export const Genres = ({bookId} : {bookId: string}) => {
-    let initialValue: Genre[] = [];
-    let [genres, setGenres] = useState(initialValue);
-    let [fetched, setFetched] = useState(false);
-    useEffect(() => {
-        if(fetched) return;
-        getBookGenres(bookId).then((result) => {
-            if(result == null) {
-                setGenres(result);
-                setFetched(true);
-            } 
-        })
-    })
+export const Genres = ({genres} : {genres: Genre[]}) => {
     return (
         <div>
+            <h3>Genres:</h3>
             {
                 genres.map((genre) => {
                     return (

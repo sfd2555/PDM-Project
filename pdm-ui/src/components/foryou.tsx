@@ -2,40 +2,37 @@ import { useEffect, useState } from "react";
 import { Account, Book, RefinedBook } from "../props/props";
 import { GetUserContext } from "./accountcontext";
 import { getForYou } from "../services/accountservice";
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 import { getRefinedBook } from "../services/bookservice";
+import { ForYouBook } from "./foryoubook";
+import { useNavigate } from "react-router-dom";
 
 export const ForYou = () => {
     let account: Account | undefined = GetUserContext();
     let [fetched, setFetched] = useState(false)
     let initialValue: Book[] = []
     let [books, setbooks] = useState(initialValue)
-    let initVal: RefinedBook[] = []
-    let [refbooks, setrefbooks] = useState(initVal)
+    let navigator = useNavigate();
     
     useEffect(() => {
         if(fetched) return;
-            getForYou(account?.accountId!).then((results) => {
-                setbooks(results)
-            })
-            let temp: RefinedBook[] = []
-            for(let i = 0; i < books.length; i++) {
-                getRefinedBook(books[i].bookId).then((results) => {
-                    temp.push(results)
-                })
-            }
-            setrefbooks(temp);
-            setFetched(true);
+        getForYou(account?.accountId!).then((results) => {
+            setbooks(results)
         })
-    
-    
+        setFetched(true);
+    })
+    //<ForYouBook book={book} />
     return (
         <div>
             {
                 books.map((book) => {
                     return (
                         <div>
-                            <h3>{book.bookTitle}</h3>
+                            <h2><a href="/user/foryou"
+                                onClick={(e)=> {
+                                e.preventDefault()
+                                navigator('/books/'+book.bookId)
+                            }}
+                            >{book.bookTitle}</a></h2>
                         </div>
                     )
                 })
