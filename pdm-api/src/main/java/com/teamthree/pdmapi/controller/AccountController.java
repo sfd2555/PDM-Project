@@ -130,6 +130,19 @@ public class AccountController {
     }
 
     /**
+     * Gets the number of friends of a user
+     * @param id account id of the user
+     * @return ResponseEntity containing the number of friends upon success
+     *         ResponseEntity with code NOT_FOUND if the account does not exist or if there's an error
+     */
+    @GetMapping("/friend/{id}/count")
+    public ResponseEntity<Integer> getFriendsCount(@PathVariable String id) {
+        LOG.info("GET /account/friend/" + id + "/count");
+        Account[] friends = accountDAO.getFriends(id);
+        if(friends == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(friends.length, HttpStatus.OK);
+
+     /**
      * Gets an accounts for you page based off of their collections
      * @param accountId the account's id
      * @return the list of recommended books
