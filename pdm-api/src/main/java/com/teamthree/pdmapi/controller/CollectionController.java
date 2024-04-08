@@ -165,4 +165,21 @@ public class CollectionController {
         if(metadata == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(metadata, HttpStatus.OK);
     }
+
+    /**
+     * Gets the number of collections of a user
+     * @param accountId id of an account
+     * @return ResponseEntity containing the number of collections upon success
+     *         ResponseEntity with code NOT_FOUND if the account does not exist
+     */
+    @GetMapping("/account/{accountId}/count-collections")
+    @ResponseBody
+    public ResponseEntity<Integer> getCollectionsCount(@PathVariable("accountId") String accountId) {
+        LOG.info("GET /account/" + accountId + "/count-collections");
+        Collection[] collections = collectionDAO.getCollections(accountId);
+        if(collections == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(collections.length, HttpStatus.OK);
+    }
 }
