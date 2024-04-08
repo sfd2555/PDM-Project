@@ -116,6 +116,12 @@ public class AccountController {
         return new ResponseEntity<>(friends, HttpStatus.OK);
     }
 
+    /**
+     * Removes a friend from the given account
+     * @param account_id the account to remove from
+     * @param friend_id the account to remove
+     * @return whether it was successful or not
+     */
     @PostMapping("/removeFriend")
     public ResponseEntity<Boolean> removeFriends(@RequestParam("account_id") String account_id, @RequestParam("friend_id") String friend_id) {
         LOG.info("POST /account/removeFriend?account_id=" + account_id + "&friend_id=" + friend_id);
@@ -123,6 +129,11 @@ public class AccountController {
         return new ResponseEntity<>(result, result ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Gets an accounts for you page based off of their collections
+     * @param accountId the account's id
+     * @return the list of recommended books
+     */
     @GetMapping("/foryou/{accountId}")
     public ResponseEntity<List<Book>> getForYou(@PathVariable("accountId") String accountId) {
         LOG.info("GET /account/foryou/" + accountId);

@@ -190,6 +190,11 @@ public class AccountDatabaseDAO implements AccountDAO {
         return true;
     }
 
+    /**
+     * Gets an account from their email
+     * @param email the email to get the account from
+     * @return the account
+     */
     private Account getAccountEmail(String email) {
         String query = "SELECT * FROM account WHERE account_email='" + email + "';";
         Statement stmt;
@@ -215,6 +220,9 @@ public class AccountDatabaseDAO implements AccountDAO {
     }
 
 
+    /**
+    * {@inheritDoc}
+    */
     @Override
     public boolean removeFriend(String accountId, String friendId) {
         String query1 = "SELECT * FROM friends WHERE account1_id='" + accountId + "'AND account2_id='" + friendId + "';";
@@ -235,6 +243,9 @@ public class AccountDatabaseDAO implements AccountDAO {
         return true;
     }
     
+    /**
+    * {@inheritDoc}
+    */
     @Override
     public List<Book> getForYou(String accountId) {
         String query = "SELECT g.genre_name, a.audience_name, f.format_type, contr.contributor_name FROM collection as c " + 
