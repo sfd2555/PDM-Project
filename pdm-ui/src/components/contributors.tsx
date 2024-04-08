@@ -12,7 +12,7 @@ export const Contributors = ({contributors} : {contributors: Contributor[]}) => 
             {
                 contributorsState.map((contributor) => {
                     return (
-                        <p>{contributor.contributorType}: {contributor.contributorName}</p>
+                        <p>{contributor.contributorName}: {contributor.contributorType}</p>
                     )
                 })
             }

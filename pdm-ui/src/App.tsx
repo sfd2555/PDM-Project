@@ -2,6 +2,7 @@ import './App.css';
 import { Login } from './pages/login/login';
 import { Register } from './pages/login/register';
 import { UserPageCollections } from './pages/user/userpagecollections';
+import { UserForYouPage } from './pages/user/userforyoupage';
 import { UserPageFriends } from './pages/user/userpagefriends';
 import { UserCollectionContentsPage } from './pages/user/usercollectioncontentspage';
 import { AccountPageCollections } from './pages/account/accountpagecollections';
@@ -27,6 +28,7 @@ function App() {
             <Route path='/user/collections' element={ <UserPageCollections />}/>
             <Route path='/user/friends' element={ <UserPageFriends />}/>
             <Route path='/user/sessions' element={ <UserPageSessions />}/>
+            <Route path='/user/foryou' element={ <UserForYouPage />}/>
             <Route path='/user/collections/:collectionId/add' element={<BookAddPage />} />
             <Route path='/user/collections/:accountId/:collectionId' element={ <UserCollectionContentsPage />} />
             <Route path='/account/:accountId' element={ <AccountPageCollections />} />

@@ -5,20 +5,10 @@ import { Contributors } from "./contributors";
 
 
 
-export const ContributorsWrapper = ({bookId} : {bookId: string}) => {
-    let initialValue: Contributor[] = [];
-    let [contributors, setContributors] = useState(initialValue);
-    let [fetched, setFetched] = useState(false);
-
-    useEffect(() => {
-        if(fetched) return;
-        getBookContributors(bookId).then((result) => {
-            setContributors(result);
-            setFetched(true);
-        })
-    })
+export const ContributorsWrapper = ({contributors} : {contributors: Contributor[]}) => {
     return (
         <div>
+            <h3>Contributors: </h3>
             <Contributors contributors={contributors}/>
         </div>
     )
