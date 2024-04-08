@@ -4,20 +4,7 @@ import { getBookAudiences, getBookGenres } from "../services/bookservice";
 
 
 
-export const Audiences = ({bookId} : {bookId: string}) => {
-    let initialValue: Audience[] = [];
-    let [audiences, setAudiences] = useState(initialValue);
-    let [fetched, setFetched] = useState(false);
-
-    useEffect(() => {
-        if(fetched) return;
-        getBookAudiences(bookId).then((result) => {
-            if(result != null) {
-                setAudiences(result);
-                setFetched(true);
-            }
-        })
-    })
+export const Audiences = ({audiences} : {audiences: Audience[]}) => {
     return (
         <div>
             {

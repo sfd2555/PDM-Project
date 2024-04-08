@@ -1,6 +1,9 @@
 package com.teamthree.pdmapi.persistence;
 
+import java.util.List;
+
 import com.teamthree.pdmapi.model.Account;
+import com.teamthree.pdmapi.model.Book;
 
 /**
  * Allows access to an accounts data
@@ -41,6 +44,12 @@ public interface AccountDAO {
      */
     boolean addFriend(String accountId, String friendEmail);
 
+    /**
+     * Removes a friend from the account
+     * @param accountId the account to remove from
+     * @param friendId the account to remove
+     * @return whether it was sucessful or not
+     */
     boolean removeFriend(String accountId, String friendId);
 
     /**
@@ -55,6 +64,10 @@ public interface AccountDAO {
      */
     boolean createAccount(String username, String password, String firstName, String lastName, String email);
 
-    
-    
+    /**
+     * Gets the accounts for you page based off of the books in their collection
+     * @param accountId the id of the account
+     * @return the list of recomended books
+     */
+    List<Book> getForYou(String accountId);
 }
