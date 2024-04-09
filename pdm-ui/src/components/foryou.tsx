@@ -18,6 +18,7 @@ export const ForYou = () => {
         })
         setFetched(true);
     })
+    
     return (
         <div>
             {
