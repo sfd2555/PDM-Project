@@ -300,7 +300,7 @@ public class BookController {
     }
 
     /**
-     * Searcjes for all books with the given audience
+     * Searches for all books with the given audience
      * @param audienceId the audience id
      * @return a list of books
      */
@@ -322,5 +322,29 @@ public class BookController {
             result[i] = new RefinedBook(book.getBookId(), book.getBookTitle(), formats, contributors, genres);
         }
         return result;
+    }
+
+    /**
+     * Searches for top 20 books amongst followers
+     * @param accountId the account id
+     * @return a list of books in order of most to least
+     */
+    @GetMapping("/friends/{accountId}")
+    public ResponseEntity<Book[]> top20Followers(@PathVariable("accountId") String accountId) {
+        LOG.info("GET /friends/top20/" + accountId);
+        Book[] result = bookDAO.top20FollowerBooks(accountId);
+        return new ResponseEntity<Book[]>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
+    }
+
+    /**
+     * Searches for top 20 rated books in the past 90 days
+     * @param accountId the account id
+     * @return a list of books in order of most to least
+     */
+    @GetMapping("/book")
+    public ResponseEntity<Book[]> top20Book90Day() {
+        LOG.info("GET /book/top2090/");
+        Book[] result = bookDAO.top20Books90Day();
+        return new ResponseEntity<Book[]>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 }
