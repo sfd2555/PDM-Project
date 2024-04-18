@@ -269,7 +269,7 @@ public class AccountDatabaseDAO implements AccountDAO {
                     if (!format.contains("'" + rs.getString("format_type") + "'")) format.add("'" + rs.getString("format_type") + "'");
                     if (!contributor.contains("'" + rs.getString("contributor_name") + "'")) contributor.add("'" + rs.getString("contributor_name") + "'");
                 }
-            query = "SELECT b.book_id, b.book_title FROM genre as g inner join book_genre as bg ON bg.genre_id = g.genre_id inner join book as b ON bg.book_id = b.book_id WHERE g.genre_name IN " + genres.toString().replace("[", "(").replace("]", ")") + 
+            query = "SELECT b.book_id, b.book_title FROM genre as g inner join book_genre as bg ON bg.genre_id = g.genre_id inner join book as b ON bg.book_id = b.book_id WHERE g.genre_name IN " + genres.toString().replace("[", "(").replace("]", ")") +
                     " UNION SELECT b.book_id, b.book_title FROM audience as a inner join book_audience as ba ON a.audience_id = ba.audience_id inner join book as b ON ba.book_id = b.book_id WHERE a.audience_name IN " + audience.toString().replace("[", "(").replace("]", ")") +
                     " UNION SELECT b.book_id, b.book_title FROM format as f inner join book_format as bf ON f.format_id = bf.format_id inner join book as b ON bf.book_id = b.book_id WHERE f.format_type IN " + format.toString().replace("[", "(").replace("]", ")") +
                     " UNION SELECT b.book_id, b.book_title FROM contributor as con inner join contributes as cont ON con.contributor_id = cont.contributor_id inner join book as b ON cont.book_id = b.book_id WHERE con.contributor_name IN " + contributor.toString().replace("[", "(").replace("]", ")") + ";";
@@ -280,6 +280,32 @@ public class AccountDatabaseDAO implements AccountDAO {
                     String title = rs.getString("book_title");
                     Book book = new Book(id, title);
                     if(!books.contains(book)) books.add(book);
+                }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ch.closeConnection();
+        }
+        return books;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Book> getUserTopBooks(String accountId, int amount) {
+        String query = "SELECT * FROM book as b INNER JOIN rating as r ON b.book_id = r.book_id " +
+                "WHERE r.account_id = '" + accountId + "' ORDER BY r.rating DESC LIMIT " + amount + ";";
+        List<Book> books = new ArrayList<>();
+        try {
+            Statement stmt = ch.getConnection(false).createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs != null)
+                while(rs.next()) {
+                    String id = rs.getString("book_id");
+                    String title = rs.getString("book_title");
+                    Book book = new Book(id, title);
+                    books.add(book);
                 }
         } catch(SQLException e) {
             e.printStackTrace();

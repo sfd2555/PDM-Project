@@ -70,4 +70,12 @@ public interface AccountDAO {
      * @return the list of recomended books
      */
     List<Book> getForYou(String accountId);
+
+    /**
+     * Gets a user's top books by rating
+     * @param accountId The account to get the top books from
+     * @param amount THe amount of top books to get
+     * @return A list of top books
+     */
+    List<Book> getUserTopBooks(String accountId, int amount);
 }
