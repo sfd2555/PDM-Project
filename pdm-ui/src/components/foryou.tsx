@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { Account, Book, RefinedBook } from "../props/props";
 import { GetUserContext } from "./accountcontext";
 import { getForYou } from "../services/accountservice";
-import { getRefinedBook } from "../services/bookservice";
-import { ForYouBook } from "./foryoubook";
 import { useNavigate } from "react-router-dom";
 
 export const ForYou = () => {
@@ -20,7 +18,7 @@ export const ForYou = () => {
         })
         setFetched(true);
     })
-    //<ForYouBook book={book} />
+    
     return (
         <div>
             {
