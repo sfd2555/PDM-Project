@@ -50,3 +50,15 @@ export async function getForYou(userId: string): Promise<Book[]> {
     const data = await response.json();
     return data;
 }
+
+export async function getFollowers(userId: string): Promise<number> {
+    const response = await fetch('http://localhost:8080/account/followers/' + userId + '/count');
+    const data = await response.json();
+    return data;
+}
+
+export async function getFollowing(userId: string): Promise<number> {
+    const response = await fetch('http://localhost:8080/account/following/' + userId + '/count');
+    const data = await response.json();
+    return data;
+}
