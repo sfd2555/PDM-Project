@@ -154,5 +154,18 @@ public interface BookDAO {
         * @return the user's rating for the book
         */
         public Float getAccountBookRating(String bookId, String accountId);
+
+        /**
+         * Gets the top 20 most common books amongst the users who follow you
+         * @param accountId id of the account we are displaying the info for
+         * @return the list of 20 books in order from most to least popular
+         */
+        public Book[] top20FollowerBooks(String accountId);
+
+        /**
+         * Gets the top 20 most popular books in rated in the past 90 days
+         * @return the list of 20 books in order from most to least popular
+         */
+        public Book[] top20Books90Day();
         
 }

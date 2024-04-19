@@ -90,8 +90,8 @@ public class AccountController {
 
     /**
      * Creates a friend relation between two accounts
-     * @param accountOneId id of an account
-     * @param accountTwoId id of another account
+     * @param id id of an account
+     * @param friendEmail email of another account
      * @return ResponseEntity containing the account upon success
      *         ResponseEntity with code NOT_FOUND if the account does not exist
      */
@@ -139,10 +139,38 @@ public class AccountController {
     public ResponseEntity<Integer> getFriendsCount(@PathVariable String id) {
         LOG.info("GET /account/friend/" + id + "/count");
         Account[] friends = accountDAO.getFriends(id);
-        if(friends == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (friends == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(friends.length, HttpStatus.OK);
     }
 
+    /**
+     * Gets the number of followings of a user
+     * @param id account id of the user
+     * @return ResponseEntity containing the number of friends upon success
+     *         ResponseEntity with code NOT_FOUND if the account does not exist or if there's an error
+     */
+    @GetMapping("/following/{id}/count")
+    public ResponseEntity<Integer> getFollowingCount(@PathVariable String id){
+            LOG.info("GET /account/following/" + id + "/count");
+            Account[] following = accountDAO.getFollowing(id);
+            if (following == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(following.length, HttpStatus.OK);
+        }
+
+    /**
+     * Gets the number of followers of a user
+     * @param id account id of the user
+     * @return ResponseEntity containing the number of friends upon success
+     *         ResponseEntity with code NOT_FOUND if the account does not exist or if there's an error
+     */
+    @GetMapping("/followers/{id}/count")
+    public ResponseEntity<Integer> getFollowersCount(@PathVariable String id){
+        LOG.info("GET /account/following/" + id + "/count");
+        Account[] followers = accountDAO.getFollowers(id);
+        if (followers == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(followers.length, HttpStatus.OK);
+    }
+  
      /**
      * Gets an accounts for you page based off of their collections
      * @param accountId the account's id
@@ -155,4 +183,15 @@ public class AccountController {
         return new ResponseEntity<>(result, result != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Gets a user's top 10 books by rating
+     * @param accountId the account's id
+     * @return the list of top books
+     */
+    @GetMapping("/topbooks/{accountId}")
+    public ResponseEntity<List<Book>> getTopBooks(@PathVariable("accountId") String accountId) {
+        LOG.info("GET /account/topbooks/" + accountId);
+        List<Book> result = accountDAO.getUserTopBooks(accountId, 10);
+        return new ResponseEntity<>(result, result != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
 }
