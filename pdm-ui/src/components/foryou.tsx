@@ -24,8 +24,8 @@ export const ForYou = () => {
             {
                 books.map((book) => {
                     return (
-                        <div>
-                            <h2><a href="/user/foryou"
+                        <div id="Form">
+                            <h2 id="FormContent"><a href="/user/foryou"
                                 onClick={(e)=> {
                                 e.preventDefault()
                                 navigator('/books/'+book.bookId)

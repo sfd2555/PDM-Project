@@ -30,14 +30,17 @@ export const Login = () => {
     }
 
     return (
-        <form id="loginForm" onSubmit={HandleSubmit}>
-            <h2>Login</h2>
-            <label>Username:</label>
-            <input type="text" value = {username} onChange={(e) => setUsername(e.target.value)} id="login"/>
-            <label>Password:</label>
-            <input type="password" value = {password} onChange={(e) => setPassword(e.target.value)} id="password"/>
-            <input type="submit" id="submit"/>
-            <a href="/register">Register</a>
-        </form>
+        <div id="main">
+            <form id="loginForm" onSubmit={HandleSubmit}>
+                <h2 id="title">Login</h2>
+                <label id="detail">Username:</label>
+                <input type="text" value = {username} onChange={(e) => setUsername(e.target.value)} id="input"/>
+                <label id="detail">Password:</label>
+                <input type="password" value = {password} onChange={(e) => setPassword(e.target.value)} id="input"/>
+                <input type="submit" id="option"/>
+                <a id="option" href="/register">Register</a>
+            </form>
+        </div>
+
     )
 }

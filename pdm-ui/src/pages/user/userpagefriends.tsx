@@ -1,8 +1,9 @@
+import './friendpage.css'
 import { GetUserContext } from "../../components/accountcontext"
-import { UserHeader } from "../../components/userheader"
+import { UserHeader } from "../../components/user/userheader"
 import { Account } from "../../props/props"
-import { Friends } from "../../components/friends"
-import { FriendForm } from "../../components/friendform"
+import { Friends } from "../../components/friends/friends"
+import { FriendForm } from "../../components/friends/friendform"
 
 
 export const UserPageFriends= () => {
@@ -12,8 +13,10 @@ export const UserPageFriends= () => {
     return (
         <div>
             <UserHeader />
-            <Friends userId={account?.accountId!}/>
-            <FriendForm accountId={account?.accountId!} />
+            <div id="contents">
+                <Friends userId={account?.accountId!}/>
+                <FriendForm accountId={account?.accountId!} />
+            </div>
         </div>
 
     )

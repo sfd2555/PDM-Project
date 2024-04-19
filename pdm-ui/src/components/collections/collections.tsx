@@ -1,6 +1,7 @@
+import './collections.css'
 import { useEffect, useState } from 'react';
-import { getUserCollectionsMetadata } from '../services/collectionservice';
-import { CollectionMetadata } from '../props/props';
+import { getUserCollectionsMetadata } from '../../services/collectionservice';
+import { CollectionMetadata } from '../../props/props';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -26,15 +27,15 @@ export const Collections = ({userId} : {userId : string}) => {
                 {
                     collections.map((collection) => {
                         return(
-                            <div key={collection.collectionId}>
-                                <h2><a href='/user/collections/'
+                            <div key={collection.collectionId} id="collection">
+                                <a id="collectionDetails" href='/user/collections/'
                                     onClick={(e)=> {
                                     e.preventDefault();
                                     navigator('/user/collections/'+ userId +'/' + collection.collectionId );
                                 }}
-                                >{collection.collectionName}</a></h2>
-                                <p>Entries: {collection.collectionEntries}</p>
-                                <p>Total pages: {collection.collectionVolume}</p>
+                                >{collection.collectionName}</a>
+                                <p id="collectionDetails">Entries: {collection.collectionEntries}</p>
+                                <p id="collectionDetails">Total pages: {collection.collectionVolume}</p>
                             </div>
                         )
                     })

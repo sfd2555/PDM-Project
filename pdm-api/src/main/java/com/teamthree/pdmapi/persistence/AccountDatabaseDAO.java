@@ -71,7 +71,7 @@ public class AccountDatabaseDAO implements AccountDAO {
         Statement stmt;
         Account account = null;
         try {
-            stmt = ch.getConnection(false).createStatement();
+            stmt = ch.getConnection(true).createStatement();
             ResultSet rs = stmt.executeQuery(query);
             if(!rs.next()) return null;
             String accountId = rs.getString("account_id");
@@ -342,10 +342,12 @@ public class AccountDatabaseDAO implements AccountDAO {
                     if (!format.contains("'" + rs.getString("format_type") + "'")) format.add("'" + rs.getString("format_type") + "'");
                     if (!contributor.contains("'" + rs.getString("contributor_name") + "'")) contributor.add("'" + rs.getString("contributor_name") + "'");
                 }
-            query = "SELECT b.book_id, b.book_title FROM genre as g inner join book_genre as bg ON bg.genre_id = g.genre_id inner join book as b ON bg.book_id = b.book_id WHERE g.genre_name IN " + genres.toString().replace("[", "(").replace("]", ")") +
+            if(genres.size() == 0) return books;
+            query = "SELECT b.book_id, b.book_title FROM genre as g inner join book_genre as bg ON bg.genre_id = g.genre_id inner join book as b ON bg.book_id = b.book_id WHERE g.genre_name IN " + genres.toString().replace("[", "(").replace("]", ")") + 
                     " UNION SELECT b.book_id, b.book_title FROM audience as a inner join book_audience as ba ON a.audience_id = ba.audience_id inner join book as b ON ba.book_id = b.book_id WHERE a.audience_name IN " + audience.toString().replace("[", "(").replace("]", ")") +
                     " UNION SELECT b.book_id, b.book_title FROM format as f inner join book_format as bf ON f.format_id = bf.format_id inner join book as b ON bf.book_id = b.book_id WHERE f.format_type IN " + format.toString().replace("[", "(").replace("]", ")") +
                     " UNION SELECT b.book_id, b.book_title FROM contributor as con inner join contributes as cont ON con.contributor_id = cont.contributor_id inner join book as b ON cont.book_id = b.book_id WHERE con.contributor_name IN " + contributor.toString().replace("[", "(").replace("]", ")") + ";";
+                    System.out.println(query);
             rs = stmt.executeQuery(query);
             if(rs != null)
                 while(rs.next()) {

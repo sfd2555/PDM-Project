@@ -1,4 +1,4 @@
-import { removeBookFromCollection } from "../services/collectionservice"
+import { removeBookFromCollection } from "../../services/collectionservice"
 
 export const BookDeleteForm = ({collectionId, bookId} : {collectionId: string, bookId: string}) => {
 
