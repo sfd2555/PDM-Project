@@ -155,4 +155,15 @@ public class AccountController {
         return new ResponseEntity<>(result, result != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Gets a user's top 10 books by rating
+     * @param accountId the account's id
+     * @return the list of top books
+     */
+    @GetMapping("/topbooks/{accountId}")
+    public ResponseEntity<List<Book>> getTopBooks(@PathVariable("accountId") String accountId) {
+        LOG.info("GET /account/topbooks/" + accountId);
+        List<Book> result = accountDAO.getUserTopBooks(accountId, 10);
+        return new ResponseEntity<>(result, result != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
 }
