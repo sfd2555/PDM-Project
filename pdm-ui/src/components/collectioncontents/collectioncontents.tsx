@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Contains } from "../props/props";
-import { removeCollection, searchCollectionContents } from "../services/collectionservice";
-import { Contributors } from "./contributors";
+import { Contains } from "../../props/props";
+import { removeCollection, searchCollectionContents } from "../../services/collectionservice";
+import { Contributors } from "../contributors";
 import { useNavigate } from "react-router-dom";
 import { BookDeleteForm } from "./bookdeleteform";
 import { BookRateForm } from "./bookrateform";
@@ -88,56 +88,57 @@ export const CollectionContents = ({collectionId, collectionName, accountId} : {
     return (
         <div>
             <CollectionNameForm collectionId={collectionId}/>
-            <br></br>
-            <input type="submit" value="Delete Collection" onClick={deleteSession}></input>
             <h3><a href="/" onClick={(e) => {
                 e.preventDefault()
                 navigator('/user/collections/' + collectionId + '/add')
             }}>Add to Collection</a></h3>
-            <br></br>
-            <label>Search: </label>
-            <select onChange={(e) => setSearchParameter(e.target.value)}>
-                <option value="title">Title</option>
-                <option value="author">Author</option>
-                <option value="release-date">Release Date</option>
-                <option value="publisher">Publisher</option>
-                <option value="genre">Genre</option>
-            </select>
-            <form onSubmit={handleSubmit}>
-                <input type="text" value={searchString} onChange={(e) => setSearchString(e.target.value)}></input>
-                Sort By: <select onChange={(e) => {
-                // Update the sortParameter state with the selected option's value
-                setSortParameter(e.target.value);
-            }}>
-                <option value="title">Book Name</option>
-                <option value="publisher">Publisher</option>
-                <option value="genre">Genre</option>
-                <option value="released-year">Released Year</option>
-            </select><select onChange={(e) => setSortOrder(e.target.value)}>
-                <option value="ascending">Ascending</option>
-                <option value="descending">Descending</option>
-            </select>
-                <input type="submit"></input>
+
+            <form id="Form" onSubmit={handleSubmit}>
+            <label id="FormContent">Search By: </label>
+                <select id="FormContent" onChange={(e) => setSearchParameter(e.target.value)}>
+                    <option value="title">Title</option>
+                    <option value="author">Author</option>
+                    <option value="release-date">Release Date</option>
+                    <option value="publisher">Publisher</option>
+                    <option value="genre">Genre</option>
+                </select>
+                <label id="FormContent">Search: </label>
+                <input id="FormContent" type="text" value={searchString} onChange={(e) => setSearchString(e.target.value)}></input>
+                <label id="FormContent">Sort By: </label>
+                <select id="FormContent" onChange={(e) => {
+                        // Update the sortParameter state with the selected option's value
+                        setSortParameter(e.target.value);
+                    }}>
+                    <option value="title">Book Name</option>
+                    <option value="publisher">Publisher</option>
+                    <option value="genre">Genre</option>
+                    <option value="released-year">Released Year</option>
+                </select>
+                <select id="FormContent" onChange={(e) => setSortOrder(e.target.value)}>
+                    <option value="ascending">Ascending</option>
+                    <option value="descending">Descending</option>
+                </select>
+                <input id="FormContent" type="submit"></input>
             </form>
             {
                 contents.map((book) => {
                     return (
-                        <div key={book.bookId}>
-                            <h3><a id="title" href="/" onClick={(e) => {
+                        <div id="Form" key={book.bookId}>
+                            <h3 id="FormContent"><a id="title" href="/" onClick={(e) => {
                                 e.preventDefault()
                                 navigator('/books/' + book.bookId)
                             }}>{book.bookTitle}</a></h3>
-                            Pages: {book.bookLength}<br/>
-                            Format: {book.formatType}<br/>
-                            Genre(s): {book.genres.map(g => g.genreName).join(", ")}<br/>
-                            Contributors: {book.contributors.map(g => `${g.contributorName} (${g.contributorType})`).join(", ")}<br/>
+                            <p id="FormContent">Pages: {book.bookLength}</p><br/>
+                            <p id="FormContent">Format: {book.formatType}</p><br/>
+                            <p id="FormContent">Genre(s): {book.genres.map(g => g.genreName).join(", ")}</p><br/>
+                            <p id="FormContent">Contributors: {book.contributors.map(g => `${g.contributorName} (${g.contributorType})`).join(", ")}</p><br/>
                             <BookDeleteForm collectionId={collectionId} bookId={book.bookId}/>
                             <BookRateForm accountId={accountId} bookId={book.bookId}/>
                         </div>
                     )
                 })
             }
-
+            <input type="submit" value="Delete Collection" onClick={deleteSession}></input>
         </div>
     )
 

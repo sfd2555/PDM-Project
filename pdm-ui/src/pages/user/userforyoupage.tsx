@@ -1,5 +1,5 @@
 import { GetUserContext } from "../../components/accountcontext"
-import { UserHeader } from "../../components/userheader"
+import { UserHeader } from "../../components/user/userheader"
 import { Account } from "../../props/props"
 import { ForYou } from "../../components/foryou"
 

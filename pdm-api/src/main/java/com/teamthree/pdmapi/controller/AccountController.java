@@ -141,6 +141,7 @@ public class AccountController {
         Account[] friends = accountDAO.getFriends(id);
         if(friends == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(friends.length, HttpStatus.OK);
+    }
 
      /**
      * Gets an accounts for you page based off of their collections

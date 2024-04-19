@@ -8,8 +8,8 @@ import {
     getRefinedBook,
     searchBookTitle, searchRefinedBookTitle, searchRefinedGenreName
 } from "../../services/bookservice";
-import { BookSearch } from "../../components/booksearch";
-import { UserHeader } from "../../components/userheader";
+import { BookSearch } from "../../components/collectioncontents/booksearch";
+import { UserHeader } from "../../components/user/userheader";
 
 export const BookAddPage = () => {
     let { collectionId } = useParams()
@@ -74,20 +74,22 @@ export const BookAddPage = () => {
     return(
         <div>
             <UserHeader />
-            <form onSubmit={handleSubmit}>
-                <h3>Search Books</h3>
-                <select onChange={(e) => setSearchParameter(e.target.value)}>
+            <form id="Form" onSubmit={handleSubmit}>
+                <h3 id="FormContent">Search Books</h3>
+                <select id="FormContent" onChange={(e) => setSearchParameter(e.target.value)}>
                     <option value="title">Title</option>
                     <option value="author">Author</option>
                     <option value="release-date">Release Date</option>
                     <option value="publisher">Publisher</option>
                     <option value="genre">Genre</option>
                 </select>
-                <input type="text" onChange={(e) => {
+                <input id="FormContent" type="text" onChange={(e) => {
                     e.preventDefault();
                     setSearchString(e.target.value);
                 }}></input>
-                Sort By: <select onChange={(e) => {
+                
+                <label id="FormContent">Sort By: </label>
+                <select id="FormContent" onChange={(e) => {
                     // Update the sortParameter state with the selected option's value
                     setSortParameter(e.target.value);
                 }}>
@@ -95,12 +97,13 @@ export const BookAddPage = () => {
                     <option value="publisher">Publisher</option>
                     <option value="genre">Genre</option>
                     <option value="released-year">Released Year</option>
-                </select><select onChange={(e) => setSortOrder(e.target.value)}>
+                </select>
+                <select id="FormContent" onChange={(e) => setSortOrder(e.target.value)}>
                     <option value="ascending">Ascending</option>
                     <option value="descending">Descending</option>
                 </select>
 
-                <input type="submit"></input>
+                <input id="FormContent" type="submit"></input>
             </form>
             <div>
                 {

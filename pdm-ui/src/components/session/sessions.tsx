@@ -1,6 +1,7 @@
+import './sessions.css'
 import { useEffect, useState } from 'react';
-import { Session } from '../props/props';
-import { getUserSessions } from '../services/sessionservice';
+import { Session } from '../../props/props';
+import { getUserSessions } from '../../services/sessionservice';
 import { SessionForm } from './sessionform';
 
 
@@ -28,10 +29,10 @@ export const Sessions = ({userId, username} : {userId : string, username : strin
                 {
                     sessions.map((session) => {
                         return(
-                            <div>
-                                <h3>{session.bookTitle}</h3>
-                                <p>Start: {new Date(session.sessionStart).toUTCString()} - End: {new Date(session.sessionEnd).toUTCString()}</p>
-                                <p>Pages Read: {session.sessionProgress}</p>
+                            <div id="session">
+                                <h3 id="sessionContents">{session.bookTitle}</h3>
+                                <p id="sessionContents">Start: {new Date(session.sessionStart).toUTCString()} - End: {new Date(session.sessionEnd).toUTCString()}</p>
+                                <p id="sessionContents">Pages Read: {session.sessionProgress}</p>
                             </div>
                         )
                     })
