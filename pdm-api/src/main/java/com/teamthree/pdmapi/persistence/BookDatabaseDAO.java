@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 
 import com.teamthree.pdmapi.model.Audience;
@@ -513,6 +515,60 @@ public class BookDatabaseDAO implements BookDAO {
         @Override
         public Book[] searchAudience(String audienceId) {
             String query = "SELECT * FROM book INNER JOIN book_audience ON book.book_id = book_audience.book_id WHERE book_audience.audience_id='" + audienceId + "';";
+            List<Book> books = new ArrayList<>();
+            try {
+                Statement stmt = ch.getConnection(false).createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                if(rs != null) {
+                    while(rs.next()) {
+                        String bookId = rs.getString("book_id");
+                        String bookTitle = rs.getString("book_title");
+                        Book book = new Book(bookId, bookTitle);
+                        books.add(book);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                ch.closeConnection();
+            }
+            return books.toArray(new Book[0]);
+        }
+
+        /**
+         * {@inheritDoc}
+        */
+        @Override
+        public Book[] top20FollowerBooks(String audienceId) {
+            String query = "Select book.book_title, book.book_id, COUNT(*) AS occurrences FROM book LEFT JOIN contains ON contains.book_id = book.book_id INNER JOIN collection ON collection.collection_id = contains.collection_id INNER JOIN account ON account.account_id = collection.account_id INNER JOIN friends ON friends.account2_id = account.account_id WHERE friends.account1_id = '"+audienceId+"' GROUP BY book.book_title, book.book_id ORDER BY occurrences DESC LIMIT 20";
+            List<Book> books = new ArrayList<>();
+            try {
+                Statement stmt = ch.getConnection(false).createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                if(rs != null) {
+                    while(rs.next()) {
+                        String bookId = rs.getString("book_id");
+                        String bookTitle = rs.getString("book_title");
+                        Book book = new Book(bookId, bookTitle);
+                        books.add(book);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                ch.closeConnection();
+            }
+            return books.toArray(new Book[0]);
+        }
+
+        /**
+         * {@inheritDoc}
+        */
+        @Override
+        public Book[] top20Books90Day() {
+            String query = "Select book.book_title, book.book_id, AVG(rating) AS average_rating FROM book INNER JOIN rating ON rating.book_id = book.book_id WHERE rating.date >= CURRENT_DATE - 90 GROUP BY book.book_title, book.book_id ORDER BY average_rating DESC LIMIT 20";
             List<Book> books = new ArrayList<>();
             try {
                 Statement stmt = ch.getConnection(false).createStatement();
