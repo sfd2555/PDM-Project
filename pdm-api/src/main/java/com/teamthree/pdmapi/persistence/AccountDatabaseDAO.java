@@ -152,6 +152,79 @@ public class AccountDatabaseDAO implements AccountDAO {
     }
 
     /**
+     * Get list of people that the user is following from database
+     */
+    @Override
+    public Account[] getFollowing(String accountId) {
+        String query =
+                "(SELECT * FROM Friends INNER JOIN Account " +
+                "ON Friends.account2_id = Account.account_id " +
+                "WHERE Friends.account1_id='" + accountId + "');";
+        List<Account> following = new ArrayList<>();
+        try{
+            Statement stmt = ch.getConnection(false).createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs != null) {
+                while(rs.next()) {
+                    String friendId = rs.getString("account_id");
+                    String accountLogin = rs.getString("account_login");
+                    String accountPassword = rs.getString("account_password");
+                    String firstName = rs.getString("account_first_name");
+                    String lastName = rs.getString("account_last_name");
+                    Date accountCreationDate = rs.getDate("account_creation_date");
+                    Date accountLastAccessDate = rs.getDate("account_last_access_date");
+                    String accountEmail = rs.getString("account_email");
+                    Account account = new Account(friendId, accountLogin, accountPassword, firstName, lastName, accountCreationDate, accountEmail, accountLastAccessDate);
+                    following.add(account);
+                }
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            ch.closeConnection();
+        }
+        return following.toArray(new Account[0]);
+    }
+
+    /**
+     * Get list of people that are following the user from database
+     */
+    @Override
+    public Account[] getFollowers(String accountId) {
+        String query =
+                "(SELECT * FROM Friends INNER JOIN Account " +
+                        "ON Friends.account1_id = Account.account_id " +
+                        "WHERE Friends.account2_id='" + accountId + "') " ;
+        List<Account> followers = new ArrayList<>();
+        try{
+            Statement stmt = ch.getConnection(false).createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs != null) {
+                while(rs.next()) {
+                    String friendId = rs.getString("account_id");
+                    String accountLogin = rs.getString("account_login");
+                    String accountPassword = rs.getString("account_password");
+                    String firstName = rs.getString("account_first_name");
+                    String lastName = rs.getString("account_last_name");
+                    Date accountCreationDate = rs.getDate("account_creation_date");
+                    Date accountLastAccessDate = rs.getDate("account_last_access_date");
+                    String accountEmail = rs.getString("account_email");
+                    Account account = new Account(friendId, accountLogin, accountPassword, firstName, lastName, accountCreationDate, accountEmail, accountLastAccessDate);
+                    followers.add(account);
+                }
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            ch.closeConnection();
+        }
+        return followers.toArray(new Account[0]);
+    }
+
+
+    /**
      * add a friend pair to database
      */
     @Override

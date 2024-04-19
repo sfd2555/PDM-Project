@@ -36,10 +36,26 @@ public interface AccountDAO {
     Account[] getFriends(String accountID);
 
     /**
+     * Gets a list of accounts that the user follows
+     *
+     * @param accountId id of account to get friends from
+     * @return accounts the given account is friends with
+     */
+    Account[] getFollowing(String accountId);
+
+    /**
+     * Gets a list of accounts that are followers of the user
+     *
+     * @param accountId id of account to get friends from
+     * @return accounts the given account is friends with
+     */
+
+    Account[] getFollowers(String accountId);
+    /**
      * Stores that both ids are friends
      *
      * @param accountId one account id
-     * @param friendId other account id
+     * @param friendEmail other account id
      * @return true if both accounts exits
      */
     boolean addFriend(String accountId, String friendEmail);
