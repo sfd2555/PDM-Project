@@ -82,3 +82,9 @@ export async function getTopFiveNewReleases(): Promise<Book[]> {
     const data = await respose.json();
     return data;
 }
+
+export async function getUserTopTen(userId: string): Promise<Book[]> {
+    const respose = await fetch("http://localhost:8080/account/topbooks/" + userId);
+    const data = await respose.json();
+    return data;
+}

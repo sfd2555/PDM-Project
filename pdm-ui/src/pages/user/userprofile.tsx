@@ -2,6 +2,7 @@ import { GetUserContext } from "../../components/accountcontext"
 import { CollectionCount } from "../../components/user/collectioncount";
 import { FollowerCount } from "../../components/user/followercount";
 import { FollowingCount } from "../../components/user/followingcount";
+import { TopTen } from "../../components/user/topten";
 import { UserHeader } from "../../components/user/userheader";
 
 export const UserProfile = () => {
@@ -13,6 +14,7 @@ export const UserProfile = () => {
                 <span id="FormContent"><p>Followers: </p><FollowerCount></FollowerCount></span>
                 <span id="FormContent"><p>Following </p><FollowingCount></FollowingCount></span>
             </div>
+            <TopTen></TopTen>
         </div>
 
 
