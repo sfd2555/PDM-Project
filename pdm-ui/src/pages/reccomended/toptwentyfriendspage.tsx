@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { getTopTwenty, getTopTwentyFriends } from "../../services/bookservice";
 import { Book } from "../../props/props";
-import { UserHeader } from "../../components/userheader";
+import { UserHeader } from "../../components/user/userheader";
 import { GetUserContext } from "../../components/accountcontext";
-import { ReccomendedHeader } from "../../components/reccomendedheader";
+import { ReccomendedHeader } from "../../components/reccomended/reccomendedheader";
 
 export const TopTwentyFriendsPage = () => {
     let account = GetUserContext();
@@ -28,7 +28,10 @@ export const TopTwentyFriendsPage = () => {
             {
                 books.map((book) => {
                     return (
-                        <h3>{book.bookTitle}</h3>
+                        <div id="Form">
+                            <h3 id="FormContent">{book.bookTitle}</h3>
+                        </div>
+                        
                     )
                 })
             }

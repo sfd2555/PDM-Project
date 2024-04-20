@@ -1,0 +1,8 @@
+#reccNavItem {
+    margin: 1em;
+}
+
+#reccHeaderNav, #reccHeaderName {
+    text-align: center;
+    margin: 5px;
+}

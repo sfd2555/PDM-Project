@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { getTopTwenty } from "../../services/bookservice";
 import { Book } from "../../props/props";
-import { UserHeader } from "../../components/userheader";
-import { ReccomendedHeader } from "../../components/reccomendedheader";
+import { UserHeader } from "../../components/user/userheader";
+import { ReccomendedHeader } from "../../components/reccomended/reccomendedheader";
 
 export const TopTwentyPage = () => {
 
@@ -27,7 +27,10 @@ export const TopTwentyPage = () => {
             {
                 books.map((book) => {
                     return (
-                        <h3>{book.bookTitle}</h3>
+                        <div id="Form">
+                            <h3 id="FormContent">{book.bookTitle}</h3>
+                        </div>
+                        
                     )
                 })
             }

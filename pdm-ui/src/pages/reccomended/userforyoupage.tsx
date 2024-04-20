@@ -2,7 +2,7 @@ import { GetUserContext } from "../../components/accountcontext"
 import { UserHeader } from "../../components/user/userheader"
 import { Account } from "../../props/props"
 import { ForYou } from "../../components/foryou"
-import { ReccomendedHeader } from "../../components/reccomendedheader"
+import { ReccomendedHeader } from "../../components/reccomended/reccomendedheader"
 
 
 export const UserForYouPage = () => {

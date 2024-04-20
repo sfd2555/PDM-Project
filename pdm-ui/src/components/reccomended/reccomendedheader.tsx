@@ -1,5 +1,6 @@
+import './reccomendedheader.css'
 import { useNavigate } from "react-router-dom";
-import { GetUserContext } from "./accountcontext"
+import { GetUserContext } from "../accountcontext"
 
 
 export const ReccomendedHeader = () => {
@@ -7,26 +8,26 @@ export const ReccomendedHeader = () => {
     let navigator = useNavigate();
     return (
         <div>
-            <nav>
-            <a href='/user/collections/'
+            <nav id="reccHeaderNav">
+            <a id="reccNavItem" href='/user/collections/'
                 onClick={(e)=> {
                 e.preventDefault();
                 navigator('/user/foryou');
                 }}
                 >For You</a>
-                <a href='/user/toptwenty'
+                <a id="reccNavItem" href='/user/toptwenty'
                 onClick={(e)=> {
                 e.preventDefault();
                 navigator('/user/toptwenty');
                 }}
                 >Popular</a>
-                <a href='/user/toptwentyfriends'
+                <a id="reccNavItem" href='/user/toptwentyfriends'
                 onClick={(e)=> {
                 e.preventDefault();
                 navigator('/user/toptwentyfriends');
                 }}
                 >Popular Among Friends</a>
-                <a href='/user/topfivereleases'
+                <a id="reccNavItem" href='/user/topfivereleases'
                 onClick={(e)=> {
                 e.preventDefault();
                 navigator('/user/topfivereleases');
