@@ -1,11 +1,12 @@
 import { useParams } from "react-router-dom";
 import { AccountHeader } from "../../components/accountheader"
 import { Account } from "../../props/props"
+import { Collections } from "../../components/collections/collections";
 import { useEffect, useState } from "react";
 import { getAccount } from "../../services/accountservice";
-import { Friends } from "../../components/friends";
 
-export const AccountPageFriends = () => {
+
+export const AccountPage = () => {
     let { accountId } = useParams();
     if(accountId === undefined) {
         accountId = "";
@@ -33,7 +34,7 @@ export const AccountPageFriends = () => {
     return (
         <div>
             <AccountHeader account = {account}/>
-            <Friends userId={account?.accountId!}/>
+            <Collections userId={account?.accountId!}/>
         </div>
 
     )

@@ -1,6 +1,7 @@
-import { removeFriend } from "../services/accountservice";
-import { GetUserContext } from "./accountcontext";
-import { Account } from "../props/props";
+import './frienddeleteform.css'
+import { removeFriend } from "../../services/accountservice";
+import { GetUserContext } from "../accountcontext";
+import { Account } from "../../props/props";
 
 
 export const FriendDeleteForm = ({friend_id} : {friend_id: string}) => {
@@ -10,9 +11,8 @@ export const FriendDeleteForm = ({friend_id} : {friend_id: string}) => {
         removeFriend(accountId?.accountId!, friend_id)
     }
     return (
-        <form onSubmit={handleSubmit}>
-            <label>Unfollow:</label>
-            <input type="submit"></input>
+        <form onSubmit={handleSubmit} id="deletefriendform">
+                <input id="deletefriend" type="submit" value="unfriend"></input>
         </form>
     )
 }

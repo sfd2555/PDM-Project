@@ -1,7 +1,7 @@
 import { GetUserContext } from "../../components/accountcontext"
-import { UserHeader } from "../../components/userheader"
+import { UserHeader } from "../../components/user/userheader"
 import { Account } from "../../props/props"
-import { Sessions } from "../../components/sessions"
+import { Sessions } from "../../components/session/sessions"
 
 export const UserPageSessions= () => {
     let account: Account | undefined = GetUserContext()

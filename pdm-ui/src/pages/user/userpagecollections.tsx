@@ -1,7 +1,8 @@
+import './collectionpage.css'
 import { GetUserContext } from "../../components/accountcontext"
-import { CollectionForm } from "../../components/collectionform"
-import { Collections } from "../../components/collections"
-import { UserHeader } from "../../components/userheader"
+import { CollectionForm } from "../../components/collections/collectionform"
+import { Collections } from "../../components/collections/collections"
+import { UserHeader } from "../../components/user/userheader"
 import { Account } from "../../props/props"
 
 
@@ -12,8 +13,11 @@ export const UserPageCollections = () => {
     return (
         <div>
             <UserHeader />
-            <Collections userId={account?.accountId!}/>
-            <CollectionForm />
+            <div id="contents">
+                <Collections userId={account?.accountId!}/>
+                <CollectionForm />
+            </div>
+
         </div>
 
     )

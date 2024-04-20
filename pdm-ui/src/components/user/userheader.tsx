@@ -1,6 +1,7 @@
-import { Account } from '../props/props'
+import './userheader.css'
+import { Account } from '../../props/props'
 import { useEffect } from 'react';
-import { GetUserContext, } from './accountcontext';
+import { GetUserContext, } from '../accountcontext';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -16,28 +17,28 @@ export const UserHeader = () => {
 
 
     return (
-        <div className = "UserPage">
-            <h2>{account?.accountLogin!}</h2>
-            <nav>
-            <a href="/userpage/friends"
+        <div className = "UserPage" id="userHeader">
+            <h2 id="userHeaderName">{account?.accountLogin!}</h2>
+            <nav id="userHeaderNav">
+            <a href="/userpage/friends" id="userNavItem"
                 onClick={(e)=> {
                     e.preventDefault()
                     navigator('/user/collections')
                 }}
                 >Collections</a>
-                <a href="/userpage/friends"
+                <a href="/userpage/friends" id="userNavItem"
                 onClick={(e)=> {
                     e.preventDefault()
                     navigator('/user/friends')
                 }}
                 >Friends</a>
-                <a href="/userpage/friends"
+                <a href="/userpage/friends" id="userNavItem"
                 onClick={(e)=> {
                     e.preventDefault()
                     navigator('/user/sessions')
                 }}
                 >Sessions</a>
-                <a href="/userpage/friends"
+                <a href="/userpage/friends" id="userNavItem"
                 onClick={(e)=> {
                     e.preventDefault()
                     navigator('/user/foryou')
