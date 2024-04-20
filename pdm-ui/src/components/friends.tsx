@@ -18,21 +18,12 @@ export const Friends = ({userId} : {userId : string}) => {
         });
         setRetrieved(true);
     }, [friends]);
-
-    let navigate = useNavigate()
-
-    let friend_id: any
-    const handleSubmit = (event: { preventDefault: () => void; }) => {
-        event.preventDefault();
-        removeFriend(userId, friend_id)
-    }
     
     return (
 
             <div>
                 {
                     friends.map((friend) => {
-                        friend_id = friend.accountId
                         return(
                             <div key={friend.accountId}>
                                 <h3>{friend.accountFirstName} {friend.accountLastName}</h3>

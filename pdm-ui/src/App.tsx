@@ -2,7 +2,6 @@ import './App.css';
 import { Login } from './pages/login/login';
 import { Register } from './pages/login/register';
 import { UserPageCollections } from './pages/user/userpagecollections';
-import { UserForYouPage } from './pages/user/userforyoupage';
 import { UserPageFriends } from './pages/user/userpagefriends';
 import { UserCollectionContentsPage } from './pages/user/usercollectioncontentspage';
 import { AccountPageCollections } from './pages/account/accountpagecollections';
@@ -13,6 +12,10 @@ import { AccountPageSessions } from './pages/account/accountpagesessions';
 import { UserPageSessions } from './pages/user/userpagesessions';
 import { BookPage } from './pages/book/bookpage';
 import { BookAddPage } from './pages/collection/bookaddpage';
+import { TopTwentyPage } from './pages/reccomended/toptwentypage';
+import { TopFiveNewReleases } from './pages/reccomended/topfivenewreleases';
+import { TopTwentyFriendsPage } from './pages/reccomended/toptwentyfriendspage';
+import { UserForYouPage } from './pages/reccomended/userforyoupage';
 
 function App() {
   return (
@@ -29,6 +32,9 @@ function App() {
             <Route path='/user/friends' element={ <UserPageFriends />}/>
             <Route path='/user/sessions' element={ <UserPageSessions />}/>
             <Route path='/user/foryou' element={ <UserForYouPage />}/>
+            <Route path='user/toptwenty' element={<TopTwentyPage />}></Route>
+            <Route path='user/topfivereleases' element={<TopFiveNewReleases />}></Route>
+            <Route path='user/toptwentyfriends' element={<TopTwentyFriendsPage />}></Route>
             <Route path='/user/collections/:collectionId/add' element={<BookAddPage />} />
             <Route path='/user/collections/:accountId/:collectionId' element={ <UserCollectionContentsPage />} />
             <Route path='/account/:accountId' element={ <AccountPageCollections />} />

@@ -41,7 +41,7 @@ export const UserHeader = () => {
                 onClick={(e)=> {
                     e.preventDefault()
                     navigator('/user/foryou')
-                }}>For You</a>
+                }}>Reccomended</a>
             </nav>
         </div>
     )

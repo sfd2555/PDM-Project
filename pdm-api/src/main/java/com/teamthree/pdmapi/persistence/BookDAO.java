@@ -167,5 +167,10 @@ public interface BookDAO {
          * @return the list of 20 books in order from most to least popular
          */
         public Book[] top20Books90Day();
-        
+
+        /**
+        * Gets the top 5 most popular books released this month
+        * @return the list of 20 books in order from most to least popular
+        */
+        public Book[] top5ThisMonth();   
 }

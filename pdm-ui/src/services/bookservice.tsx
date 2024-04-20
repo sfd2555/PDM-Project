@@ -64,3 +64,21 @@ export async function rateBook(accountId: string, bookId: string, rating: number
     const data = await respose.json();
     return data;
 }
+
+export async function getTopTwenty(): Promise<Book[]> {
+    const respose = await fetch("http://localhost:8080/book/top2090");
+    const data = await respose.json();
+    return data;
+}
+
+export async function getTopTwentyFriends(accountId: string): Promise<Book[]> {
+    const respose = await fetch("http://localhost:8080/book/top20/" + accountId);
+    const data = await respose.json();
+    return data;
+}
+
+export async function getTopFiveNewReleases(): Promise<Book[]> {
+    const respose = await fetch("http://localhost:8080/book/top5");
+    const data = await respose.json();
+    return data;
+}

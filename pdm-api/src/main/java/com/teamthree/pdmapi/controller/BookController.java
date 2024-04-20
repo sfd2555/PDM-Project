@@ -329,9 +329,9 @@ public class BookController {
      * @param accountId the account id
      * @return a list of books in order of most to least
      */
-    @GetMapping("/friends/{accountId}")
+    @GetMapping("/top20/{accountId}")
     public ResponseEntity<Book[]> top20Followers(@PathVariable("accountId") String accountId) {
-        LOG.info("GET /friends/top20/" + accountId);
+        LOG.info("GET /book/top20/" + accountId);
         Book[] result = bookDAO.top20FollowerBooks(accountId);
         return new ResponseEntity<Book[]>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
@@ -341,10 +341,22 @@ public class BookController {
      * @param accountId the account id
      * @return a list of books in order of most to least
      */
-    @GetMapping("/book")
+    @GetMapping("/top2090")
     public ResponseEntity<Book[]> top20Book90Day() {
         LOG.info("GET /book/top2090/");
         Book[] result = bookDAO.top20Books90Day();
+        return new ResponseEntity<Book[]>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
+    }
+
+
+    /**
+    * Searches for top 20 rated books in the past 90 days
+    * @return a list of books in order of most to least
+    */
+    @GetMapping("/top5")
+    public ResponseEntity<Book[]> top5Month() {
+        LOG.info("GET /book/top5Month/");
+        Book[] result = bookDAO.top5ThisMonth();
         return new ResponseEntity<Book[]>(result, result != null ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 }

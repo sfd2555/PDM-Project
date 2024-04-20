@@ -587,4 +587,32 @@ public class BookDatabaseDAO implements BookDAO {
             }
             return books.toArray(new Book[0]);
         }
+
+        /**
+        * {@inheritDoc}
+        */
+        @Override
+        public Book[] top5ThisMonth() {
+            String query = "Select book.book_title, book.book_id, AVG(rating.rating) AS average_rating FROM book JOIN rating on rating.book_id = book.book_id JOIN book_format on book_format.book_id = book.book_id WHERE CAST(book_format.release_date AS TEXT) like CONCAT(SUBSTRING(CAST(CURRENT_DATE AS TEXT), 1, 8),'%') GROUP BY book.book_title, book.book_id ORDER BY average_rating DESC LIMIT 5";
+            List<Book> books = new ArrayList<>();
+            try {
+                Statement stmt = ch.getConnection(false).createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                if(rs != null) {
+                    while(rs.next()) {
+                        System.out.println("Result");
+                        String bookId = rs.getString("book_id");
+                        String bookTitle = rs.getString("book_title");
+                        Book book = new Book(bookId, bookTitle);
+                        books.add(book);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                ch.closeConnection();
+            }
+            return books.toArray(new Book[0]);
+        }
 }
