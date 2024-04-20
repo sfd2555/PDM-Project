@@ -23,6 +23,12 @@ export const UserHeader = () => {
             <a href="/userpage/friends" id="userNavItem"
                 onClick={(e)=> {
                     e.preventDefault()
+                    navigator('/user')
+                }}
+            >Profile</a>
+            <a href="/userpage/friends" id="userNavItem"
+                onClick={(e)=> {
+                    e.preventDefault()
                     navigator('/user/collections')
                 }}
                 >Collections</a>

@@ -14,6 +14,7 @@ import { TopTwentyPage } from './pages/reccomended/toptwentypage';
 import { TopFiveNewReleases } from './pages/reccomended/topfivenewreleases';
 import { TopTwentyFriendsPage } from './pages/reccomended/toptwentyfriendspage';
 import { UserForYouPage } from './pages/reccomended/userforyoupage';
+import { UserProfile } from './pages/user/userprofile';
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
             <Route index element={ <Login />}/>
             <Route path="/login" element={ <Login />}/>
             <Route path="/register" element={ <Register />}/>
-            <Route path='/user' element={ <UserPageCollections />}/>
+            <Route path='/user' element={ <UserProfile />}/>
             <Route path='/user/collections' element={ <UserPageCollections />}/>
             <Route path='/user/friends' element={ <UserPageFriends />}/>
             <Route path='/user/sessions' element={ <UserPageSessions />}/>

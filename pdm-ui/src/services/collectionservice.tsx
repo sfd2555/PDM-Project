@@ -47,6 +47,8 @@ export async function searchCollectionContents(collectionId: string, searchStrin
 }
 
 
+
+
 export async function removeBookFromCollection(collectionId: string, bookId: string): Promise<boolean> {
     const requestOptions = {
         method: 'DELETE',
@@ -75,4 +77,11 @@ export async function removeCollection(collectionId: string): Promise<boolean> {
     const data = await response.json();
     return data;
 
+}
+
+
+export async function getNumCollections(accountId: string) {
+    const respose = await fetch('http://localhost:8080/collection/account/'+ accountId +'/count-collections');
+    const data = await respose.json();
+    return data;
 }
